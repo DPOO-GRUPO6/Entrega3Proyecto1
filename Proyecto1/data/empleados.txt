@@ -1,0 +1,4 @@
+eltrabaja567;contrasena2;Homero Simpson;Sede A;empleado
+eltrabaja098;contrasena3;March Simpson;Sede A;empleado
+mikey489;pwd;Mikey Mouse;Sede A;administradorLocal
+barney369;pwwd;Barney Berney;Sede A;administradorGeneral

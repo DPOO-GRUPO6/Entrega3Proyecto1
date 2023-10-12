@@ -1,18 +1,18 @@
 package logica;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 public class Reserva {
 	Cliente cliente;
 	Categoria categoria;
 	Sede sedeSalida;
 	Sede sedeLleagada;
-	LocalDate FechaSalida;
-	LocalTime horaSalida;
-	LocalDate FechaLlegada;
-	LocalTime horaLlegada;
+	Date FechaSalida;
+	//LocalTime horaSalida;
+	Date FechaLlegada;
+	//LocalTime horaLlegada;
+	Tarifa tarifaEstimada = null;
 	int abono;
 	
-	
+		
 }

@@ -1,9 +1,9 @@
 package logica;
-//coemntario
-//import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import persistencia.LectorArchivo;
@@ -20,7 +20,7 @@ public class Empresa {
 	ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	
 	
-	public void cargarInformacion() {
+	public void cargarInformacion() throws ParseException {
 		
 		ArrayList<String> lineasSed;
 		lineasSed = LectorArchivo.leer("data/sedes.txt");
@@ -35,11 +35,13 @@ public class Empresa {
 		lineasC = LectorArchivo.leer("data/clientes.txt");
 		for(String linea : lineasC) {
 			String []datos = linea.split(";");
-			DateTimeFormatter df = DateTimeFormatter .ofPattern("dd/MM/yyyy");
-			Licencia l = new Licencia(Integer.parseInt(datos[7]),datos[8],LocalDate.parse(datos[9],df));
-			TarjetaCredito t = new TarjetaCredito(Integer.parseInt(datos[10]),LocalDate.parse(datos[11],df),false);
+			String pattern = "dd/MM/yyyy";
+	        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+	        Date date = sdf.parse(datos[9]);
+			Licencia l = new Licencia(Integer.parseInt(datos[7]),datos[8],date);
+			TarjetaCredito t = new TarjetaCredito(Integer.parseInt(datos[10]),sdf.parse(datos[11]),false);
 
-			Cliente u = new Cliente(datos[0],datos[1],datos[2],"cliente",datos[3], Long.parseLong(datos[4]), LocalDate.parse(datos[5],df),datos[6],l,t);
+			Cliente u = new Cliente(datos[0],datos[1],datos[2],"cliente",datos[3], Long.parseLong(datos[4]), sdf.parse(datos[5]),datos[6],l,t);
 			usuarios.add(u);
 			clientes.add(u);
 		}
@@ -95,25 +97,29 @@ public class Empresa {
 	return rta;
 	}
 	
-	public void accionesCliente(int op, ArrayList<Object> datos1,Cliente cliente){
+	public void accionesCliente(int op, ArrayList<Object> datos1,Cliente cliente) throws ParseException{
 		//acciones cliente
 		if(op == 1) {
 			System.out.println("proceso de reserva");
 			//les estoy haciendo el cast para que al cliente ya le legue la inf que necesita en el formato que es
+			ArrayList<Object> retornar = new ArrayList<Object>();
 			Categoria c = categorias.get((int)datos1.get(0)-1);
-			DateTimeFormatter df = DateTimeFormatter .ofPattern("dd/MM/yyyy");
-			LocalDate fechaInic = LocalDate.parse((CharSequence) datos1.get(1),df);
-			//hora entrega
-			LocalDate fechaFin = LocalDate.parse((CharSequence) datos1.get(3),df);
-			//hora llegada
+			retornar.add(c);
+			String pattern = "dd/MM/yyyy HH:mm";
+			String horaI = (String) datos1.get(2);
+			String horaF = (String) datos1.get(4);
+	        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+	        Date fechaInic = sdf.parse((String)datos1.get(1)+ " "+horaI);
+	        retornar.add(fechaInic);
+	        Date fechaFin = sdf.parse((String)datos1.get(3)+ " "+horaF);
+	        retornar.add(fechaFin);
 			Sede sedeInic = sedes.get(datos1.get(5));
+			retornar.add(sedeInic);
 			Sede sedeFin = sedes.get(datos1.get(6));
-			System.out.println(c.nombre);
-			System.out.println(fechaInic);
-			System.out.println(fechaFin);
-			System.out.println(sedeInic);
-			System.out.println(sedeFin);
-			cliente.resevarVehiculo(datos1);
+			retornar.add(sedeFin);
+			
+			System.out.println(retornar);
+			cliente.resevarVehiculo(retornar);
 		}
 		
 		else {

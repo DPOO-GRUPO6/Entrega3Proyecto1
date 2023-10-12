@@ -1,18 +1,17 @@
 package logica;
 
-import java.time.LocalDate;
-//import java.util.Date;
+import java.util.Date;
 
 public class TarjetaCredito {
 	
 	int numero;
-	LocalDate fechaVencimiento;
+	Date fechaVencimiento;
 	boolean bloqueo;
 	
 	public int getNumero() {
 		return numero;
 	}
-	public LocalDate getFechaVencimiento() {
+	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
 	public boolean isBloqueo() {
@@ -21,10 +20,10 @@ public class TarjetaCredito {
 	public void setBloqueo(boolean bloqueo) {
 		this.bloqueo = bloqueo;
 	}
-	public TarjetaCredito(int numero, LocalDate fechaVencimiento, boolean bloqueo) {
+	public TarjetaCredito(int numero, Date date, boolean bloqueo) {
 		super();
 		this.numero = numero;
-		this.fechaVencimiento = fechaVencimiento;
+		this.fechaVencimiento = date;
 		this.bloqueo = bloqueo;
 	}
 

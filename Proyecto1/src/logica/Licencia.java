@@ -1,12 +1,12 @@
 package logica;
 
-import java.time.LocalDate;
-//import java.util.Date;
+import java.util.Date;
+
 
 public class Licencia {
 	int numero;
 	String paisExpedicion;
-	LocalDate fechaVencimiento;
+	Date fechaVencimiento;
 	
 	public int getNumero() {
 		return numero;
@@ -20,17 +20,17 @@ public class Licencia {
 	public void setPaisExpedicion(String paisExpedicion) {
 		this.paisExpedicion = paisExpedicion;
 	}
-	public LocalDate getFechaVencimiento() {
+	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
-	public void setFechaVencimiento(LocalDate fechaVencimiento) {
+	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
-	public Licencia(int numero, String paisExpedicion, LocalDate fechaVencimiento) {
+	public Licencia(int numero, String paisExpedicion, Date date) {
 		super();
 		this.numero = numero;
 		this.paisExpedicion = paisExpedicion;
-		this.fechaVencimiento = fechaVencimiento;
+		this.fechaVencimiento = date;
 	}
 	
 	

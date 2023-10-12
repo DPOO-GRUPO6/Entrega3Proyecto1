@@ -3,6 +3,7 @@ package Presentacion;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import logica.Cliente;
@@ -12,7 +13,7 @@ import logica.Usuario;
 public class principal {
 	Empresa ferrari = new Empresa();
 	
-	public void ejecutar() {
+	public void ejecutar() throws ParseException {
 		boolean continuar = true;
 		ferrari.cargarInformacion();
 		
@@ -123,7 +124,7 @@ public class principal {
 		return null;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 	System.out.println("(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧");
 	System.out.println("Bienvenido al sistema de renta de carros ");

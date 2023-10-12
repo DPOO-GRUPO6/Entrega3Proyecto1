@@ -99,9 +99,9 @@ public class principal {
 			System.out.println(j+". "+sede);
 		}
 		int sedeR = Integer.parseInt(input("\nIngrese la sede de recogida"));
-		datos1.add(sedeR);
+		datos1.add(seds.get(sedeR-1));
 		int sedeE = Integer.parseInt(input("\nIngrese la sede de entrega"));
-		datos1.add(sedeE);
+		datos1.add(seds.get(sedeE-1));
 		
 		return datos1;
 	}

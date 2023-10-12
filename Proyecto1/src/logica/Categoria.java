@@ -5,7 +5,6 @@ public class Categoria {
 	long costoPorDia = 0;
 	
 	public Categoria(String nombre) {
-		super();
 		this.nombre = nombre;
 	}
 	 

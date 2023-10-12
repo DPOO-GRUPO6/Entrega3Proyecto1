@@ -99,6 +99,20 @@ public class Empresa {
 		//acciones cliente
 		if(op == 1) {
 			System.out.println("proceso de reserva");
+			//les estoy haciendo el cast para que al cliente ya le legue la inf que necesita en el formato que es
+			Categoria c = categorias.get((int)datos1.get(0)-1);
+			DateTimeFormatter df = DateTimeFormatter .ofPattern("dd/MM/yyyy");
+			LocalDate fechaInic = LocalDate.parse((CharSequence) datos1.get(1),df);
+			//hora entrega
+			LocalDate fechaFin = LocalDate.parse((CharSequence) datos1.get(3),df);
+			//hora llegada
+			Sede sedeInic = sedes.get(datos1.get(5));
+			Sede sedeFin = sedes.get(datos1.get(6));
+			System.out.println(c.nombre);
+			System.out.println(fechaInic);
+			System.out.println(fechaFin);
+			System.out.println(sedeInic);
+			System.out.println(sedeFin);
 			cliente.resevarVehiculo(datos1);
 		}
 		

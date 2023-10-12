@@ -26,5 +26,6 @@ public class Cliente extends Usuario{
 	
 	public void resevarVehiculo(ArrayList<Object> infoReserva) {
 		//categoria, fecha recogida, hora recogida, fecha llegada, hora llegada, sede recogida, sede llegada
+		System.out.println(infoReserva);
 	}
 }

@@ -35,6 +35,7 @@ public class principal {
 					System.out.println("\nBienvenido "+rta.getNombreCompleto());
 					if(rta.getTipoUsuario().equals("cliente")) {
 						Cliente client = (Cliente)rta;
+						System.out.println(rta);
 						boolean cont = true;
 						while(cont) {
 						System.out.println("\nQue desea hacer?\n1.Reservar vehiculo\n2.Alquilar vehiculo\n3.Cerrar sesión");

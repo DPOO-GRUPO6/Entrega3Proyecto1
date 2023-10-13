@@ -2,6 +2,7 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Tarifa {
 	Categoria categoriaVehiculo;
@@ -9,12 +10,19 @@ public class Tarifa {
 	int valorExtraConductor;
 	int valorExtraSeguro;
 	
-	public int establecerTarifaPorDia(LocalDate fechaInicAlquiler, ArrayList<LocalDate> fechasTempAltas,ArrayList<LocalDate> fechasTempBajas) {
-		return 0; //falta ejecutar algoritmo
+	public static int establecerTarifaPorDia(Date fecha1, Date fecha2, Date fecha3, Date fecha4, Date fechaSalida, Categoria categoria) {
+		if (fechaSalida.after(fecha1)&& fechaSalida.before(fecha2)) {
+			return (int)categoria.getCostoPorDia();
+		}
+		else {
+		int porDia= (int)categoria.getCostoPorDia();
+		double porDia2= porDia +porDia*0.15;
+		return (int)porDia2; //falta ejecutar algoritmo
+		}
 	}
 	
-	public int calcularTarifaEstimada() { //tarifa para la reserva
-		return 0;
+	public static int calcularTarifaEstimada(int tarifaPorDia, int dias) { //tarifa para la reserva
+		return tarifaPorDia* dias;
 	}
 	
 	public int calcularTarifaTotal() {
@@ -27,6 +35,9 @@ public class Tarifa {
 		this.valorExtraConductor = valorExtraConductor;
 		this.valorExtraSeguro = valorExtraSeguro;
 	}
+
+
+	
 	
 	
 	

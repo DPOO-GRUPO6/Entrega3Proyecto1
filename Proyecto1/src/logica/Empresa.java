@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import logica.Tarifa;
 
 import persistencia.LectorArchivo;
 
@@ -117,6 +120,7 @@ public class Empresa {
 			retornar.add(sedeInic);
 			Sede sedeFin = sedes.get(datos1.get(6));
 			retornar.add(sedeFin);
+			retornar.add(cliente);
 			
 			System.out.println(retornar);
 			cliente.resevarVehiculo(retornar);
@@ -148,6 +152,33 @@ public class Empresa {
 		}
 		return seds;
 	}
-	
+	public static Reserva realizarReserva(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida, Date fechaSalida, Date fechaLlegada, Tarifa tarifa1, int Abono) throws ParseException {
+		//Reserva reservaCliente = new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
+		//long elapsedms = date1.getTime() - date2.getTime();
+		String fecha1Alta= "01";
+		String fecha2Alta= "06";
+		String fecha1Baja= "07";
+		String fecha2Baja= "12";
+
+		SimpleDateFormat formato = new SimpleDateFormat("MM");
+
+		Date fecha1 = formato.parse(fecha1Alta);
+		Date fecha2 = formato.parse(fecha2Alta);
+		Date fecha3 = formato.parse(fecha1Baja);
+		Date fecha4 = formato.parse(fecha2Baja);
+		
+		long elapsedms = fechaSalida.getTime() - fechaLlegada.getTime();
+        double diff3 = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
+        int diasCobrar= (int) Math.ceil(Math.ceil(diff3/60)/24);
+		int tarifaDia= Tarifa.establecerTarifaPorDia(fecha1,fecha2,fecha3,fecha4,fechaSalida, categoria1);
+		int tarifaEstimada= Tarifa.calcularTarifaEstimada(tarifaDia, diasCobrar);
+		
+		Tarifa tarifa2= new Tarifa(categoria1, Abono, Abono, Abono);
+		
+		return null;
+	}
 	
 }
+	
+	
+

@@ -96,6 +96,7 @@ public class principal {
 							//modificar info sede
 							String sede = input("\nIngrese el nombre de la sede a modificar");
 							System.out.println("Que desea modificar de la sede?");
+							System.out.println("1. Nombre");
 							
 						}
 						

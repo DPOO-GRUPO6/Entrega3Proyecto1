@@ -57,5 +57,26 @@ public class Sede {
 		vehiculosSede.remove(vehiculo);
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setDiasAtencion(String diasAtencion) {
+		this.diasAtencion = diasAtencion;
+	}
+
+	public void setHorasAtencion(String horasAtencion) {
+		this.horasAtencion = horasAtencion;
+	}
+	
+
 	
 }

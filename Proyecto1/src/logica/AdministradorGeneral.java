@@ -41,7 +41,8 @@ public class AdministradorGeneral extends Usuario{
 	}
 	
 	
-	public void realizarTranslado(String placa, Sede sedeDest,ArrayList<Vehiculo> vehiculos) {
+	public ArrayList<Sede> realizarTranslado(String placa, Sede sedeDest,ArrayList<Vehiculo> vehiculos) {
+		ArrayList<Sede> newSedes = new ArrayList<Sede>();
 		Vehiculo vehiculo = null;
 		Sede sedeIn = null;
 		for(Vehiculo v: vehiculos) {
@@ -55,7 +56,33 @@ public class AdministradorGeneral extends Usuario{
 		}
 		
 		sedeDest.addVehiculoASede(vehiculo);
+		newSedes.add(sedeDest);
 		sedeIn.removerVehiculoDeSede(vehiculo);
+		newSedes.add(sedeIn);
+		
+		return newSedes;
+	}
+	
+	public Sede modificarSede(int posicion, String cambio,Sede sedeCambio) {
+		if(posicion == 0) {
+			sedeCambio.setNombre(cambio);
+		}
+		else if(posicion ==1) {
+			sedeCambio.setDireccion(cambio);
+		}
+		else if(posicion == 2) {
+			sedeCambio.setDiasAtencion(cambio);
+		}
+		else if(posicion == 3) {
+			sedeCambio.setHorasAtencion(cambio);
+		}
+		return sedeCambio;
+	}
+	
+	public Sede modificarAdminLocalSede(String cambio,Sede sedeCambio, AdministradorLocal adminLocal) {
+		sedeCambio.setNombreAdminSede(cambio);
+		sedeCambio.setAdminSede(adminLocal);
+		return sedeCambio;
 	}
 
 }

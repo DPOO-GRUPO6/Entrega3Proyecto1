@@ -185,8 +185,36 @@ public class Empresa {
 	
 	public void realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
 		Sede sedeDest = sedes.get(sede);
-		adminGen.realizarTranslado(placa, sedeDest, vehiculos);
+		ArrayList<Sede> newSedes = adminGen.realizarTranslado(placa, sedeDest, vehiculos);
+		Sede newSede1 = newSedes.get(0);
+		Sede newSede2 = newSedes.get(1);
+		sedes.put(newSede1.getNombre(), newSede1);
+		sedes.put(newSede2.getNombre(), newSede2);
 	}
+	
+	public void modificarSede(AdministradorGeneral adminGen,int opcion,String cambio,String sedeCambio) {
+		int posicionCambio = opcion -1;
+		Sede sedeCamb = sedes.get(sedeCambio);
+		if(posicionCambio != 4) {
+			Sede nuevaSede = adminGen.modificarSede(posicionCambio, cambio, sedeCamb);
+			sedes.put(nuevaSede.getNombre(), nuevaSede);
+		}
+		else {
+			AdministradorLocal newAdminLoc = null;
+			for(AdministradorLocal adLoc: adminsLocales) {
+				if(adLoc.getNombreCompleto().equals(cambio)) {
+					newAdminLoc = adLoc;
+				}
+			}
+			if(newAdminLoc != null) {
+				Sede nuevaSede = adminGen.modificarAdminLocalSede(cambio, sedeCamb, newAdminLoc);
+				sedes.put(nuevaSede.getNombre(), nuevaSede);
+			}
+		}
+	}
+	
+	/** Metodos 
+	 * auxiliares > retorno **/
 	
 	public ArrayList<String> getCategoriasStr() {
 		ArrayList<String> categs = new ArrayList<String>();
@@ -203,6 +231,8 @@ public class Empresa {
 		}
 		return seds;
 	}
+	
+	
 	public static Reserva realizarReserva(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida, Date fechaSalida, Date fechaLlegada, Tarifa tarifa1, int Abono) throws ParseException {
 		//Reserva reservaCliente = new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
 		//long elapsedms = date1.getTime() - date2.getTime();

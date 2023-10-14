@@ -95,9 +95,32 @@ public class principal {
 						else if(op == 5) {
 							//modificar info sede
 							String sede = input("\nIngrese el nombre de la sede a modificar");
-							System.out.println("Que desea modificar de la sede?");
-							System.out.println("1. Nombre");
-							System.out.println("2. algo");
+							System.out.println("¿Que desea modificar de la sede?");
+							System.out.println("1. Nombre\n2. Direccion\n3. Dias de atencion\n");
+							System.out.println("4. Horas de atencion\n5. Administrador sede");
+							String cambio = "";
+							int opc = Integer.parseInt(input("\nIngrese su opcion"));
+							if(opc == 1) {
+								cambio = input("\nIngrese el nuevo nombre");
+							}
+							else if(opc ==2){
+								cambio = input("\nIngrese la nueva direccion");
+							}
+							else if(opc ==3){
+								cambio = input("\nIngrese los nuevos dias de atencion");
+							}
+							else if(opc ==4){
+								cambio = input("\nIngrese las nuevas horas de atencion");
+							}
+							else if(opc ==5){
+								cambio = input("\nIngrese el nombre completo del nuevo administrador local");
+							}
+							if(cambio != "") {
+								ferrari.modificarSede(adminGen, opcion, cambio, sede);
+							}
+							else {
+								System.out.println("Opcion no valida");
+							}
 							
 						}
 						

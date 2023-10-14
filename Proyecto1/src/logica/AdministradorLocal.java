@@ -6,9 +6,21 @@ public class AdministradorLocal extends Usuario{
 	public AdministradorLocal(String logIn, String contraseña, String nombreCompleto, String tipoUsuario,Sede sede) {
 		super(logIn, contraseña, nombreCompleto, tipoUsuario);
 		this.sede = sede;
-		
 	}
-
+	
+	public Empleado crearEmpleado(String logIg, String contraseña, String nombreCompleto, String tipoUsuario, Sede sede)
+	{
+		return new Empleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
+	}
+	
+	public void modificarInfoEmpleado(Empleado empleado, String nuevologIn, String nuevaContraseña, String nuevoTipoUsuario, Sede nuevaSede)
+	{
+		empleado.setLogIn(nuevologIn);
+		empleado.setContraseña(nuevaContraseña);
+		empleado.setTipoUsuario(nuevoTipoUsuario);
+		empleado.setSede(nuevaSede);	
+	}
+	
 	public Sede getSede() {
 		return sede;
 	}
@@ -16,6 +28,7 @@ public class AdministradorLocal extends Usuario{
 	public void setSede(Sede sede) {
 		this.sede = sede;
 	}
+	
 	
 	
 	

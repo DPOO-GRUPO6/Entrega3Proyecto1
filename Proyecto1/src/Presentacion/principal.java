@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import logica.AdministradorGeneral;
 import logica.Cliente;
 import logica.Empresa;
 import logica.Usuario;
@@ -59,6 +60,53 @@ public class principal {
 					else if(rta.getTipoUsuario().equals("empleado")) {
 						ferrari.accionesEmpleado();
 					}
+					else if(rta.getTipoUsuario().equals("administradorGeneral")) {
+						AdministradorGeneral adminGen = (AdministradorGeneral)rta;
+						boolean cont = true;
+						while(cont) {
+						System.out.println("\nQue desea hacer?\n1.Registrar nuevo vehiculo\n2.Dar de baja vehiculo\n3.Configurar seguro");
+						System.out.println("\n4.Realizar translado interno\n5.Modificar informacion sede\n6.Salir");
+						int op = Integer.parseInt(input("\nSeleccione su opcion"));
+						if(op == 1) {
+							//ingresar nuevo vehiculo
+							ArrayList<String> datosVehiculo = ingresarNuevoVehiculo();
+							ferrari.registrarNuevoVehiculo(adminGen,datosVehiculo);
+						}
+						else if(op == 2) {
+							//dar de baja vehiculo
+							String placa = input("\nIngrese la placa del vehiculo a dar de baja");
+							ferrari.darDeBajaVehiculo(adminGen,placa);
+							System.out.println("El estado del vehiculo ha cambiado a: desechado");
+						}
+						else if(op == 3) {
+							//configurar seguro
+							ArrayList<String> dataSeguro = tomarDatosSeguro();
+							ferrari.configurarSeguro(adminGen, dataSeguro);
+							
+						}
+						else if(op == 4) {
+							//realizar translado
+							String placa = input("\nIngrese la placa del vehiculo a transladar");
+							String sede = input("\nIngrese la sede de destino");
+							ferrari.realizarTranslado(adminGen, placa, sede);
+							
+						}
+						
+						else if(op == 5) {
+							//modificar info sede
+							String sede = input("\nIngrese el nombre de la sede a modificar");
+							System.out.println("Que desea modificar de la sede?");
+							
+						}
+						
+						else if(op == 6) {
+							cont = false;
+						}
+						else {
+							System.out.println("Opcion no válida");
+						}
+						}
+					}
 					
 				}
 			}
@@ -108,6 +156,37 @@ public class principal {
 		return datos1;
 	}
 	
+	public ArrayList<String> ingresarNuevoVehiculo(){
+		ArrayList<String> data = new ArrayList<String>();
+		String placa = input("\nIngrese la placa del vehiculo");
+		data.add(placa);
+		String marca = input("\nIngrese la marca del vehiculo");
+		data.add(marca);
+		String modelo = input("\nIngrese el modelo del vehiculo");
+		data.add(modelo);
+		String color = input("\nIngrese el color del vehiculo");
+		data.add(color);
+		String tipoTrans = input("\nIngrese el tipo de transmision del vehiculo");
+		data.add(tipoTrans);
+		String capacidad = input("\nIngrese la capacidad del vehiculo");
+		data.add(capacidad);
+		String categoria = input("\nIngrese la categoria del vehiculo");
+		data.add(categoria);
+		String sede = input("\nIngrese la sede asignada para el vehiculo");
+		data.add(sede);
+		
+		return data;
+	}
+	
+	public ArrayList<String> tomarDatosSeguro(){
+		ArrayList<String> data = new ArrayList<String>();
+		String nombre = input("\nIngrese el nombre del seguro");
+		data.add(nombre);
+		String precio = input("\nIngrese el precio del seguro");
+		data.add(precio);
+		return data;
+		
+	}
 	
 	public String input(String mensaje)
 	{

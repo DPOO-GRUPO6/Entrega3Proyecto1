@@ -1,1 +1,2 @@
 Sede A;calle 13#54C;Lunes,Martes,Miercoles;7:00-18:00;JefesitoSede
+Sede B;calle 190#54C;Lunes,Martes,Miercoles;7:00-18:00;JefeLocal2

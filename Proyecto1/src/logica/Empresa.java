@@ -21,6 +21,9 @@ public class Empresa {
 	AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
 	ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 	ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+	ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
+	HashMap<Integer,Reserva> reservas = new HashMap<Integer,Reserva>();
+	
 	
 	
 	public void cargarInformacion() throws ParseException {
@@ -74,14 +77,35 @@ public class Empresa {
 			}
 		}
 		
+		ArrayList<String> lineasCat;
+		lineasCat = LectorArchivo.leer("data/categorias.txt");
+		for(String linea : lineasCat) {
+			String []datos = linea.split(";");
+			Categoria c = new Categoria(datos[0],Integer.parseInt(datos[1]));
+			categorias.add(c);
+		}
+		
+		ArrayList<String> lineasSeg;
+		lineasSeg = LectorArchivo.leer("data/seguros.txt");
+		for(String linea : lineasSeg) {
+			String []datos = linea.split(";");
+			Seguro seg = new Seguro(datos[0],Integer.parseInt(datos[1]));
+			seguros.add(seg);
+		}
+		
 		ArrayList<String> lineasVe;
 		lineasVe = LectorArchivo.leer("data/vehiculos.txt");
 		for(String linea : lineasVe) {
 			String []datos = linea.split(";");
-			Categoria c = new Categoria(datos[6]);
-			categorias.add(c);
+			Categoria categoria = null;
+			for(Categoria c: categorias) {
+				if(c.getNombre().equals(datos[6])) {
+					categoria = c;
+				}
+			}
 			Sede sed = sedes.get(datos[7]);
-			Vehiculo ve = new Vehiculo(datos[0],datos[1],datos[2],datos[3],datos[4],Integer.parseInt(datos[5]),c,sed);
+			Estado estado = new Estado("disponible",null,null);
+			Vehiculo ve = new Vehiculo(datos[0],datos[1],datos[2],datos[3],datos[4],Integer.parseInt(datos[5]),categoria,sed,estado);
 			vehiculos.add(ve);
 			sed.addVehiculoASede(ve);
 		}
@@ -132,9 +156,36 @@ public class Empresa {
 		
 	}
 	
+	/** Metodos 
+	 * acciones empleado **/
+	
 	public void accionesEmpleado(){
 		//acciones empleado
 		System.out.println("todo ok2");
+	}
+	
+	/** Metodos 
+	 * acciones admin general **/
+	
+	
+	public void registrarNuevoVehiculo(AdministradorGeneral adminGen,ArrayList<String> data) {
+		ArrayList<Vehiculo> newVehiculos = adminGen.registrarNuevoVehiculo(data, sedes, categorias, vehiculos);
+		this.vehiculos = newVehiculos;
+	}
+	
+	public void darDeBajaVehiculo(AdministradorGeneral adminGen, String placa) {
+		ArrayList<Vehiculo> newVehiculos = adminGen.darDeBajaVehiculo(placa, vehiculos);
+		this.vehiculos = newVehiculos;
+	}
+	
+	public void configurarSeguro(AdministradorGeneral adminGen,ArrayList<String> datosSeguro) {
+		ArrayList<Seguro> newSeguros = adminGen.configurarSeguro(datosSeguro.get(0), Integer.parseInt(datosSeguro.get(1)), seguros);
+		this.seguros = newSeguros;
+	}
+	
+	public void realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
+		Sede sedeDest = sedes.get(sede);
+		adminGen.realizarTranslado(placa, sedeDest, vehiculos);
 	}
 	
 	public ArrayList<String> getCategoriasStr() {

@@ -1,0 +1,2 @@
+camioneta;150000
+pequeno;80000

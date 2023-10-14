@@ -52,6 +52,10 @@ public class Sede {
 	public ArrayList<Vehiculo> getVehiculosSede() {
 		return vehiculosSede;
 	}
+	
+	public void removerVehiculoDeSede(Vehiculo vehiculo) {
+		vehiculosSede.remove(vehiculo);
+	}
 
 	
 }

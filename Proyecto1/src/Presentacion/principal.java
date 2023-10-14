@@ -97,6 +97,7 @@ public class principal {
 							String sede = input("\nIngrese el nombre de la sede a modificar");
 							System.out.println("Que desea modificar de la sede?");
 							System.out.println("1. Nombre");
+							System.out.println("2. algo");
 							
 						}
 						

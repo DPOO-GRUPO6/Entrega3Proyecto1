@@ -20,19 +20,20 @@ public class Empleado extends Usuario{
 		estado.setFechaFin(fechaFin);
 	}
 	
-	public void cambiarEstadoVehiculoEntrega(Vehiculo vehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	public void cambiarEstadoVehiculoEntrega(Sede sede,Vehiculo vehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
 	{
 		Estado estado = vehiculo.getEstado();
 		
 		if(mantenimiento) 
 		{
 			estado.setNombre("Mantenimiento");
+			sede.removerVehiculoDeSede(vehiculo);
 		}
 		else
 		{
 			estado.setNombre("Limpieza");
 		}
-					
+
 		estado.setFechaInicio(fechaInicio);
 		estado.setFechaFin(fechaFin);
 	}
@@ -59,7 +60,6 @@ public class Empleado extends Usuario{
 			{
 				return true;
 			}
-			
 		}
 		
 		return false;

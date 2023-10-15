@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.ArrayList;
+
 public class AdministradorLocal extends Usuario{
 	Sede sede;
 	
@@ -18,6 +20,22 @@ public class AdministradorLocal extends Usuario{
 		empleado.setLogIn(nuevologIn);
 		empleado.setContraseña(nuevaContraseña);
 		empleado.setSede(nuevaSede);	
+		}
+		
+	public Empleado setInformacionEmpleadoSede(Sede sede, String nombreEmpleado)
+		{
+			ArrayList<Empleado> listaEmpleados = sede.getEmpleadosSede();
+			
+			for (Empleado empleado: listaEmpleados) 
+			{
+				String nombre = empleado.getNombreCompleto();
+				
+				if(nombreEmpleado.equals(nombre))
+				{
+					return empleado;
+				}		
+		}
+			return null;
 	}
 	
 	public Sede getSede() {

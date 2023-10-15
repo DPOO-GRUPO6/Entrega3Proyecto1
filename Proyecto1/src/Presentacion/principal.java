@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import logica.AdministradorGeneral;
 import logica.Cliente;
 import logica.Empresa;
+import logica.Sede;
 import logica.Usuario;
 
 public class principal {
@@ -65,30 +66,39 @@ public class principal {
 						boolean cont = true;
 						while(cont) {
 						System.out.println("\nQue desea hacer?\n1.Registrar nuevo vehiculo\n2.Dar de baja vehiculo\n3.Configurar seguro");
-						System.out.println("\n4.Realizar translado interno\n5.Modificar informacion sede\n6.Salir");
+						System.out.println("4.Realizar translado interno\n5.Modificar informacion sede\n6.Salir");
 						int op = Integer.parseInt(input("\nSeleccione su opcion"));
 						if(op == 1) {
 							//ingresar nuevo vehiculo
 							ArrayList<String> datosVehiculo = ingresarNuevoVehiculo();
-							ferrari.registrarNuevoVehiculo(adminGen,datosVehiculo);
+							String plac = ferrari.registrarNuevoVehiculo(adminGen,datosVehiculo);
+							System.out.println("Reigistro del carro con placa " + plac+ " exitoso");
+			
 						}
 						else if(op == 2) {
 							//dar de baja vehiculo
 							String placa = input("\nIngrese la placa del vehiculo a dar de baja");
-							ferrari.darDeBajaVehiculo(adminGen,placa);
-							System.out.println("El estado del vehiculo ha cambiado a: desechado");
+							String estado = ferrari.darDeBajaVehiculo(adminGen,placa);
+							System.out.println("El estado del vehiculo ha cambiado exitosamente a: "+estado);
 						}
 						else if(op == 3) {
 							//configurar seguro
 							ArrayList<String> dataSeguro = tomarDatosSeguro();
-							ferrari.configurarSeguro(adminGen, dataSeguro);
+							String seguro = ferrari.configurarSeguro(adminGen, dataSeguro);
+							System.out.println("Nuevo seguro '"+seguro+"' creado exitosamente");
 							
 						}
 						else if(op == 4) {
 							//realizar translado
 							String placa = input("\nIngrese la placa del vehiculo a transladar");
 							String sede = input("\nIngrese la sede de destino");
-							ferrari.realizarTranslado(adminGen, placa, sede);
+							boolean verificar = ferrari.realizarTranslado(adminGen, placa, sede);
+							if(verificar) {
+								System.out.println("Translado exitoso");
+							}
+							else {
+								System.out.println("Translado fallido");
+							}
 							
 						}
 						
@@ -96,7 +106,7 @@ public class principal {
 							//modificar info sede
 							String sede = input("\nIngrese el nombre de la sede a modificar");
 							System.out.println("¿Que desea modificar de la sede?");
-							System.out.println("1. Nombre\n2. Direccion\n3. Dias de atencion\n");
+							System.out.println("1. Nombre\n2. Direccion\n3. Dias de atencion");
 							System.out.println("4. Horas de atencion\n5. Administrador sede");
 							String cambio = "";
 							int opc = Integer.parseInt(input("\nIngrese su opcion"));
@@ -116,7 +126,18 @@ public class principal {
 								cambio = input("\nIngrese el nombre completo del nuevo administrador local");
 							}
 							if(cambio != "") {
-								ferrari.modificarSede(adminGen, opcion, cambio, sede);
+								Sede sedeMod = ferrari.modificarSede(adminGen, opc, cambio, sede);
+								if(sedeMod != null) {
+									System.out.println("Se ha modificado exitodamente la sede");
+									System.out.println("Nombre: "+sedeMod.getNombre());
+									System.out.println("Direccion: "+sedeMod.getDireccion());
+									System.out.println("Dias de atencion: "+sedeMod.getDiasAtencion());
+									System.out.println("Horas de atencion: "+sedeMod.getHorasAtencion());
+									System.out.println("Administrador local: "+sedeMod.getNombreAdminSede());
+								}
+								else {
+									System.out.println("Proceso fallido");
+								}
 							}
 							else {
 								System.out.println("Opcion no valida");

@@ -18,7 +18,7 @@ public class Empresa {
 	ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 	ArrayList<AdministradorLocal> adminsLocales = new ArrayList<AdministradorLocal>();
-	AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
+	AdministradorGeneral adminGeneral;
 	ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 	ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
@@ -74,6 +74,7 @@ public class Empresa {
 			else if(datos[4].equals("administradorGeneral")) {
 				AdministradorGeneral adminGen = new AdministradorGeneral(datos[0],datos[1],datos[2],datos[4]);
 				this.adminGeneral = adminGen;
+				usuarios.add(adminGen);
 			}
 		}
 		
@@ -168,36 +169,55 @@ public class Empresa {
 	 * acciones admin general **/
 	
 	
-	public void registrarNuevoVehiculo(AdministradorGeneral adminGen,ArrayList<String> data) {
-		ArrayList<Vehiculo> newVehiculos = adminGen.registrarNuevoVehiculo(data, sedes, categorias, vehiculos);
-		this.vehiculos = newVehiculos;
+	public String registrarNuevoVehiculo(AdministradorGeneral adminGen,ArrayList<String> data) {
+		Vehiculo newVehiculo = adminGen.registrarNuevoVehiculo(data, sedes, categorias);
+		vehiculos.add(newVehiculo);
+		return newVehiculo.getPlaca();
 	}
 	
-	public void darDeBajaVehiculo(AdministradorGeneral adminGen, String placa) {
+	public String darDeBajaVehiculo(AdministradorGeneral adminGen, String placa) {
 		ArrayList<Vehiculo> newVehiculos = adminGen.darDeBajaVehiculo(placa, vehiculos);
 		this.vehiculos = newVehiculos;
+		String estado = "";
+		for(Vehiculo v: vehiculos) {
+			if(v.getPlaca().equals(placa)){
+				estado = v.getEstado().getNombre();
+			}
+		}
+		return estado;
 	}
 	
-	public void configurarSeguro(AdministradorGeneral adminGen,ArrayList<String> datosSeguro) {
-		ArrayList<Seguro> newSeguros = adminGen.configurarSeguro(datosSeguro.get(0), Integer.parseInt(datosSeguro.get(1)), seguros);
-		this.seguros = newSeguros;
+	public String configurarSeguro(AdministradorGeneral adminGen,ArrayList<String> datosSeguro) {
+		Seguro newSeguro = adminGen.configurarSeguro(datosSeguro.get(0), Integer.parseInt(datosSeguro.get(1)));
+		seguros.add(newSeguro);
+		return newSeguro.getNombre();
 	}
 	
-	public void realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
+	public boolean realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
 		Sede sedeDest = sedes.get(sede);
 		ArrayList<Sede> newSedes = adminGen.realizarTranslado(placa, sedeDest, vehiculos);
 		Sede newSede1 = newSedes.get(0);
 		Sede newSede2 = newSedes.get(1);
 		sedes.put(newSede1.getNombre(), newSede1);
 		sedes.put(newSede2.getNombre(), newSede2);
+		Vehiculo veh = newSede1.buscarVehiculoEspecifico(placa);
+		Vehiculo veh2 = newSede2.buscarVehiculoEspecifico(placa);
+		if(veh != null && veh2 == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
-	public void modificarSede(AdministradorGeneral adminGen,int opcion,String cambio,String sedeCambio) {
+	public Sede modificarSede(AdministradorGeneral adminGen,int opcion,String cambio,String sedeCambio) {
+		Sede sedeMod = null;
 		int posicionCambio = opcion -1;
 		Sede sedeCamb = sedes.get(sedeCambio);
 		if(posicionCambio != 4) {
 			Sede nuevaSede = adminGen.modificarSede(posicionCambio, cambio, sedeCamb);
 			sedes.put(nuevaSede.getNombre(), nuevaSede);
+			sedeMod = nuevaSede;
 		}
 		else {
 			AdministradorLocal newAdminLoc = null;
@@ -209,8 +229,10 @@ public class Empresa {
 			if(newAdminLoc != null) {
 				Sede nuevaSede = adminGen.modificarAdminLocalSede(cambio, sedeCamb, newAdminLoc);
 				sedes.put(nuevaSede.getNombre(), nuevaSede);
+				sedeMod= nuevaSede;
 			}
 		}
+		return sedeMod;
 	}
 	
 	/** Metodos 

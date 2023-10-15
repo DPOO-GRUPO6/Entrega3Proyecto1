@@ -77,6 +77,29 @@ public class Sede {
 		this.horasAtencion = horasAtencion;
 	}
 	
+	public Vehiculo buscarVehiculoEspecifico(String placa) {
+		Vehiculo vehiculoBuscado = null;
+		for(Vehiculo ve: vehiculosSede) {
+			if(ve.getPlaca().equals(placa)) {
+				vehiculoBuscado = ve;
+			}
+		}
+		return vehiculoBuscado;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public String getDiasAtencion() {
+		return diasAtencion;
+	}
+
+	public String getHorasAtencion() {
+		return horasAtencion;
+	}
+	
+	
 
 	
 }

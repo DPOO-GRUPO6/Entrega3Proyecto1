@@ -18,7 +18,7 @@ public class AdministradorGeneral extends Usuario{
 		return vehiculos;
 	}
 	
-	public ArrayList<Vehiculo> registrarNuevoVehiculo(ArrayList<String> data,HashMap<String,Sede>sedes,ArrayList<Categoria>categorias,ArrayList<Vehiculo>vehiculos) {
+	public Vehiculo registrarNuevoVehiculo(ArrayList<String> data,HashMap<String,Sede>sedes,ArrayList<Categoria>categorias) {
 		int capacidad = Integer.parseInt(data.get(5));
 		Sede sede = sedes.get(data.get(7));
 		Categoria categoria = null;
@@ -29,14 +29,12 @@ public class AdministradorGeneral extends Usuario{
 		}
 		Estado estado = new Estado("disponible",null,null);
 		Vehiculo newVe = new Vehiculo(data.get(0),data.get(1),data.get(2),data.get(3), data.get(4),capacidad,categoria, sede, estado);
-		vehiculos.add(newVe);
-		return vehiculos;
+		return newVe;
 	}
 	
-	public ArrayList<Seguro> configurarSeguro(String nombre,int precio,ArrayList<Seguro> seguros){
+	public Seguro configurarSeguro(String nombre,int precio){
 		Seguro seg = new Seguro(nombre,precio);
-		seguros.add(seg);
-		return seguros;
+		return seg;
 		
 	}
 	

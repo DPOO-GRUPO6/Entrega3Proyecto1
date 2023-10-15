@@ -8,4 +8,13 @@ public class Empleado extends Usuario{
 		this.sede = sede;
 	}
 
+	public Sede getSede() {
+		return sede;
+	}
+
+	public void setSede(Sede sede) {
+		this.sede = sede;
+	}
+	
+	
 }

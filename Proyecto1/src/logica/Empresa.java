@@ -226,6 +226,13 @@ public class Empresa {
 					newAdminLoc = adLoc;
 				}
 			}
+			if(newAdminLoc == null) {
+				for(Empleado emp: empleados) {
+					if(emp.getNombreCompleto().equals(cambio)) {
+						newAdminLoc = new AdministradorLocal(emp.getLogIn(),emp.getContraseña(),emp.getNombreCompleto(),"administradorLocal",emp.getSede());
+					}
+				}
+			}
 			if(newAdminLoc != null) {
 				Sede nuevaSede = adminGen.modificarAdminLocalSede(cambio, sedeCamb, newAdminLoc);
 				sedes.put(nuevaSede.getNombre(), nuevaSede);

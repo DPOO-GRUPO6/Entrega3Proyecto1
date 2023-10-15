@@ -142,7 +142,6 @@ public class principal {
 							else {
 								System.out.println("Opcion no valida");
 							}
-							
 						}
 						
 						else if(op == 6) {

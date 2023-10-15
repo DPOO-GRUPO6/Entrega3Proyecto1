@@ -4,12 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import logica.AdministradorGeneral;
+import logica.AdministradorLocal;
 import logica.Cliente;
+import logica.Empleado;
 import logica.Empresa;
+import logica.Sede;
 import logica.Usuario;
+import logica.Vehiculo;
 
 public class principal {
 	Empresa ferrari = new Empresa();
@@ -57,9 +63,126 @@ public class principal {
 						}
 						}
 					}
-					else if(rta.getTipoUsuario().equals("empleado")) {
-						ferrari.accionesEmpleado();
+					else if(rta.getTipoUsuario().equals("empleado")) 
+					{
+						Empleado empleado = (Empleado)rta;
+						boolean cont = true;
+						while(cont) 
+						{
+							System.out.println("Que desea hacer?");
+							System.out.println("1. Cambiar el estado de un vehiculo devuelto");
+							System.out.println("2. Cambiar el estado de un vehiculo a disponible");
+							System.out.println("3. Salir");
+							int op = Integer.parseInt(input("Seleccione su opcion"));
+							
+							if(op == 1)
+							{
+								System.out.println("El vehiculo necesita mantenimiento?");
+								System.out.println("1. Si");
+								System.out.println("2. No");
+								int ls = Integer.parseInt(input("Seleccione su opcion"));
+								
+								if (ls == 1)
+								{
+									SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+									String fechaInicio = input("Ingrese la fecha de inicio");
+									String fechaFin = input("Ingrese la fecha de salida");
+									Date fechaI = formato.parse(fechaInicio); 
+									Date fechaF = formato.parse(fechaFin); 
+									empleado.cambiarEstadoVehiculoDevolver(null, fechaI, fechaF, true);
+									System.out.println("El estado del vehiculo ha sido cambiado a mantenimiento y podra volver al inventario el" + fechaF);
+								}
+								
+								if (ls == 2)
+								{
+									SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+									String fechaInicio = input("Ingrese la fecha de inicio");
+									String fechaFin = input("Ingrese la fecha de salida");
+									Date fechaI = formato.parse(fechaInicio); 
+									Date fechaF = formato.parse(fechaFin); 
+									empleado.cambiarEstadoVehiculoDevolver(null, fechaI, fechaF, false);
+									System.out.println("El estado del vehiculo ha sido cambiado a limpieza y estara listo para el" + fechaF);
+								}
+							}
+							
+							else if(op == 2)
+							{
+								empleado.cambiarEstadoVehiculoDisponible(null);
+								System.out.println("El estado del vehiculo ha sido cambiado a disponible y puede ser reservado o alquilado");
+							}
+								
+							else if(op == 3)
+							{
+								cont = false;
+							}
+							else 
+							   {
+								System.out.println("Opcion no válida");
+							}
+						}
 					}
+					else if(rta.getTipoUsuario().equals("administradorLocal")) 
+					{
+						AdministradorLocal adminlocal = (AdministradorLocal)rta;
+						Empleado empleado = (Empleado)rta;
+
+						boolean cont = true;
+						while(cont) 
+						{
+							System.out.println("Que desea hacer?");
+							System.out.println("1. Crear un nuevo empleado");
+							System.out.println("2. Cambiar la informacion de algun empleado");
+							System.out.println("3. Salir");
+							int op = Integer.parseInt(input("Seleccione su opcion"));
+							
+							if(op == 1)
+							{
+								String logIn = input("Ingrese el logIn del nuevo empleado");
+								String contraseña = input("Ingrese la contraseña del nuevo empleado");
+								String nombreCompleto= input("Ingrese el nombre completo del nuevo empleado");
+								String tipoUsuario = input("Ingrese el tipo de usuario del nuevo empleado");
+								adminlocal.crearEmpleado(logIn, contraseña, nombreCompleto, tipoUsuario, null);
+								System.out.println("El empleado " + nombreCompleto + "ha sido creado");
+							}
+							
+							if(op == 2)
+							{
+								String nombreEmpleado = ("Ingrese el nombre del empleado a buscar");
+								System.out.println("Que informacion desea cambiar?");
+								System.out.println("1. El logIn");
+								System.out.println("2. La contraseña");
+								System.out.println("3. La sede");
+								int ls = Integer.parseInt(input("Seleccione su opcion"));
+								
+								if(ls == 1)
+								{
+									String nuevoLogIn = ("Ingrese el LogIn nuevo");
+									adminlocal.setInformacionEmpleadoSede(null, empleado, nombreEmpleado, nuevoLogIn, null, null, true, false, false);
+								}
+								if(ls == 2)
+								{
+									String nuevaContraseña = ("Ingrese el LogIn nuevo");
+									adminlocal.setInformacionEmpleadoSede(null, empleado, nombreEmpleado, null, nuevaContraseña, null, false, true, false);
+								}
+								if(ls == 3)
+								{
+									String nuevaSede = ("Ingrese el LogIn nuevo");
+									adminlocal.setInformacionEmpleadoSede(null, empleado, nombreEmpleado, null, null, null, false, false, true);
+								}
+								
+							}
+							
+							else if(op == 3)
+							{
+								cont = false;
+							}
+							else 
+							   {
+								System.out.println("Opcion no válida");
+							}
+						}
+					}
+				
 					else if(rta.getTipoUsuario().equals("administradorGeneral")) {
 						AdministradorGeneral adminGen = (AdministradorGeneral)rta;
 						boolean cont = true;

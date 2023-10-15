@@ -159,11 +159,59 @@ public class Empresa {
 	/** Metodos 
 	 * acciones empleado **/
 	
-	public void accionesEmpleado(){
-		//acciones empleado
-		System.out.println("todo ok2");
+	public Vehiculo verificarDisponibilidadCategoria(Empleado empleado, Sede sede, Empresa empresa, String categoriaDeseada, AdministradorGeneral adminGen)
+	{
+		Vehiculo busqueda1 = empleado.verificarDisponibilidadCategoriaEnSede(sede, categoriaDeseada);
+		Vehiculo busqueda2 = empleado.verificarDisponibilidadCategoriaFueraSede(empresa, categoriaDeseada);
+		ArrayList<Vehiculo> vehiculos = empresa.getVehiculosEmpresa();
+		
+		if (busqueda1 instanceof Vehiculo)
+		{
+			return busqueda1;
+		}
+		else if (busqueda2 instanceof Vehiculo)
+		{
+			String placa = busqueda2.getPlaca();
+			adminGen.realizarTranslado(placa, sede, vehiculos);
+			return busqueda2;
+		}
+		
+		return null;
 	}
 	
+	public void cambiarEstadoVehiculoReserva(Empleado empleado, Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	{
+		empleado.cambiarEstadoVehiculoReserva(vehiculo, fechaInicio, fechaFin);
+	}
+	
+	public void cambiarEstadoVehiculoAlquilado(Empleado empleado, Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	{
+		empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
+	}
+	
+	public void cambiarEstadoVehiculoDevolver(Empleado empleado,Vehiculo vehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	{
+		empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+	}
+	
+	public void cambiarEstadoVehiculoDisponible(Empleado empleado,Vehiculo vehiculo)
+	{
+		empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+	} 
+	
+	/** Metodos 
+	 * acciones admin local **/
+	
+	public Empleado crearEmpleado(AdministradorLocal adminlocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, Sede sede)
+	{
+		return adminlocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
+	}
+	
+	public void setInformacionEmpleadoSede(AdministradorLocal adminlocal, Sede sede, Empleado empleado, String nombreEmpleado ,String nuevologIn, String nuevaContraseña, Sede nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	{
+		adminlocal.setInformacionEmpleadoSede(sede, empleado, nombreEmpleado, nuevologIn, nuevaContraseña, nuevaSede, cambiarLogIn, cambiarContraseña, cambiarSede);
+	}
+		
 	/** Metodos 
 	 * acciones admin general **/
 	
@@ -228,6 +276,15 @@ public class Empresa {
 		
 		return null;
 	}
+	
+	public ArrayList<Vehiculo> getVehiculosEmpresa() {
+		return vehiculos;
+	}
+	public void accionesEmpleado() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
 	

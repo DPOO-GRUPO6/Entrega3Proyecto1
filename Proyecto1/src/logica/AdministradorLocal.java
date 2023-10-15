@@ -14,28 +14,31 @@ public class AdministradorLocal extends Usuario{
 	{
 		return new Empleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
 	}
-	
-	public void modificarInfoEmpleado(Empleado empleado, String nuevologIn, String nuevaContraseña, Sede nuevaSede)
-	{
-		empleado.setLogIn(nuevologIn);
-		empleado.setContraseña(nuevaContraseña);
-		empleado.setSede(nuevaSede);	
-		}
 		
-	public Empleado setInformacionEmpleadoSede(Sede sede, String nombreEmpleado)
-		{
+	public void setInformacionEmpleadoSede(Sede sede, Empleado empleado, String nombreEmpleado ,String nuevoLogIn, String nuevaContraseña, Sede nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	{
 			ArrayList<Empleado> listaEmpleados = sede.getEmpleadosSede();
 			
-			for (Empleado empleado: listaEmpleados) 
+			for (Empleado empleadoCambio: listaEmpleados) 
 			{
-				String nombre = empleado.getNombreCompleto();
+				String nombre = empleadoCambio.getNombreCompleto();
 				
 				if(nombreEmpleado.equals(nombre))
 				{
-					return empleado;
-				}		
-		}
-			return null;
+					if(cambiarLogIn)
+					{
+						empleadoCambio.setLogIn(nuevoLogIn);
+					}
+					else if(cambiarContraseña)
+					{
+						empleadoCambio.setContraseña(nuevaContraseña);
+					}
+					else if(cambiarSede)
+					{
+						empleadoCambio.setSede(nuevaSede);	
+					}
+				}		 
+			}
 	}
 	
 	public Sede getSede() {

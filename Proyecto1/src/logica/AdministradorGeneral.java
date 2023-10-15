@@ -41,7 +41,7 @@ public class AdministradorGeneral extends Usuario{
 	}
 	
 	
-	public void realizarTranslado(String placa, Sede sedeDest,ArrayList<Vehiculo> vehiculos) {
+	public void realizarTranslado(String placa, Sede sedeDest, ArrayList<Vehiculo> vehiculos){
 		Vehiculo vehiculo = null;
 		Sede sedeIn = null;
 		for(Vehiculo v: vehiculos) {
@@ -59,3 +59,5 @@ public class AdministradorGeneral extends Usuario{
 	}
 
 }
+
+///Realizar translado devuelve arraylist

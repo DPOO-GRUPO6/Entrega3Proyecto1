@@ -50,4 +50,8 @@ public class Cliente extends Usuario{
 	Tarifa tarifaEstimada;
 	int abono;*/
 	}
+	
+	public TarjetaCredito getTarjetaCredito() {
+		return tarjetaCredito;
+	}	
 }

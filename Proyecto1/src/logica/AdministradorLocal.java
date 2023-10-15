@@ -13,11 +13,10 @@ public class AdministradorLocal extends Usuario{
 		return new Empleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
 	}
 	
-	public void modificarInfoEmpleado(Empleado empleado, String nuevologIn, String nuevaContraseña, String nuevoTipoUsuario, Sede nuevaSede)
+	public void modificarInfoEmpleado(Empleado empleado, String nuevologIn, String nuevaContraseña, Sede nuevaSede)
 	{
 		empleado.setLogIn(nuevologIn);
 		empleado.setContraseña(nuevaContraseña);
-		empleado.setTipoUsuario(nuevoTipoUsuario);
 		empleado.setSede(nuevaSede);	
 	}
 	

@@ -28,6 +28,10 @@ public class Vehiculo {
 		return placa;
 	}
 
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	
 	public Estado getEstado() {
 		return estado;
 	}

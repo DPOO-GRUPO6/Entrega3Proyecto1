@@ -1,38 +1,69 @@
 package logica;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Empleado extends Usuario{
 	Sede sede;
 	
-	public Empleado(String logIn, String contraseña, String nombreCompleto, String tipoUsuario,Sede sede) {
+	public Empleado(String logIn, String contraseña, String nombreCompleto, String tipoUsuario,Sede sede) 
+	{
 		super(logIn, contraseña, nombreCompleto, tipoUsuario);
 		this.sede = sede;
 	}
 	
-	public Vehiculo entregarVehiculo(Vehiculo vehiculo, Cliente cliente, Sede sede)
+	public void cambiarEstadoVehiculo(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
 	{
-		return vehiculo;
+		Estado estado = vehiculo.getEstado();
+		estado.setNombre("Reservado");
+		estado.setFechaInicio(fechaInicio);
+		estado.setFechaFin(fechaFin);
 	}
 	
-	public void recibirVehiculo(Vehiculo vehiculo, Cliente cliente, Sede sede)
+	public void cambiarEstadoVehiculoEntrega(Vehiculo vehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
 	{
-	
-	}
-	
-	public void actualizarEstadoVehiculo(Vehiculo vehiculo)
-	{
-	
+		Estado estado = vehiculo.getEstado();
+		
+		if(mantenimiento) 
+		{
+			estado.setNombre("Mantenimiento");
+		}
+		else
+		{
+			estado.setNombre("Limpieza");
+		}
+					
+		estado.setFechaInicio(fechaInicio);
+		estado.setFechaFin(fechaFin);
 	}
 	
 	public boolean verificarTarjetaRetenidaCliente(Cliente cliente)
 	{
-		return false;
+		TarjetaCredito tarjetaCredito = cliente.getTarjetaCredito();
+		return tarjetaCredito.getBloqueo();
 	}
 	
-	public boolean verificarDisponibilidadCategoria(Sede sede)
+	public boolean verificarDisponibilidadCategoria(Sede sede, String categoriaDeseada)
 	{
+		ArrayList<Vehiculo> listaVehiculos = sede.getVehiculosSede();
+		
+		for (Vehiculo vehiculo: listaVehiculos) 
+		{
+			Categoria categoria = vehiculo.getCategoria();
+			Estado estado = vehiculo.getEstado();
+			
+			String categoriaCarro = categoria.getNombre();
+			String estadoCarro = estado.getNombre();
+			
+			if (categoriaDeseada.equals(categoriaCarro) && (!estadoCarro.equals("Reservado") || !estadoCarro.equals("Alquilado")))
+			{
+				return true;
+			}
+			
+		}
+		
 		return false;
 	}
-	
 	
 	public Sede getSede() {
 		return sede;

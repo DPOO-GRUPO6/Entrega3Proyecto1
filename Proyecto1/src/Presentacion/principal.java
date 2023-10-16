@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import logica.AdministradorGeneral;
+import logica.AdministradorLocal;
 import logica.Cliente;
 import logica.Empleado;
 import logica.Empresa;
@@ -166,6 +167,79 @@ public class principal {
 							   {
 								System.out.println("Opcion no válida");
 								System.out.println();
+							}
+						}
+					}
+					
+					else if(rta.getTipoUsuario().equals("administradorLocal")) ///AdministradorLocal Consola
+					{
+						AdministradorLocal adminLocal = (AdministradorLocal)rta;
+						
+						boolean cont = true;
+						while(cont) 
+						{
+							System.out.println("Que desea hacer?");
+							System.out.println("1. Crear un nuevo empleado");
+							System.out.println("2. Cambiar la informacion de algun empleado");
+							System.out.println("3. Salir");
+							int op = Integer.parseInt(input("Seleccione su opcion"));
+							System.out.println();
+							
+							if(op == 1)
+							{
+								String logIn = input("Ingrese el logIn del nuevo empleado");
+								String contraseña = input("Ingrese la contraseña del nuevo empleado");
+								String nombreCompleto= input("Ingrese el nombre completo del nuevo empleado");
+								String tipoUsuario = input("Ingrese el tipo de usuario del nuevo empleado");
+								String sede = input("Ingrese la sede del nuevo empleado");
+								ferrari.crearEmpleado(adminLocal, logIn, contraseña, nombreCompleto, tipoUsuario, sede);
+								System.out.println("El empleado " + nombreCompleto + " ha sido creado");
+								System.out.println();
+							}
+							
+							if(op == 2)
+							{
+								String nombreEmpleado = input("Ingrese el nombre del empleado a buscar");
+								System.out.println("Que informacion desea cambiar?");
+								System.out.println("1. El logIn");
+								System.out.println("2. La contraseña");
+								System.out.println("3. La sede");
+								int ls = Integer.parseInt(input("Seleccione su opcion"));
+								System.out.println();
+								
+								if(ls == 1)
+								{
+									String nuevoLogIn = input("Ingrese el LogIn nuevo");
+									ferrari.setInformacionEmpleadoSede(adminLocal, nombreEmpleado, nuevoLogIn, null, null, true, false, false);
+									System.out.println("Ha sido cambiado el logIn de " + nombreEmpleado);
+									System.out.println();
+								}
+								
+								if(ls == 2)
+								{
+									String nuevaContraseña = input("Ingrese la contraseña nueva");
+									ferrari.setInformacionEmpleadoSede(adminLocal, nombreEmpleado, null, nuevaContraseña, null, false, true, false);
+									System.out.println("Ha sido cambiado la contraseña de " + nombreEmpleado);
+									System.out.println();
+								}
+								
+								if(ls == 3)
+								{
+									String nuevaSede = input("Ingrese la sede nueva");
+									ferrari.setInformacionEmpleadoSede(adminLocal, nombreEmpleado, null, null, nuevaSede, false, false, true);
+									System.out.println("Ha sido cambiado la sede de " + nombreEmpleado);
+									System.out.println();
+								}
+								
+							}
+							
+							else if(op == 3)
+							{
+								cont = false;
+							}
+							else 
+							{
+								System.out.println("Opcion no válida");
 							}
 						}
 					}

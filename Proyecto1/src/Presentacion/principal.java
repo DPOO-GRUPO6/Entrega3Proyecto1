@@ -76,7 +76,6 @@ public class principal {
 							System.out.println("3. Salir");
 							int op = Integer.parseInt(input("Seleccione su opcion"));
 							System.out.println();
-
 							
 							if(op == 1) ///Cambiar estado devolver vehiculo Consola
 							{
@@ -201,7 +200,7 @@ public class principal {
 								cont = false;
 							}
 							else 
-							   {
+							{
 								System.out.println("Opcion no válida");
 							}
 						}

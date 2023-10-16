@@ -15,7 +15,7 @@ public class AdministradorLocal extends Usuario{
 		return new Empleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
 	}
 		
-	public void setInformacionEmpleadoSede(Sede sede, Empleado empleado, String nombreEmpleado ,String nuevoLogIn, String nuevaContraseña, Sede nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	public void setInformacionEmpleadoSede(Sede sede, Empleado empleado, String nombreEmpleado, String nuevoLogIn, String nuevaContraseña, Sede nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
 	{
 			ArrayList<Empleado> listaEmpleados = sede.getEmpleadosSede();
 			
@@ -23,7 +23,7 @@ public class AdministradorLocal extends Usuario{
 			{
 				String nombre = empleadoCambio.getNombreCompleto();
 				
-				if(nombreEmpleado.equals(nombre))
+				if(nombre.equals(nombreEmpleado))
 				{
 					if(cambiarLogIn)
 					{

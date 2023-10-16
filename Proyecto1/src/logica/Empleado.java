@@ -17,7 +17,7 @@ public class Empleado extends Usuario{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();
 		
-		if (nombre.equals("Dispon	ible"))
+		if (nombre.equals("Disponible"))
 		{
 			estado.setNombre("Reservado");
 			estado.setFechaInicio(fechaInicio);
@@ -87,7 +87,7 @@ public class Empleado extends Usuario{
 			String categoriaCarro = categoria.getNombre();
 			String estadoCarro = estado.getNombre();
 			
-			if (categoriaDeseada.equals(categoriaCarro) && (!estadoCarro.equals("Reservado") || !estadoCarro.equals("Alquilado")))
+			if (categoriaDeseada.equals(categoriaCarro) && estadoCarro.equals("Disponible"))
 			{
 				return vehiculo;
 			}
@@ -98,7 +98,6 @@ public class Empleado extends Usuario{
 	
 	public Vehiculo verificarDisponibilidadCategoriaFueraSede(ArrayList<Vehiculo> vehiculos,String categoriaDeseada)
 	{
-		
 		for (Vehiculo vehiculo: vehiculos) 
 		{
 			Categoria categoria = vehiculo.getCategoria();
@@ -107,7 +106,7 @@ public class Empleado extends Usuario{
 			String categoriaCarro = categoria.getNombre();
 			String estadoCarro = estado.getNombre();
 			
-			if (categoriaDeseada.equals(categoriaCarro) && (!estadoCarro.equals("Reservado") || !estadoCarro.equals("Alquilado")))
+			if (categoriaDeseada.equals(categoriaCarro) && estadoCarro.equals("Disponible"))
 			{
 				return vehiculo;
 			}

@@ -181,7 +181,6 @@ public class Empresa {
 					adminGen.realizarTranslado(placa, sedeEp, vehiculos);
 					return busqueda2;
 				}
-				
 			}
 		}
 		return null;
@@ -246,17 +245,14 @@ public class Empresa {
 	
 	public Empleado crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
 	{
-		for (String sedeCarro: sedes.keySet())
+		for (String sedeEmpleado: sedes.keySet())
 		{
-			if(sede.equals(sedeCarro))
+			if(sedeEmpleado.equals(sede))
 			{
-				Sede sedeEp = sedes.get(sedeCarro);
+				Sede sedeEp = sedes.get(sedeEmpleado);
 				return adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
 			}
-			
-			return null;
 		}
-		
 		return null;
 	}
 	
@@ -264,11 +260,12 @@ public class Empresa {
 	{		
 		for(Empleado empleadoCambio: empleados)
 		{
+			String nombreEmpleadoCambio = empleadoCambio.getNombreCompleto();
 			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
 			
 			for (String sedeNueva: sedes.keySet())
 			{
-				if(sedeNueva.equals(nuevaSede))
+				if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado))
 				{
 					Sede sedeCambio = sedes.get(sedeNueva);	
 					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);

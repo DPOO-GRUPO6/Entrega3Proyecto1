@@ -165,10 +165,75 @@ public class Empresa {
 	/** Metodos 
 	 * acciones empleado **/
 	
-	public void accionesEmpleado(){
-		//acciones empleado
-		System.out.println("todo ok2");
+	
+	public Vehiculo verificarDisponibilidadCategoria(Empleado empleado, String sede, String categoriaDeseada, AdministradorGeneral adminGen)
+	{	
+		for (String sedeCarro: sedes.keySet())
+		{
+			if(sede.equals(sedeCarro))
+			{
+				Sede sedeEp = sedes.get(sedeCarro);
+				Vehiculo busqueda1 = empleado.verificarDisponibilidadCategoriaEnSede(sedeEp, categoriaDeseada);
+				Vehiculo busqueda2 = empleado.verificarDisponibilidadCategoriaFueraSede(vehiculos, categoriaDeseada);
+				
+				if (busqueda1 instanceof Vehiculo)
+				{
+					return busqueda1;
+				}
+				else if (busqueda2 instanceof Vehiculo)
+				{
+					String placa = busqueda2.getPlaca();
+					adminGen.realizarTranslado(placa, sedeEp, vehiculos);
+					return busqueda2;
+				}
+			}
+		}
+		return null;
+				
 	}
+	
+	public void cambiarEstadoVehiculoAlquilado(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin)
+	{
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
+			}
+		}
+	}
+	
+	public void cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	{
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+			}
+		}
+	}
+	
+	public void cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
+	{
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+			}
+		}
+	
+	} 
+	
+	/** Metodos 
+	 * acciones admin local **/
 	
 	/** Metodos 
 	 * acciones admin general **/

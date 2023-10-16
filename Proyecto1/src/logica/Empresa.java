@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import logica.Tarifa;
@@ -159,57 +160,121 @@ public class Empresa {
 	/** Metodos 
 	 * acciones empleado **/
 	
-	public Vehiculo verificarDisponibilidadCategoria(Empleado empleado, Sede sede, Empresa empresa, String categoriaDeseada, AdministradorGeneral adminGen)
-	{
-		Vehiculo busqueda1 = empleado.verificarDisponibilidadCategoriaEnSede(sede, categoriaDeseada);
-		Vehiculo busqueda2 = empleado.verificarDisponibilidadCategoriaFueraSede(empresa, categoriaDeseada);
-		ArrayList<Vehiculo> vehiculos = empresa.getVehiculosEmpresa();
-		
-		if (busqueda1 instanceof Vehiculo)
+	
+	public Vehiculo verificarDisponibilidadCategoria(Empleado empleado, String sede, String categoriaDeseada, AdministradorGeneral adminGen)
+	{	
+		for (String sedeCarro: sedes.keySet())
 		{
-			return busqueda1;
+			if(sede.equals(sedeCarro))
+			{
+				Sede sedeEp = sedes.get(sedeCarro);
+				Vehiculo busqueda1 = empleado.verificarDisponibilidadCategoriaEnSede(sedeEp, categoriaDeseada);
+				Vehiculo busqueda2 = empleado.verificarDisponibilidadCategoriaFueraSede(vehiculos, categoriaDeseada);
+				
+				if (busqueda1 instanceof Vehiculo)
+				{
+					return busqueda1;
+				}
+				else if (busqueda2 instanceof Vehiculo)
+				{
+					String placa = busqueda2.getPlaca();
+					adminGen.realizarTranslado(placa, sedeEp, vehiculos);
+					return busqueda2;
+				}
+				
+			}
 		}
-		else if (busqueda2 instanceof Vehiculo)
-		{
-			String placa = busqueda2.getPlaca();
-			adminGen.realizarTranslado(placa, sede, vehiculos);
-			return busqueda2;
-		}
-		
 		return null;
+				
 	}
 	
-	public void cambiarEstadoVehiculoReserva(Empleado empleado, Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	public void cambiarEstadoVehiculoReserva(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin)
 	{
-		empleado.cambiarEstadoVehiculoReserva(vehiculo, fechaInicio, fechaFin);
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoReserva(vehiculo, fechaInicio, fechaFin);
+			}
+		}
 	}
 	
-	public void cambiarEstadoVehiculoAlquilado(Empleado empleado, Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	public void cambiarEstadoVehiculoAlquilado(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin)
 	{
-		empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
+			}
+		}
 	}
 	
-	public void cambiarEstadoVehiculoDevolver(Empleado empleado,Vehiculo vehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	public void cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
 	{
-		empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+			}
+		}
 	}
 	
-	public void cambiarEstadoVehiculoDisponible(Empleado empleado,Vehiculo vehiculo)
+	public void cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
 	{
-		empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+		for (Vehiculo vehiculo: vehiculos) 
+		{
+			String placa = vehiculo.getPlaca();
+			
+			if(placaVehiculo.equals(placa))
+			{
+				empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+			}
+		}
+	
 	} 
 	
 	/** Metodos 
 	 * acciones admin local **/
 	
-	public Empleado crearEmpleado(AdministradorLocal adminlocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, Sede sede)
+	public Empleado crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
 	{
-		return adminlocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sede);
+		for (String sedeCarro: sedes.keySet())
+		{
+			if(sede.equals(sedeCarro))
+			{
+				Sede sedeEp = sedes.get(sedeCarro);
+				return adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+			}
+			
+			return null;
+		}
+		
+		return null;
 	}
 	
-	public void setInformacionEmpleadoSede(AdministradorLocal adminlocal, Sede sede, Empleado empleado, String nombreEmpleado ,String nuevologIn, String nuevaContraseña, Sede nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
-	{
-		adminlocal.setInformacionEmpleadoSede(sede, empleado, nombreEmpleado, nuevologIn, nuevaContraseña, nuevaSede, cambiarLogIn, cambiarContraseña, cambiarSede);
+	public void setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	{		
+		for(Empleado empleadoCambio: empleados)
+		{
+			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
+			
+			for (String sedeNueva: sedes.keySet())
+			{
+				if(sedeNueva.equals(nuevaSede))
+				{
+					Sede sedeCambio = sedes.get(sedeNueva);	
+					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+				}
+			}	
+		}
 	}
 		
 	/** Metodos 

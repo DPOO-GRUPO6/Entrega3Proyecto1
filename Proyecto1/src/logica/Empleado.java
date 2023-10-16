@@ -17,7 +17,7 @@ public class Empleado extends Usuario{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();
 		
-		if (nombre.equals("Disponible"))
+		if (nombre.equals("Dispon	ible"))
 		{
 			estado.setNombre("Reservado");
 			estado.setFechaInicio(fechaInicio);
@@ -96,11 +96,10 @@ public class Empleado extends Usuario{
 		return null;
 	}
 	
-	public Vehiculo verificarDisponibilidadCategoriaFueraSede(Empresa empresa,String categoriaDeseada)
+	public Vehiculo verificarDisponibilidadCategoriaFueraSede(ArrayList<Vehiculo> vehiculos,String categoriaDeseada)
 	{
-		ArrayList<Vehiculo> listaVehiculosEmpresa = empresa.getVehiculosEmpresa();
 		
-		for (Vehiculo vehiculo: listaVehiculosEmpresa) 
+		for (Vehiculo vehiculo: vehiculos) 
 		{
 			Categoria categoria = vehiculo.getCategoria();
 			Estado estado = vehiculo.getEstado();

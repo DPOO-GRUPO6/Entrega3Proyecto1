@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import logica.AdministradorGeneral;
 import logica.Cliente;
+import logica.Empleado;
 import logica.Empresa;
 import logica.Reserva;
 import logica.TarjetaCredito;
@@ -60,7 +63,7 @@ public class principal {
 							else {
 								Cliente cliente1= reserva.getCliente();
 								TarjetaCredito tarjetaCliente= cliente1.getTarjetaCredito();
-								boolean bloqueo= tarjetaCliente.isBloqueo();
+								boolean bloqueo= tarjetaCliente.getBloqueo();
 								if (bloqueo)
 								{
 									System.out.println("No se puede realizar esta reserva porque la tarjeta se encuentra bloqueada");
@@ -98,8 +101,75 @@ public class principal {
 						}
 					}
 					else if(rta.getTipoUsuario().equals("empleado")) {
-						ferrari.accionesEmpleado();
+						Empleado empleado = (Empleado)rta;
+						
+						boolean cont = true;
+						while(cont) 
+						{
+							System.out.println("Que desea hacer?");
+							System.out.println("1. Cambiar el estado de un vehiculo devuelto");
+							System.out.println("2. Cambiar el estado de un vehiculo a disponible");
+							System.out.println("3. Salir");
+							int op = Integer.parseInt(input("Seleccione su opcion"));
+							System.out.println();
+							
+							if(op == 1) ///Cambiar estado devolver vehiculo Consola
+							{
+								System.out.println("El vehiculo necesita mantenimiento?");
+								System.out.println("1. Si");
+								System.out.println("2. No");
+								int ls = Integer.parseInt(input("Seleccione su opcion"));
+								System.out.println();
+								
+								if (ls == 1)
+								{
+									SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+									String fechaInicio = input("Ingrese la fecha de inicio");
+									String fechaFin = input("Ingrese la fecha de salida");
+									Date fechaI = formato.parse(fechaInicio); 
+									Date fechaF = formato.parse(fechaFin); 
+									String placaCarro = input("Ingrese la placa del vehiculo");
+									ferrari.cambiarEstadoVehiculoDevolver(empleado, placaCarro, fechaI, fechaF, true);
+									System.out.println("El estado del vehiculo ha sido cambiado a mantenimiento");
+									System.out.println();
+
+								}
+								
+								if (ls == 2)
+								{
+									SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+									String fechaInicio = input("Ingrese la fecha de inicio");
+									String fechaFin = input("Ingrese la fecha de salida");
+									Date fechaI = formato.parse(fechaInicio); 
+									Date fechaF = formato.parse(fechaFin); 
+									String placaCarro = input("Ingrese la placa del vehiculo");
+									ferrari.cambiarEstadoVehiculoDevolver(empleado, placaCarro, fechaI, fechaF, false);
+									System.out.println("El estado del vehiculo ha sido cambiado a limpieza");
+									System.out.println();
+
+								}
+							}
+							
+							else if(op == 2) ///Cambiar estado disponible vehiculo Consola
+							{
+								String placaCarro = input("Ingrese la placa del vehiculo");
+								ferrari.cambiarEstadoVehiculoDisponible(empleado, placaCarro);
+								System.out.println("El estado del vehiculo ha sido cambiado a disponible y puede ser reservado o alquilado");
+								System.out.println();
+							}
+								
+							else if(op == 3)
+							{
+								cont = false;
+							}
+							else 
+							   {
+								System.out.println("Opcion no válida");
+								System.out.println();
+							}
+						}
 					}
+					
 					else if(rta.getTipoUsuario().equals("administradorGeneral")) {
 						AdministradorGeneral adminGen = (AdministradorGeneral)rta;
 						boolean cont = true;

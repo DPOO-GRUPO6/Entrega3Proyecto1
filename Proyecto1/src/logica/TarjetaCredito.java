@@ -14,7 +14,7 @@ public class TarjetaCredito {
 	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
-	public boolean isBloqueo() {
+	public boolean getBloqueo() {
 		return bloqueo;
 	}
 	public void setBloqueo(boolean bloqueo) {

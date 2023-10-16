@@ -12,19 +12,6 @@ public class Empleado extends Usuario{
 		this.sede = sede;
 	}
 	
-	public void cambiarEstadoVehiculoReserva(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
-	{
-		Estado estado = vehiculo.getEstado();
-		String nombre = estado.getNombre();
-		
-		if (nombre.equals("Disponible"))
-		{
-			estado.setNombre("Reservado");
-			estado.setFechaInicio(fechaInicio);
-			estado.setFechaFin(fechaFin);
-		}
-	}
-	
 	public void cambiarEstadoVehiculoAlquilado(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
 	{
 		Estado estado = vehiculo.getEstado();

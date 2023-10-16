@@ -187,19 +187,6 @@ public class Empresa {
 				
 	}
 	
-	public void cambiarEstadoVehiculoReserva(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin)
-	{
-		for (Vehiculo vehiculo: vehiculos) 
-		{
-			String placa = vehiculo.getPlaca();
-			
-			if(placaVehiculo.equals(placa))
-			{
-				empleado.cambiarEstadoVehiculoReserva(vehiculo, fechaInicio, fechaFin);
-			}
-		}
-	}
-	
 	public void cambiarEstadoVehiculoAlquilado(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin)
 	{
 		for (Vehiculo vehiculo: vehiculos) 

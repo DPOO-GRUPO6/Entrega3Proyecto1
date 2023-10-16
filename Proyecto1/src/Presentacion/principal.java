@@ -5,16 +5,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import logica.AdministradorGeneral;
 import logica.Cliente;
 import logica.Empresa;
+import logica.Reserva;
+import logica.TarjetaCredito;
 import logica.Usuario;
+import logica.Vehiculo;
 
 public class principal {
 	Empresa ferrari = new Empresa();
 	
 	public void ejecutar() throws ParseException {
+		int idReserva=0;
+		int idAlquiler=0;
 		boolean continuar = true;
 		ferrari.cargarInformacion();
 		
@@ -43,7 +50,40 @@ public class principal {
 						int op = Integer.parseInt(input("\nSeleccione su opcion"));
 						if(op == 1) {
 							ArrayList<Object> datos1 = registroPrimerosDatos();
-							ferrari.accionesCliente(1,datos1,client);
+							List listaReserva= (List) ferrari.accionesCliente(1,datos1,client);
+							Reserva reserva= (Reserva)listaReserva.get(0);
+							int abono= reserva.getAbono();
+							Vehiculo vehiculoReserva= (Vehiculo) listaReserva.get(1);
+							if (vehiculoReserva==null) {
+								System.out.println("No se puede realizar esta reserva con esas especificaciones");
+							}
+							else {
+								Cliente cliente1= reserva.getCliente();
+								TarjetaCredito tarjetaCliente= cliente1.getTarjetaCredito();
+								boolean bloqueo= tarjetaCliente.isBloqueo();
+								if (bloqueo)
+								{
+									System.out.println("No se puede realizar esta reserva porque la tarjeta se encuentra bloqueada");
+								}
+								else {
+									System.out.println("Para realizar su reserva debe realizar el pago del abono el cual es el 30%");
+									System.out.println("El cual es de "+ abono);
+									System.out.println("¿Acepta el pago?");
+									System.out.println("\n1. Si \n2. No");
+									int opcionElegida = Integer.parseInt(input("\nSeleccione su opcion"));
+									if (opcionElegida==1) {
+										Map reservasEmpresa=Empresa.getReservas();
+										idReserva+=1;
+										reservasEmpresa.put(idReserva, reserva);
+										List reservasCarro= vehiculoReserva.getReservas();
+										reservasCarro.add(reserva);
+										System.out.println(vehiculoReserva);		
+									}
+								}
+								
+							}
+							//System.out.println(reservaCliente.getTarifaEstimada());
+							//stem.out.println(reservaCliente.getAbono());
 						}
 						else if(op == 2) {
 							//ferrari.accionesCliente(2,datos1,client);

@@ -27,8 +27,8 @@ public class AdministradorGeneral extends Usuario{
 				categoria = c;
 			}
 		}
-		Estado estado = new Estado("disponible",null,null);
-		Vehiculo newVe = new Vehiculo(data.get(0),data.get(1),data.get(2),data.get(3), data.get(4),capacidad,categoria, sede, estado);
+		Estado estado = new Estado("disponible",0,null,null);
+		Vehiculo newVe = new Vehiculo(data.get(0),data.get(1),data.get(2),data.get(3), data.get(4),capacidad,categoria, sede, estado, null);
 		vehiculos.add(newVe);
 		return vehiculos;
 	}

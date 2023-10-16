@@ -5,13 +5,15 @@ import java.util.Date;
 public class Estado {
 	
 	String nombre;
+	int id= 0;
 	Date fechaInicio;
 	Date fechaFin;
 	
-	public Estado(String nombre, Date fechaInicio, Date fechaFin) {
+	public Estado(String nombre,int id, Date fechaInicio, Date fechaFin) {
 		this.nombre = nombre;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
+		this.id= id;
 	}
 
 	public String getNombre() {

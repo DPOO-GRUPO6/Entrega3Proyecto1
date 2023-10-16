@@ -77,7 +77,7 @@ public class principal {
 										reservasEmpresa.put(idReserva, reserva);
 										List reservasCarro= vehiculoReserva.getReservas();
 										reservasCarro.add(reserva);
-										//System.out.println(vehiculoReserva);		
+										System.out.println("El id de su  reserva es " + idReserva + "cuando realice alquiler ingreselo");		
 									}
 								}
 								

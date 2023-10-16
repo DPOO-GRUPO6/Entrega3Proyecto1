@@ -235,6 +235,37 @@ public class Empresa {
 	/** Metodos 
 	 * acciones admin local **/
 	
+	public Empleado crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
+	{
+		for (String sedeEmpleado: sedes.keySet())
+		{
+			if(sedeEmpleado.equals(sede))
+			{
+				Sede sedeEp = sedes.get(sedeEmpleado);
+				return adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+			}
+		}
+		return null;
+	}
+	
+	public void setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	{		
+		for(Empleado empleadoCambio: empleados)
+		{
+			String nombreEmpleadoCambio = empleadoCambio.getNombreCompleto();
+			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
+			
+			for (String sedeNueva: sedes.keySet())
+			{
+				if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado))
+				{
+					Sede sedeCambio = sedes.get(sedeNueva);	
+					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+				}
+			}	
+		}
+	}
+	
 	/** Metodos 
 	 * acciones admin general **/
 	

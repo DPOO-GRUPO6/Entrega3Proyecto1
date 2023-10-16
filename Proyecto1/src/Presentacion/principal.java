@@ -157,7 +157,22 @@ public class principal {
 			}
 
 			else if(opcion == 2){
-				System.out.println("tenemos que crear un nuevo usuario cliente >:v");
+				System.out.println("\nRegistro como cliente\nComplete la siguiente informacion");
+				System.out.println("\n- Datos personales -");
+				String nombre = input("\nIngrese su nombre completo");
+				String email = input("\nIngrese su correo electronico");
+				String telefono = input("\nIngrese su numero de telefono");
+				String fechaNacimiento = input("\nIngrese su fecha de nacimiento");
+				String nacionalidad = input("\nIngrese su nacionalidad");
+				System.out.println("- Datos de licencia de conduccion-");
+				String paisLicencia = input("\nIngrese el pais de expedicion de su licencia");
+				String fechaExpLicencia = input("\nIngrese la fecha de expedicion de su licencia");
+				System.out.println("- Datos de tarjeta de credito-");
+				String numeroTC = input("\nIngrese el número de su tarjeta de credito");
+				String fechaVen = input("\nIngrese la fecha de vencimiento de su tarjeta de credito");
+				String LogIn = input("\nIngrese el nombre de usuario que le gustaria tener");
+				String contrasenia = input("\nIngrese una contrasena");
+				
 			}
 			else if(opcion ==3) {
 				continuar = false;

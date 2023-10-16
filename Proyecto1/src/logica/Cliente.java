@@ -14,6 +14,10 @@ public class Cliente extends Usuario{
 	Licencia licencia;
 	TarjetaCredito tarjetaCredito;
 	
+	public TarjetaCredito getTarjetaCredito() {
+		return tarjetaCredito;
+	}
+
 	public Cliente(String logIn, String contraseña, String nombreCompleto, String tipoUsuario,String email,
 			long telefono,Date date,String nacionalidad,Licencia licencia, TarjetaCredito tarjetaCredito) {
 		super(logIn, contraseña, nombreCompleto, tipoUsuario);
@@ -26,7 +30,7 @@ public class Cliente extends Usuario{
 		
 	}
 	
-	public Reserva resevarVehiculo(ArrayList<Object> infoReserva) throws ParseException {
+	public Object resevarVehiculo(ArrayList<Object> infoReserva) throws ParseException {
 		//categoria, fecha recogida, hora recogida, fecha llegada, hora llegada, sede recogida, sede llegada
 		//se ecrea reserva
 		Cliente cliente1= (Cliente)infoReserva.get(5);
@@ -35,8 +39,8 @@ public class Cliente extends Usuario{
 		Sede sedeSalida= (Sede)infoReserva.get(4);
 		Date fechaSalida= (Date)infoReserva.get(1);
 		Date fechaLlegada= (Date)infoReserva.get(2);
-		Reserva reservaCliente= Empresa.realizarReserva(cliente1,categoria1,sedeLlegada,sedeSalida,fechaSalida,fechaLlegada, null, 0);
-		System.out.println(infoReserva.get(5));
+		Object reservaCliente= Empresa.realizarReserva(cliente1,categoria1,sedeLlegada,sedeSalida,fechaSalida,fechaLlegada, null, 0);
+		//System.out.println(infoReserva.get(5));
 		return reservaCliente;
 		/*new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
 		 * Cliente cliente;

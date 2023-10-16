@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import logica.Tarifa;
@@ -20,10 +22,15 @@ public class Empresa {
 	ArrayList<AdministradorLocal> adminsLocales = new ArrayList<AdministradorLocal>();
 	AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
 	ArrayList<Categoria> categorias = new ArrayList<Categoria>();
-	ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+	static ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
-	HashMap<Integer,Reserva> reservas = new HashMap<Integer,Reserva>();
+	static HashMap<Integer,Reserva> reservas = new HashMap<Integer,Reserva>();
 	
+	public static HashMap getReservas() {
+		
+		return reservas;
+		
+	}
 	
 	
 	public void cargarInformacion() throws ParseException {
@@ -104,8 +111,8 @@ public class Empresa {
 				}
 			}
 			Sede sed = sedes.get(datos[7]);
-			Estado estado = new Estado("disponible",null,null);
-			Vehiculo ve = new Vehiculo(datos[0],datos[1],datos[2],datos[3],datos[4],Integer.parseInt(datos[5]),categoria,sed,estado);
+			Estado estado = new Estado("disponible",0,null,null);
+			Vehiculo ve = new Vehiculo(datos[0],datos[1],datos[2],datos[3],datos[4],Integer.parseInt(datos[5]),categoria,sed,estado, new ArrayList<Reserva>());
 			vehiculos.add(ve);
 			sed.addVehiculoASede(ve);
 		}
@@ -124,7 +131,7 @@ public class Empresa {
 	return rta;
 	}
 	
-	public void accionesCliente(int op, ArrayList<Object> datos1,Cliente cliente) throws ParseException{
+	public Object accionesCliente(int op, ArrayList<Object> datos1,Cliente cliente) throws ParseException{
 		//acciones cliente
 		if(op == 1) {
 			System.out.println("proceso de reserva");
@@ -145,13 +152,12 @@ public class Empresa {
 			Sede sedeFin = sedes.get(datos1.get(6));
 			retornar.add(sedeFin);
 			retornar.add(cliente);
-			
-			System.out.println(retornar);
-			cliente.resevarVehiculo(retornar);
+			return cliente.resevarVehiculo(retornar);
 		}
 		
 		else {
 			System.out.println("proceso de alquiler");
+			return null;
 		}
 		
 	}
@@ -203,9 +209,13 @@ public class Empresa {
 		}
 		return seds;
 	}
-	public static Reserva realizarReserva(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida, Date fechaSalida, Date fechaLlegada, Tarifa tarifa1, int Abono) throws ParseException {
+	public static Object realizarReserva(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida, Date fechaSalida, Date fechaLlegada, Tarifa tarifa1, int Abono) throws ParseException {
 		//Reserva reservaCliente = new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
 		//long elapsedms = date1.getTime() - date2.getTime();
+		int valorExtraSeguro= 0;
+		int valorExtraSede1= 0;
+		int valorExtraConductor= 0;
+		
 		String fecha1Alta= "01";
 		String fecha2Alta= "06";
 		String fecha1Baja= "07";
@@ -217,16 +227,131 @@ public class Empresa {
 		Date fecha2 = formato.parse(fecha2Alta);
 		Date fecha3 = formato.parse(fecha1Baja);
 		Date fecha4 = formato.parse(fecha2Baja);
-		
-		long elapsedms = fechaSalida.getTime() - fechaLlegada.getTime();
+		long elapsedms = fechaLlegada.getTime() - fechaSalida.getTime();
         double diff3 = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
         int diasCobrar= (int) Math.ceil(Math.ceil(diff3/60)/24);
 		int tarifaDia= Tarifa.establecerTarifaPorDia(fecha1,fecha2,fecha3,fecha4,fechaSalida, categoria1);
 		int tarifaEstimada= Tarifa.calcularTarifaEstimada(tarifaDia, diasCobrar);
+		double abono=tarifaEstimada* 0.3;
+		int abono1= (int)(abono);
+		ArrayList<Vehiculo> vehiculoscategoria= new ArrayList<Vehiculo>();
+		//System.out.println(vehiculos);
+		for (int i=0;i<vehiculos.size();i++) {
+			
+		      Vehiculo vehiculo1= vehiculos.get(i);
+		      Categoria categoriaVehiculo= vehiculo1.getCategoria();
+		      if (categoriaVehiculo==categoria1) {
+		    	  vehiculoscategoria.add(vehiculo1);
+		      }
+		      
+		    }
+		Vehiculo vehiculoAReservar= null;
+		ArrayList<Vehiculo> vehiculosdisponibles= new ArrayList<Vehiculo>();
+		for (int i=0;i<vehiculoscategoria.size();i++) {		
+		      Vehiculo vehiculo1= vehiculoscategoria.get(i);
+		      Estado estadoVehiculo= vehiculo1.getEstado();
+		      String estado= estadoVehiculo.getNombre();
+		      List listaReservas= vehiculo1.getReservas();
+		      Boolean siReserva= false;
+		      if (estado=="disponible") {
+		    	  if (listaReservas==null) {
+		    	  //vehiculoAReservar= vehiculo1;
+		    	  siReserva= true;
+		    	  }
+		    	  else{
+		    		  for (int a=0;a<listaReservas.size();a++) {
+			    		  Reserva reserva1= (Reserva)listaReservas.get(i);
+			    		  Date inicialReserva= reserva1.getFechaSalida();
+			    		  Date finalReserva= reserva1.getFechaLlegada();
+			    		  if (inicialReserva.before(fechaSalida) && finalReserva.before(fechaLlegada)&&finalReserva.before(fechaSalida) ) {
+			    			  siReserva= true;}
+			              else if (inicialReserva.after(fechaSalida) && finalReserva.after(fechaLlegada)&&inicialReserva.after(fechaLlegada) ) {
+			            	   siReserva= true;}
+			    		  	}
+		    		  
+		    	  	}
+		    	  
+		      }
+		      else if (estado=="alquilado"){
+		    	  
+		    	  if (listaReservas==null) {
+		    		  Date inicialAlquiler= estadoVehiculo.getFechaInicio();
+		    		  Date finalAlquiler= estadoVehiculo.getFechaFin();
+		    		  if (inicialAlquiler.before(fechaSalida) && finalAlquiler.before(fechaLlegada)&&finalAlquiler.before(fechaSalida) ) {
+		    			  siReserva= true;}
+		              else if (inicialAlquiler.after(fechaSalida) && finalAlquiler.after(fechaLlegada)&&inicialAlquiler.after(fechaLlegada) ) {
+		            	   siReserva= true;}	  
+		    	  }		    		  
+		    	  else {
+		    		  for (int a=0;a<listaReservas.size();a++) {
+		    		  Reserva reserva1= (Reserva)listaReservas.get(i);
+		    		  Date inicialReserva= reserva1.getFechaSalida();
+		    		  Date finalReserva= reserva1.getFechaLlegada();
+		    		  if (inicialReserva.before(fechaSalida) && finalReserva.before(fechaLlegada)&&finalReserva.before(fechaSalida) ) {
+		    			  siReserva= true;}
+		              else if (inicialReserva.after(fechaSalida) && finalReserva.after(fechaLlegada)&&inicialReserva.after(fechaLlegada) ) {
+		            	   siReserva= true;}
+		    		  	}
+		    	  		}
+		    	  
+		      }
+		      
+		      
+		      else if (estado=="limpieza" || estado=="mantenimiento"){
+		    	  
+		    	  if (listaReservas==null) {
+		    		  Date inicialAlquiler= estadoVehiculo.getFechaInicio();
+		    		  Date finalAlquiler= estadoVehiculo.getFechaFin();
+		    		  if (inicialAlquiler.before(fechaSalida) && finalAlquiler.before(fechaLlegada)&&finalAlquiler.before(fechaSalida) ) {
+		    			  siReserva= true;}
+		              else if (inicialAlquiler.after(fechaSalida) && finalAlquiler.after(fechaLlegada)&&inicialAlquiler.after(fechaLlegada) ) {
+		            	   siReserva= true;}	  
+		    	  }		    		  
+		    	  else {
+		    		  for (int a=0;a<listaReservas.size();a++) {
+		    		  Reserva reserva1= (Reserva)listaReservas.get(i);
+		    		  Date inicialReserva= reserva1.getFechaSalida();
+		    		  Date finalReserva= reserva1.getFechaLlegada();
+		    		  if (inicialReserva.before(fechaSalida) && finalReserva.before(fechaLlegada)&&finalReserva.before(fechaSalida) ) {
+		    			  siReserva= true;}
+		              else if (inicialReserva.after(fechaSalida) && finalReserva.after(fechaLlegada)&&inicialReserva.after(fechaLlegada) ) {
+		            	   siReserva= true;}
+		    		  	}
+		    	  		}
+		    	  
+		      }
+		      if(siReserva);
+		      vehiculosdisponibles.add(vehiculo1);
+		      
+		    }
+		for (int n=0;n<vehiculosdisponibles.size();n++) {
+			Vehiculo vehiculo= vehiculosdisponibles.get(n);
+			if(vehiculo.getSede()==sedeSalida) {
+				vehiculoAReservar=vehiculo;
+				break;
+			}	
+		}
 		
-		Tarifa tarifa2= new Tarifa(categoria1, Abono, Abono, Abono);
-		
-		return null;
+		if (vehiculoAReservar==null) {
+			if (vehiculosdisponibles.isEmpty()) {
+				vehiculoAReservar=null;
+			}
+			else {
+				vehiculoAReservar=vehiculosdisponibles.get(0);
+				double valorExtraSede= tarifaEstimada* 0.05;
+				valorExtraSede1= (int)(valorExtraSede);
+				tarifaEstimada= tarifaEstimada + valorExtraSede1;
+				double abono2= tarifaEstimada*0.3;
+				abono1= (int)abono2;
+			}
+		}
+		System.out.println(abono1);
+		Tarifa tarifa2= new Tarifa(categoria1, tarifaEstimada, abono1, valorExtraSede1,valorExtraConductor, valorExtraSeguro);
+		Reserva reservaARealizar= new Reserva(cliente1, categoria1, sedeSalida, sedeLlegada, fechaSalida, fechaLlegada,tarifa2, abono1);
+			ArrayList<Object> infoReserva= new ArrayList<Object>();
+			infoReserva.add(reservaARealizar);
+			infoReserva.add(vehiculoAReservar);
+			return infoReserva;
 	}
 	
 }

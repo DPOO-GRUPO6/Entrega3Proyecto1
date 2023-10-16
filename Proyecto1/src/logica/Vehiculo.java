@@ -1,5 +1,8 @@
 package logica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Vehiculo {
 	String placa;
 	String marca;
@@ -10,9 +13,18 @@ public class Vehiculo {
 	Categoria categoria; //crear clase categoria
 	Sede sede;
 	Estado estado;
+	ArrayList<Reserva> reservasVehiculo;
+	//Añadir reserva? para poder tener un carro para la reserva?
 	
-	public Vehiculo(String placa, String marca,String modelo, String color, String tipoTransmision, int capacidad, Categoria categoria,
-			Sede sede, Estado estado) {
+
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public Vehiculo(String placa, String marca, String modelo, String color, String tipoTransmision, int capacidad,
+			Categoria categoria, Sede sede, Estado estado, ArrayList<Reserva> reservasVehiculo) {
+		super();
 		this.placa = placa;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -22,14 +34,14 @@ public class Vehiculo {
 		this.categoria = categoria;
 		this.sede = sede;
 		this.estado = estado;
-	}
-
-	public String getPlaca() {
-		return placa;
+		this.reservasVehiculo = reservasVehiculo;
 	}
 
 	public Estado getEstado() {
 		return estado;
+	}
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
 	public void setEstado(Estado estado) {
@@ -42,6 +54,9 @@ public class Vehiculo {
 
 	public void setSede(Sede sede) {
 		this.sede = sede;
+	}
+	public List getReservas() {
+		return reservasVehiculo;
 	}
 
 	

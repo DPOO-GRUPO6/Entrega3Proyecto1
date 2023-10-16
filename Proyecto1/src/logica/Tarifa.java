@@ -6,10 +6,22 @@ import java.util.Date;
 
 public class Tarifa {
 	Categoria categoriaVehiculo;
+	int tarifa;
+	int abono;
 	int valorExtraSede;
 	int valorExtraConductor;
 	int valorExtraSeguro;
 	
+	public Tarifa(Categoria categoriaVehiculo, int tarifa, int abono, int valorExtraSede, int valorExtraConductor,
+			int valorExtraSeguro) {
+		this.categoriaVehiculo = categoriaVehiculo;
+		this.tarifa = tarifa;
+		this.abono = abono;
+		this.valorExtraSede = valorExtraSede;
+		this.valorExtraConductor = valorExtraConductor;
+		this.valorExtraSeguro = valorExtraSeguro;
+	}
+
 	public static int establecerTarifaPorDia(Date fecha1, Date fecha2, Date fecha3, Date fecha4, Date fechaSalida, Categoria categoria) {
 		if (fechaSalida.after(fecha1)&& fechaSalida.before(fecha2)) {
 			return (int)categoria.getCostoPorDia();
@@ -29,12 +41,7 @@ public class Tarifa {
 		return 0;
 	}
 	
-	public Tarifa(Categoria categoriaVehiculo, int valorExtraSede, int valorExtraConductor, int valorExtraSeguro) {
-		this.categoriaVehiculo = categoriaVehiculo;
-		this.valorExtraSede = valorExtraSede;
-		this.valorExtraConductor = valorExtraConductor;
-		this.valorExtraSeguro = valorExtraSeguro;
-	}
+
 
 
 	

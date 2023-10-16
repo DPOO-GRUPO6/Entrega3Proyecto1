@@ -1,2 +1,3 @@
 RKT-908;Toyota;Yaris;gris;manual;7;camioneta;Sede A
 BCA-682;Renault;Logan;gris;manual;5;pequeno;Sede A
+KRL-293;Chevrolet;spark;rojo;manual;5;pequeno;Sede A

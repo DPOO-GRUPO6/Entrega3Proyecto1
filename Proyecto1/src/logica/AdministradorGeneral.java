@@ -18,7 +18,7 @@ public class AdministradorGeneral extends Usuario{
 		return vehiculos;
 	}
 	
-	public ArrayList<Vehiculo> registrarNuevoVehiculo(ArrayList<String> data,HashMap<String,Sede>sedes,ArrayList<Categoria>categorias,ArrayList<Vehiculo>vehiculos) {
+	public Vehiculo registrarNuevoVehiculo(ArrayList<String> data,HashMap<String,Sede>sedes,ArrayList<Categoria>categorias) {
 		int capacidad = Integer.parseInt(data.get(5));
 		Sede sede = sedes.get(data.get(7));
 		Categoria categoria = null;
@@ -28,20 +28,19 @@ public class AdministradorGeneral extends Usuario{
 			}
 		}
 		Estado estado = new Estado("disponible",0,null,null);
-		Vehiculo newVe = new Vehiculo(data.get(0),data.get(1),data.get(2),data.get(3), data.get(4),capacidad,categoria, sede, estado, null);
-		vehiculos.add(newVe);
-		return vehiculos;
+		Vehiculo newVe = new Vehiculo(data.get(0),data.get(1),data.get(2),data.get(3), data.get(4),capacidad,categoria, sede, estado,new ArrayList<Reserva>());
+		return newVe;
 	}
 	
-	public ArrayList<Seguro> configurarSeguro(String nombre,int precio,ArrayList<Seguro> seguros){
+	public Seguro configurarSeguro(String nombre,int precio){
 		Seguro seg = new Seguro(nombre,precio);
-		seguros.add(seg);
-		return seguros;
+		return seg;
 		
 	}
 	
 	
-	public void realizarTranslado(String placa, Sede sedeDest,ArrayList<Vehiculo> vehiculos) {
+	public ArrayList<Sede> realizarTranslado(String placa, Sede sedeDest,ArrayList<Vehiculo> vehiculos) {
+		ArrayList<Sede> newSedes = new ArrayList<Sede>();
 		Vehiculo vehiculo = null;
 		Sede sedeIn = null;
 		for(Vehiculo v: vehiculos) {
@@ -55,7 +54,33 @@ public class AdministradorGeneral extends Usuario{
 		}
 		
 		sedeDest.addVehiculoASede(vehiculo);
+		newSedes.add(sedeDest);
 		sedeIn.removerVehiculoDeSede(vehiculo);
+		newSedes.add(sedeIn);
+		
+		return newSedes;
+	}
+	
+	public Sede modificarSede(int posicion, String cambio,Sede sedeCambio) {
+		if(posicion == 0) {
+			sedeCambio.setNombre(cambio);
+		}
+		else if(posicion ==1) {
+			sedeCambio.setDireccion(cambio);
+		}
+		else if(posicion == 2) {
+			sedeCambio.setDiasAtencion(cambio);
+		}
+		else if(posicion == 3) {
+			sedeCambio.setHorasAtencion(cambio);
+		}
+		return sedeCambio;
+	}
+	
+	public Sede modificarAdminLocalSede(String cambio,Sede sedeCambio, AdministradorLocal adminLocal) {
+		sedeCambio.setNombreAdminSede(cambio);
+		sedeCambio.setAdminSede(adminLocal);
+		return sedeCambio;
 	}
 
 }

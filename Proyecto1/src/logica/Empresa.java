@@ -86,6 +86,7 @@ public class Empresa {
 			else if(datos[4].equals("administradorGeneral")) {
 				AdministradorGeneral adminGen = new AdministradorGeneral(datos[0],datos[1],datos[2],datos[4]);
 				this.adminGeneral = adminGen;
+				usuarios.add(adminGen);
 			}
 		}
 		
@@ -296,25 +297,100 @@ public class Empresa {
 	 * acciones admin general **/
 	
 	
-	public void registrarNuevoVehiculo(AdministradorGeneral adminGen,ArrayList<String> data) {
-		ArrayList<Vehiculo> newVehiculos = adminGen.registrarNuevoVehiculo(data, sedes, categorias, vehiculos);
-		this.vehiculos = newVehiculos;
+	public String registrarNuevoVehiculo(AdministradorGeneral adminGen,ArrayList<String> data) {
+		Vehiculo newVehiculo = adminGen.registrarNuevoVehiculo(data, sedes, categorias);
+		vehiculos.add(newVehiculo);
+		return newVehiculo.getPlaca();
 	}
 	
-	public void darDeBajaVehiculo(AdministradorGeneral adminGen, String placa) {
+	public String darDeBajaVehiculo(AdministradorGeneral adminGen, String placa) {
 		ArrayList<Vehiculo> newVehiculos = adminGen.darDeBajaVehiculo(placa, vehiculos);
 		this.vehiculos = newVehiculos;
+		String estado = "";
+		for(Vehiculo v: vehiculos) {
+			if(v.getPlaca().equals(placa)){
+				estado = v.getEstado().getNombre();
+			}
+		}
+		return estado;
 	}
 	
-	public void configurarSeguro(AdministradorGeneral adminGen,ArrayList<String> datosSeguro) {
-		ArrayList<Seguro> newSeguros = adminGen.configurarSeguro(datosSeguro.get(0), Integer.parseInt(datosSeguro.get(1)), seguros);
-		this.seguros = newSeguros;
+	public String configurarSeguro(AdministradorGeneral adminGen,ArrayList<String> datosSeguro) {
+		Seguro newSeguro = adminGen.configurarSeguro(datosSeguro.get(0), Integer.parseInt(datosSeguro.get(1)));
+		seguros.add(newSeguro);
+		return newSeguro.getNombre();
 	}
 	
-	public void realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
+	public boolean realizarTranslado(AdministradorGeneral adminGen,String placa,String sede) {
 		Sede sedeDest = sedes.get(sede);
-		adminGen.realizarTranslado(placa, sedeDest, vehiculos);
+		ArrayList<Sede> newSedes = adminGen.realizarTranslado(placa, sedeDest, vehiculos);
+		Sede newSede1 = newSedes.get(0);
+		Sede newSede2 = newSedes.get(1);
+		sedes.put(newSede1.getNombre(), newSede1);
+		sedes.put(newSede2.getNombre(), newSede2);
+		Vehiculo veh = newSede1.buscarVehiculoEspecifico(placa);
+		Vehiculo veh2 = newSede2.buscarVehiculoEspecifico(placa);
+		if(veh != null && veh2 == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+	
+	public Sede modificarSede(AdministradorGeneral adminGen,int opcion,String cambio,String sedeCambio) {
+		Sede sedeMod = null;
+		int posicionCambio = opcion -1;
+		Sede sedeCamb = sedes.get(sedeCambio);
+		if(posicionCambio != 4) {
+			Sede nuevaSede = adminGen.modificarSede(posicionCambio, cambio, sedeCamb);
+			sedes.put(nuevaSede.getNombre(), nuevaSede);
+			sedeMod = nuevaSede;
+		}
+		else {
+			AdministradorLocal newAdminLoc = null;
+			for(AdministradorLocal adLoc: adminsLocales) {
+				if(adLoc.getNombreCompleto().equals(cambio)) {
+					newAdminLoc = adLoc;
+				}
+			}
+			if(newAdminLoc == null) {
+				for(Empleado emp: empleados) {
+					if(emp.getNombreCompleto().equals(cambio)) {
+						newAdminLoc = new AdministradorLocal(emp.getLogIn(),emp.getContraseña(),emp.getNombreCompleto(),"administradorLocal",emp.getSede());
+					}
+				}
+			}
+			if(newAdminLoc != null) {
+				Sede nuevaSede = adminGen.modificarAdminLocalSede(cambio, sedeCamb, newAdminLoc);
+				sedes.put(nuevaSede.getNombre(), nuevaSede);
+				sedeMod= nuevaSede;
+			}
+		}
+		return sedeMod;
+	}
+	/** Metodos 
+	 * acciones crear nuevo cliente 
+	 * @throws ParseException 
+	 * @throws NumberFormatException **/
+	
+	public Cliente crearNuevoCliente(String nombre,String email,String telefono,String fechaNacimiento,
+			String nacionalidad,String numeroLicencia,String paisLicencia,String fechaExpLicencia,String numeroTC,
+			String fechaVen,String LogIn,String contrasenia) throws NumberFormatException, ParseException {
+		String pattern = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern); 
+		TarjetaCredito tc = new TarjetaCredito(Integer.parseInt(numeroTC),sdf.parse(fechaVen),false);
+		Licencia l = new Licencia(Integer.parseInt(numeroLicencia),paisLicencia,sdf.parse(fechaExpLicencia));
+		
+		Cliente newCliente = new Cliente(LogIn, contrasenia, nombre, "cliente", email,Long.parseLong(telefono),
+				sdf.parse(fechaNacimiento),nacionalidad,l,tc);
+		clientes.add(newCliente);
+		usuarios.add(newCliente);	
+		return newCliente;
+	}
+	
+	/** Metodos 
+	 * auxiliares **/
 	
 	public ArrayList<String> getCategoriasStr() {
 		ArrayList<String> categs = new ArrayList<String>();
@@ -330,7 +406,13 @@ public class Empresa {
 			seds.add(s.nombre);
 		}
 		return seds;
+		
+		
 	}
+	
+	/** Metodos 
+	 * reservas y alquiler **/
+	
 	public static Object realizarReserva(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida, Date fechaSalida, Date fechaLlegada, Tarifa tarifa1, int Abono) throws ParseException {
 		//Reserva reservaCliente = new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
 		//long elapsedms = date1.getTime() - date2.getTime();

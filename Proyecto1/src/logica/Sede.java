@@ -57,5 +57,56 @@ public class Sede {
 		vehiculosSede.remove(vehiculo);
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getDiasAtencion() {
+		return diasAtencion;
+	}
+
+	public void setDiasAtencion(String diasAtencion) {
+		this.diasAtencion = diasAtencion;
+	}
+
+	public String getHorasAtencion() {
+		return horasAtencion;
+	}
+
+	public void setHorasAtencion(String horasAtencion) {
+		this.horasAtencion = horasAtencion;
+	}
+
+	public void setEmpleadosSede(ArrayList<Empleado> empleadosSede) {
+		this.empleadosSede = empleadosSede;
+	}
+
+	public void setVehiculosSede(ArrayList<Vehiculo> vehiculosSede) {
+		this.vehiculosSede = vehiculosSede;
+	}
+	
+	public Vehiculo buscarVehiculoEspecifico(String placa) {
+		Vehiculo vehiculoBuscado = null;
+		for(Vehiculo ve: vehiculosSede) {
+			if(ve.getPlaca().equals(placa)) {
+				vehiculoBuscado = ve;
+			}
+		}
+		return vehiculoBuscado;
+	}
+	
+
 	
 }

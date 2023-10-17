@@ -18,6 +18,7 @@ import logica.Cliente;
 import logica.Empleado;
 import logica.Empresa;
 import logica.Reserva;
+import logica.Sede;
 import logica.TarjetaCredito;
 import logica.Usuario;
 import logica.Vehiculo;
@@ -295,39 +296,81 @@ public class principal {
 						boolean cont = true;
 						while(cont) {
 						System.out.println("\nQue desea hacer?\n1.Registrar nuevo vehiculo\n2.Dar de baja vehiculo\n3.Configurar seguro");
-						System.out.println("\n4.Realizar translado interno\n5.Modificar informacion sede\n6.Salir");
+						System.out.println("4.Realizar translado interno\n5.Modificar informacion sede\n6.Salir");
 						int op = Integer.parseInt(input("\nSeleccione su opcion"));
 						if(op == 1) {
 							//ingresar nuevo vehiculo
 							ArrayList<String> datosVehiculo = ingresarNuevoVehiculo();
-							ferrari.registrarNuevoVehiculo(adminGen,datosVehiculo);
+							String plac = ferrari.registrarNuevoVehiculo(adminGen,datosVehiculo);
+							System.out.println("Reigistro del carro con placa " + plac+ " exitoso");
 						}
 						else if(op == 2) {
 							//dar de baja vehiculo
 							String placa = input("\nIngrese la placa del vehiculo a dar de baja");
-							ferrari.darDeBajaVehiculo(adminGen,placa);
-							System.out.println("El estado del vehiculo ha cambiado a: desechado");
+							String estado = ferrari.darDeBajaVehiculo(adminGen,placa);
+							System.out.println("El estado del vehiculo ha cambiado exitosamente a: "+estado);
 						}
 						else if(op == 3) {
 							//configurar seguro
 							ArrayList<String> dataSeguro = tomarDatosSeguro();
-							ferrari.configurarSeguro(adminGen, dataSeguro);
+							String seguro = ferrari.configurarSeguro(adminGen, dataSeguro);
+							System.out.println("Nuevo seguro '"+seguro+"' creado exitosamente");
 							
 						}
 						else if(op == 4) {
 							//realizar translado
 							String placa = input("\nIngrese la placa del vehiculo a transladar");
 							String sede = input("\nIngrese la sede de destino");
-							ferrari.realizarTranslado(adminGen, placa, sede);
+							boolean verificar = ferrari.realizarTranslado(adminGen, placa, sede);
+							if(verificar) {
+								System.out.println("Translado exitoso");
+							}
+							else {
+								System.out.println("Translado fallido");
+							}
 							
 						}
 						
 						else if(op == 5) {
 							//modificar info sede
 							String sede = input("\nIngrese el nombre de la sede a modificar");
-							System.out.println("Que desea modificar de la sede?");
-							System.out.println("1. Nombre");
-							
+							System.out.println("¿Que desea modificar de la sede?");
+							System.out.println("1. Nombre\n2. Direccion\n3. Dias de atencion");
+							System.out.println("4. Horas de atencion\n5. Administrador sede");
+							String cambio = "";
+							int opc = Integer.parseInt(input("\nIngrese su opcion"));
+							if(opc == 1) {
+								cambio = input("\nIngrese el nuevo nombre");
+							}
+							else if(opc ==2){
+								cambio = input("\nIngrese la nueva direccion");
+							}
+							else if(opc ==3){
+								cambio = input("\nIngrese los nuevos dias de atencion");
+							}
+							else if(opc ==4){
+								cambio = input("\nIngrese las nuevas horas de atencion");
+							}
+							else if(opc ==5){
+								cambio = input("\nIngrese el nombre completo del nuevo administrador local");
+							}
+							if(cambio != "") {
+								Sede sedeMod = ferrari.modificarSede(adminGen, opc, cambio, sede);
+								if(sedeMod != null) {
+									System.out.println("Se ha modificado exitodamente la sede");
+									System.out.println("Nombre: "+sedeMod.getNombre());
+									System.out.println("Direccion: "+sedeMod.getDireccion());
+									System.out.println("Dias de atencion: "+sedeMod.getDiasAtencion());
+									System.out.println("Horas de atencion: "+sedeMod.getHorasAtencion());
+									System.out.println("Administrador local: "+sedeMod.getNombreAdminSede());
+								}
+								else {
+									System.out.println("Proceso fallido");
+								}
+							}
+							else {
+								System.out.println("Opcion no valida");
+							}
 						}
 						
 						else if(op == 6) {
@@ -343,7 +386,26 @@ public class principal {
 			}
 
 			else if(opcion == 2){
-				System.out.println("tenemos que crear un nuevo usuario cliente >:v");
+				System.out.println("\nRegistro como cliente\nComplete la siguiente informacion");
+				System.out.println("\n- Datos personales -");
+				String nombre = input("\nIngrese su nombre completo");
+				String email = input("\nIngrese su correo electronico");
+				String telefono = input("\nIngrese su numero de telefono");
+				String fechaNacimiento = input("\nIngrese su fecha de nacimiento (dd/mm/yyyy)");
+				String nacionalidad = input("\nIngrese su nacionalidad");
+				System.out.println("\n- Datos de licencia de conduccion-");
+				String numeroLicencia = input("\nIngrese el numero de su licencia");
+				String paisLicencia = input("\nIngrese el pais de expedicion de su licencia");
+				String fechaExpLicencia = input("\nIngrese la fecha de expedicion de su licencia (dd/mm/yyyy)");
+				System.out.println("\n- Datos de tarjeta de credito-");
+				String numeroTC = input("\nIngrese el número de su tarjeta de credito");
+				String fechaVen = input("\nIngrese la fecha de vencimiento de su tarjeta de credito (dd/mm/yyyy)");
+				String LogIn = input("\nIngrese el nombre de usuario que le gustaria tener");
+				String contrasenia = input("\nIngrese una contrasenia");
+				Cliente c =ferrari.crearNuevoCliente(nombre, email, telefono, fechaNacimiento, nacionalidad, numeroLicencia, paisLicencia, fechaExpLicencia, numeroTC, fechaVen, LogIn, contrasenia);
+				if(c != null) {
+					System.out.println(c.getLogIn()+" ha sido registrado con exito");
+				}
 			}
 			else if(opcion ==3) {
 				continuar = false;
@@ -429,6 +491,7 @@ public class principal {
 		int j = 1;
 		for(String sede: seds) {
 			System.out.println(j+". "+sede);
+			j ++;
 		}
 		int sedeR = Integer.parseInt(input("\nIngrese la sede de recogida"));
 		datos1.add(seds.get(sedeR-1));
@@ -463,6 +526,7 @@ public class principal {
 		int j = 1;
 		for(String sede: seds) {
 			System.out.println(j+". "+sede);
+			j++;
 		}
 		int sedeR = Integer.parseInt(input("\nIngrese la sede de recogida"));
 		datos1.add(seds.get(sedeR-1));

@@ -21,6 +21,10 @@ public class Tarifa {
 		this.valorExtraConductor = valorExtraConductor;
 		this.valorExtraSeguro = valorExtraSeguro;
 	}
+	
+	public int getTarifa() {
+		return tarifa;
+	}
 
 	public static int establecerTarifaPorDia(Date fecha1, Date fecha2, Date fecha3, Date fecha4, Date fechaSalida, Categoria categoria) {
 		if (fechaSalida.after(fecha1)&& fechaSalida.before(fecha2)) {
@@ -37,8 +41,8 @@ public class Tarifa {
 		return tarifaPorDia* dias;
 	}
 	
-	public int calcularTarifaTotal() {
-		return 0;
+	public static int calcularTarifaTotal(int TarifaEstimada, int valorSeguro) {
+		return TarifaEstimada + valorSeguro;
 	}
 	
 

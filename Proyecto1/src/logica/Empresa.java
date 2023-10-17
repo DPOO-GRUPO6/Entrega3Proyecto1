@@ -23,12 +23,17 @@ public class Empresa {
 	AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
 	ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 	static ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
-	ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
+	static ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
 	static HashMap<Integer,Reserva> reservas = new HashMap<Integer,Reserva>();
 	
 	public static HashMap getReservas() {
 		
 		return reservas;
+		
+	}
+	public static  List getSeguros() {
+		
+		return seguros;
 		
 	}
 	
@@ -157,7 +162,28 @@ public class Empresa {
 		
 		else {
 			System.out.println("proceso de alquiler");
-			return null;
+			ArrayList<Object> retornar = new ArrayList<Object>();
+			//System.out.println(datos1);
+			Categoria c = categorias.get((int)datos1.get(0)-1);
+			retornar.add(c);
+			String pattern = "dd/MM/yyyy HH:mm";
+			String horaI = (String) datos1.get(2);
+			String horaF = (String) datos1.get(4);
+	        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+	        Date fechaInic = sdf.parse((String)datos1.get(1)+ " "+horaI);
+	        retornar.add(fechaInic);
+	        Date fechaFin = sdf.parse((String)datos1.get(3)+ " "+horaF);
+	        retornar.add(fechaFin);
+			Sede sedeInic = sedes.get(datos1.get(5));
+			retornar.add(sedeInic);
+			Sede sedeFin = sedes.get(datos1.get(6));
+			retornar.add(sedeFin);
+			retornar.add((Seguro)datos1.get(7));
+			retornar.add(datos1.get(8));
+			retornar.add(cliente);
+			//System.out.println(retornar);
+			
+			return cliente.alquilarVehiculo(retornar);
 		}
 		
 	}
@@ -416,8 +442,9 @@ public class Empresa {
 		    	  		}
 		    	  
 		      }
-		      if(siReserva);
+		      if(siReserva) {
 		      vehiculosdisponibles.add(vehiculo1);
+		      }
 		      
 		    }
 		for (int n=0;n<vehiculosdisponibles.size();n++) {
@@ -449,7 +476,147 @@ public class Empresa {
 			infoReserva.add(vehiculoAReservar);
 			return infoReserva;
 	}
+	public static Object realizarAlquiler(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida,
+			Date fechaSalida, Date fechaLlegada, Object object, int i, Seguro seguroAlquiler, List listaConductores) throws ParseException {
+		int valorExtraSeguro= seguroAlquiler.getCosto();
+		int valorExtraSede1= 0;
+		double valorExtraConductor1= listaConductores.size()*0.05;
+		int valorExtraConductor= (int)valorExtraConductor1;
+		
+		String fecha1Alta= "01";
+		String fecha2Alta= "06";
+		String fecha1Baja= "07";
+		String fecha2Baja= "12";
+
+		SimpleDateFormat formato = new SimpleDateFormat("MM");
+
+		Date fecha1 = formato.parse(fecha1Alta);
+		Date fecha2 = formato.parse(fecha2Alta);
+		Date fecha3 = formato.parse(fecha1Baja);
+		Date fecha4 = formato.parse(fecha2Baja);
+		long elapsedms = fechaLlegada.getTime() - fechaSalida.getTime();
+        double diff3 = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
+        int diasCobrar= (int) Math.ceil(Math.ceil(diff3/60)/24);
+		int tarifaDia= Tarifa.establecerTarifaPorDia(fecha1,fecha2,fecha3,fecha4,fechaSalida, categoria1);
+		int tarifaEstimada= Tarifa.calcularTarifaEstimada(tarifaDia, diasCobrar);
+		int tarifaTotal= Tarifa.calcularTarifaTotal(tarifaEstimada,valorExtraSeguro );
+		ArrayList<Vehiculo> vehiculoscategoria= new ArrayList<Vehiculo>();
+		//System.out.println(vehiculos);
+		for (int s=0;s<vehiculos.size();s++) {
+			Vehiculo vehiculoCat=vehiculos.get(s);
+		      Categoria categoriaVehiculo= vehiculoCat.getCategoria();
+		      if (categoriaVehiculo==categoria1) {
+		    	  vehiculoscategoria.add(vehiculoCat);
+		      }
+		      
+		    }
+		Vehiculo vehiculoAAlquilar= null;
+		ArrayList<Vehiculo> vehiculosdisponibles= new ArrayList<Vehiculo>();
+		for (int n=0;n<vehiculoscategoria.size();n++) {		
+		      Vehiculo vehiculo1= vehiculoscategoria.get(n);
+		      Estado estadoVehiculo= vehiculo1.getEstado();
+		      String estado= estadoVehiculo.getNombre();
+		      List listaAlquileres= vehiculo1.getReservas();
+		      Boolean  siAlquiler= false;
+		      if (estado=="disponible") {
+		    	  if (listaAlquileres==null) {
+		    		  System.out.println(vehiculos);
+		    	  //vehiculoAReservar= vehiculo1;
+		    	  siAlquiler= true;
+		    	  }
+		    	  else{
+		    		  for (int a=0;a<listaAlquileres.size();a++) {
+			    		  Reserva reserva1= (Reserva)listaAlquileres.get(i);
+			    		  Date inicialReserva= reserva1.getFechaSalida();
+			    		  Date finalReserva= reserva1.getFechaLlegada();
+			    		  if (inicialReserva.before(fechaSalida) && finalReserva.before(fechaLlegada)&&finalReserva.before(fechaSalida) ) {
+			    			  siAlquiler= true;}
+			              else if (inicialReserva.after(fechaSalida) && finalReserva.after(fechaLlegada)&&inicialReserva.after(fechaLlegada) ) {
+			            	  siAlquiler= true;}
+			    		  	}
+		    		  if(siAlquiler) {
+				      vehiculosdisponibles.add(vehiculo1);
+		    		  }
+		    	  	}
+		    	  
+		      }
+		
+	}
+		for (int n=0;n<vehiculosdisponibles.size();n++) {
+			Vehiculo vehiculo= vehiculosdisponibles.get(n);
+			if(vehiculo.getSede()==sedeSalida) {
+				vehiculoAAlquilar=vehiculo;
+				break;
+			}	
+		}
+
+		
+		if (vehiculoAAlquilar==null) {
+			if (vehiculosdisponibles.isEmpty()) {
+				vehiculoAAlquilar=null;
+			}
+			else {
+				vehiculoAAlquilar=vehiculosdisponibles.get(0);
+				double valorExtraSede= tarifaTotal* 0.05;
+				valorExtraSede1= (int)(valorExtraSede);
+				tarifaTotal= tarifaTotal + valorExtraSede1;
+			}
+		}
+		System.out.println("ERFG");
+		Tarifa tarifa2= new Tarifa(categoria1, tarifaEstimada, 0, valorExtraSede1,valorExtraConductor, valorExtraSeguro);
+		ArrayList<ConductorAdicional>conductoresAdicionales = new ArrayList<ConductorAdicional>();
+		for (int r=0;r<listaConductores.size();r++) {
+			System.out.println("ERFG");
+			List conductor= (List) listaConductores.get(r);
+			String numLicencia1= (String)conductor.get(0);
+			String paisLicencia= (String)conductor.get(1);
+			int numLicencia= Integer.parseInt(numLicencia1);
+			
+			String vencimientoLicencia= (String)conductor.get(2);
+			SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+			Date vencimientoLicencia1 = format1.parse(vencimientoLicencia);
+			Licencia licenciaCondAdi= new Licencia(numLicencia, paisLicencia, vencimientoLicencia1);
+			ConductorAdicional condAcional= new ConductorAdicional(licenciaCondAdi);
+			conductoresAdicionales.add(condAcional);
+			
+			}
+		Alquiler alquilerCliente= new Alquiler(cliente1, null, vehiculoAAlquilar, sedeSalida, sedeLlegada, tarifa2,seguroAlquiler, conductoresAdicionales);
+		
+		return alquilerCliente;
 	
+}
+	public static void realizarAlquilerReserva(int idReservaCliente, List seguroConductores) throws ParseException {
+		// TODO Auto-generated method stub
+		Seguro seguroAlquiler= (Seguro)seguroConductores.get(0);
+		int valorExtraSeguro= seguroAlquiler.getCosto();
+		int valorExtraSede1= 0;
+		List listaConductores= (List)seguroConductores.get(1);
+		double valorExtraConductor1= listaConductores.size()*0.05;
+		int valorExtraConductor= (int)valorExtraConductor1;
+		Reserva reservaAlquiler= reservas.get(idReservaCliente);
+		Tarifa tarifaReserva= reservaAlquiler.getTarifaEstimada();
+		int tarifaEstimada= tarifaReserva.getTarifa();
+		int tarifaTotal= Tarifa.calcularTarifaTotal(tarifaEstimada,valorExtraSeguro );
+		ArrayList<ConductorAdicional>conductoresAdicionales = new ArrayList<ConductorAdicional>();
+		for (int r=0;r<listaConductores.size();r++) {
+			System.out.println("ERFG");
+			List conductor= (List) listaConductores.get(r);
+			String numLicencia1= (String)conductor.get(0);
+			String paisLicencia= (String)conductor.get(1);
+			int numLicencia= Integer.parseInt(numLicencia1);
+			
+			String vencimientoLicencia= (String)conductor.get(2);
+			SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+			Date vencimientoLicencia1 = format1.parse(vencimientoLicencia);
+			Licencia licenciaCondAdi= new Licencia(numLicencia, paisLicencia, vencimientoLicencia1);
+			ConductorAdicional condAcional= new ConductorAdicional(licenciaCondAdi);
+			conductoresAdicionales.add(condAcional);
+			
+			}
+		
+		
+		
+	}
 }
 	
 	

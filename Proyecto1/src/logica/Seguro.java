@@ -9,6 +9,18 @@ public class Seguro {
 		this.nombre = nombre;
 		this.costo = costo;
 	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public int getCosto() {
+		return costo;
+	}
+
 	
 	
 	

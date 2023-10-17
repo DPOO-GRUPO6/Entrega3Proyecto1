@@ -12,7 +12,7 @@ public class Empleado extends Usuario{
 		this.sede = sede;
 	}
 	
-	public void cambiarEstadoVehiculoAlquilado(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	public static void cambiarEstadoVehiculoAlquilado(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
 	{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();

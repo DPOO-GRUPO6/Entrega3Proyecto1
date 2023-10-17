@@ -12,6 +12,8 @@ import java.util.Map;
 
 import logica.AdministradorGeneral;
 import logica.AdministradorLocal;
+import logica.Alquiler;
+import logica.Categoria;
 import logica.Cliente;
 import logica.Empleado;
 import logica.Empresa;
@@ -19,6 +21,7 @@ import logica.Reserva;
 import logica.TarjetaCredito;
 import logica.Usuario;
 import logica.Vehiculo;
+import logica.Seguro;
 
 public class principal {
 	Empresa ferrari = new Empresa();
@@ -90,7 +93,50 @@ public class principal {
 							//stem.out.println(reservaCliente.getAbono());
 						}
 						else if(op == 2) {
-							//ferrari.accionesCliente(2,datos1,client);
+							System.out.println("¿Tiene alguna reserva?");
+							System.out.println("\n1. Si \n2. No");
+							int opcionElegida = Integer.parseInt(input("\nSeleccione su opcion"));
+							if (opcionElegida==1) {
+								int idReservaCliente = Integer.parseInt(input("\n Que numero es su reserva"));
+								System.out.println("¿Quiere cambiar su reserva?");
+								System.out.println("\n1. Si \n2. No");
+								int opcionElegida2 = Integer.parseInt(input("\nSeleccione su opcion"));
+								if (opcionElegida2==1) {
+									ArrayList<Object> datos2 = registroDatosAlquiler();
+									Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2,datos2,client);
+									Cliente cliente1= alquiler.getCliente();
+									
+								}
+								else {
+									List SeguroConductores= registroSeguroConductorAdicional();
+									Empresa.realizarAlquilerReserva(idReservaCliente, SeguroConductores);
+									
+								}
+							}
+							else if (opcionElegida == 2) {
+								ArrayList<Object> datos2 = registroDatosAlquiler();
+								Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2,datos2,client);
+								Cliente cliente1= alquiler.getCliente();
+								int total= alquiler.getTarifaPagar();
+								System.out.println("Para realizar el alquiler debe realizar el pago total");
+								System.out.println("El cual es de "+ total);
+								System.out.println("¿Acepta el pago?");
+								System.out.println("\n1. Si \n2. No");
+								int op1 = Integer.parseInt(input("\nSeleccione su opcion"));
+								if (op1==1){
+									System.out.println("Se realizó el alquiler");
+									String pattern = "dd/MM/yyyy HH:mm";
+									String horaI = (String) datos2.get(2);
+									String horaF = (String) datos2.get(4);
+							        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+							        Date fechaInic = sdf.parse((String)datos2.get(1)+ " "+horaI);
+							        Date fechaFin = sdf.parse((String)datos2.get(3)+ " "+horaF);
+									Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInic, fechaFin);
+								}
+								
+							}
+					
+							
 							System.out.println("otro proceso");
 						}
 						else if(op == 3) {
@@ -307,6 +353,57 @@ public class principal {
 			}
 		}
 	}
+	public ArrayList<Object> registroSeguroConductorAdicional() {
+		ArrayList<Object> datos1 = new ArrayList<Object>();
+		
+		List seguros= Empresa.getSeguros();
+		for (int l=1;l<seguros.size()+1;l++) {
+		      Seguro seguro1= (Seguro) seguros.get(l-1);
+		      String seguroAElegir= seguro1.getNombre();
+		      System.out.println(l+". "+seguroAElegir);
+		    }
+		int seguroElegido = Integer.parseInt(input("\nIngrese el seguro que quiere comprar: "));
+		datos1.add(seguros.get(seguroElegido-1));
+		int conductoresAdicionales = Integer.parseInt(input("\nIngrese cuantos conductores adicionales va a tener el vehiculo :"));
+		ArrayList<ArrayList> conductores = new ArrayList<ArrayList>();
+		if (conductoresAdicionales!=0) {
+			for (int s=1;s<conductoresAdicionales+1;s++) {
+			ArrayList<String> infoConductor = new ArrayList<String>();
+			String numeroLicencia = String.valueOf(input("\nIngrese el numero de la licencia del conductor "));
+			infoConductor.add(numeroLicencia);
+			String paisLicencia = String.valueOf(input("\nIngrese el pais de expedición de la licencia del conductor "));
+			infoConductor.add(paisLicencia);
+			String vencimientoLicencia = String.valueOf(input("\nIngrese la fecha de vencimiento de la licencia del conductor "));
+			infoConductor.add(vencimientoLicencia);
+			conductores.add(infoConductor);
+		}
+			
+			}datos1.add(conductores);
+		return datos1;
+	}
+	/*List seguros= Empresa.getSeguros();
+		for (int l=1;l<seguros.size()+1;l++) {
+		      Seguro seguro1= (Seguro) seguros.get(l-1);
+		      String seguroAElegir= seguro1.getNombre();
+		      System.out.println(l+". "+seguroAElegir);
+		    }
+		int seguroElegido = Integer.parseInt(input("\nIngrese el seguro que quiere comprar: "));
+		datos1.add(seguros.get(seguroElegido-1));
+		int conductoresAdicionales = Integer.parseInt(input("\nIngrese cuantos conductores adicionales va a tener el vehiculo :"));
+		ArrayList<ArrayList> conductores = new ArrayList<ArrayList>();
+		if (conductoresAdicionales!=0) {
+			for (int s=1;s<conductoresAdicionales+1;s++) {
+			ArrayList<String> infoConductor = new ArrayList<String>();
+			String numeroLicencia = String.valueOf(input("\nIngrese el numero de la licencia del conductor "));
+			infoConductor.add(numeroLicencia);
+			String paisLicencia = String.valueOf(input("\nIngrese el pais de expedición de la licencia del conductor "));
+			infoConductor.add(paisLicencia);
+			String vencimientoLicencia = String.valueOf(input("\nIngrese la fecha de vencimiento de la licencia del conductor "));
+			infoConductor.add(vencimientoLicencia);
+			conductores.add(infoConductor);
+		}
+			
+			}datos1.add(conductores);*/
 	
 	public ArrayList<Object> registroPrimerosDatos() {
 		ArrayList<Object> datos1 = new ArrayList<Object>();
@@ -340,6 +437,63 @@ public class principal {
 		
 		return datos1;
 	}
+	
+	
+	public ArrayList<Object> registroDatosAlquiler() {
+		ArrayList<Object> datos1 = new ArrayList<Object>();
+		System.out.println("\nElija la categoria de su vehiculo: ");
+		ArrayList<String> categs = ferrari.getCategoriasStr();
+		int i = 1;
+		for(String cat: categs) {
+			System.out.println(i+". "+cat);
+			i++;
+		}
+		int categ = Integer.parseInt(input("\nSeleccione su opcion"));
+		datos1.add(categ);
+		String fechaR = input("\nIngrese la fecha de recogida");
+		datos1.add(fechaR);
+		String horaR = input("\nIngrese la hora de recogida");
+		datos1.add(horaR);
+		String fechaE = input("\nIngrese la fecha de entrega");
+		datos1.add(fechaE);
+		String horaE = input("\nIngrese la hora de entrega");
+		datos1.add(horaE);
+		System.out.println("A continuacion se muestran las sedes de la empresa: ");
+		ArrayList<String> seds = ferrari.getSedesStr();
+		int j = 1;
+		for(String sede: seds) {
+			System.out.println(j+". "+sede);
+		}
+		int sedeR = Integer.parseInt(input("\nIngrese la sede de recogida"));
+		datos1.add(seds.get(sedeR-1));
+		int sedeE = Integer.parseInt(input("\nIngrese la sede de entrega"));
+		datos1.add(seds.get(sedeE-1));
+		List seguros= Empresa.getSeguros();
+		for (int l=1;l<seguros.size()+1;l++) {
+		      Seguro seguro1= (Seguro) seguros.get(l-1);
+		      String seguroAElegir= seguro1.getNombre();
+		      System.out.println(l+". "+seguroAElegir);
+		    }
+		int seguroElegido = Integer.parseInt(input("\nIngrese el seguro que quiere comprar: "));
+		datos1.add(seguros.get(seguroElegido-1));
+		int conductoresAdicionales = Integer.parseInt(input("\nIngrese cuantos conductores adicionales va a tener el vehiculo :"));
+		ArrayList<ArrayList> conductores = new ArrayList<ArrayList>();
+		if (conductoresAdicionales!=0) {
+			for (int s=1;s<conductoresAdicionales+1;s++) {
+			ArrayList<String> infoConductor = new ArrayList<String>();
+			String numeroLicencia = String.valueOf(input("\nIngrese el numero de la licencia del conductor "));
+			infoConductor.add(numeroLicencia);
+			String paisLicencia = String.valueOf(input("\nIngrese el pais de expedición de la licencia del conductor "));
+			infoConductor.add(paisLicencia);
+			String vencimientoLicencia = String.valueOf(input("\nIngrese la fecha de vencimiento de la licencia del conductor "));
+			infoConductor.add(vencimientoLicencia);
+			conductores.add(infoConductor);
+		}
+			
+			}datos1.add(conductores);
+		return datos1;
+	}
+	
 	
 	public ArrayList<String> ingresarNuevoVehiculo(){
 		ArrayList<String> data = new ArrayList<String>();

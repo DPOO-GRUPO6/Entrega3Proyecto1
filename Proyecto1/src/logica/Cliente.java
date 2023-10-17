@@ -3,6 +3,7 @@ package logica;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 
@@ -31,8 +32,6 @@ public class Cliente extends Usuario{
 	}
 	
 	public Object resevarVehiculo(ArrayList<Object> infoReserva) throws ParseException {
-		//categoria, fecha recogida, hora recogida, fecha llegada, hora llegada, sede recogida, sede llegada
-		//se ecrea reserva
 		Cliente cliente1= (Cliente)infoReserva.get(5);
 		Categoria categoria1= (Categoria)infoReserva.get(0);
 		Sede sedeLlegada= (Sede)infoReserva.get(3);
@@ -40,18 +39,22 @@ public class Cliente extends Usuario{
 		Date fechaSalida= (Date)infoReserva.get(1);
 		Date fechaLlegada= (Date)infoReserva.get(2);
 		Object reservaCliente= Empresa.realizarReserva(cliente1,categoria1,sedeLlegada,sedeSalida,fechaSalida,fechaLlegada, null, 0);
-		//System.out.println(infoReserva.get(5));
 		return reservaCliente;
-		/*new Reserva(infoReserva.get(5), infoReserva.get(0), infoReserva.get(3), infoReserva.get(4), infoReserva.get(1), infoReserva.get(2), null, 0);
-		 * Cliente cliente;
-	Categoria categoria;
-	Sede sedeSalida;
-	Sede sedeLleagada;
-	Date FechaSalida;
-	//LocalTime horaSalida;
-	Date FechaLlegada;
-	//LocalTime horaLlegada;
-	Tarifa tarifaEstimada;
-	int abono;*/
+
 	}
+	
+	public Object alquilarVehiculo(ArrayList<Object> infoAlquiler) throws ParseException {
+		Cliente cliente1= (Cliente)infoAlquiler.get(7);
+		Categoria categoria1= (Categoria)infoAlquiler.get(0);
+		Sede sedeLlegada= (Sede)infoAlquiler.get(3);
+		Sede sedeSalida= (Sede)infoAlquiler.get(4);
+		Date fechaSalida= (Date)infoAlquiler.get(1);
+		Date fechaLlegada= (Date)infoAlquiler.get(2);
+		Seguro seguroAlquiler= (Seguro)infoAlquiler.get(5);
+		List listaConductores= (List)infoAlquiler.get(6);
+		
+		Object alquilerCliente= Empresa.realizarAlquiler(cliente1,categoria1,sedeLlegada,sedeSalida,fechaSalida,fechaLlegada, null, 0,seguroAlquiler, listaConductores);
+		return alquilerCliente;
+	}
+
 }

@@ -376,7 +376,7 @@ public class Empresa {
 		      List listaReservas= vehiculo1.getReservas();
 		      Boolean siReserva= false;
 		      if (estado=="disponible") {
-		    	  if (listaReservas==null) {
+		    	  if (listaReservas.isEmpty()) {
 		    	  //vehiculoAReservar= vehiculo1;
 		    	  siReserva= true;
 		    	  }
@@ -519,8 +519,9 @@ public class Empresa {
 		      List listaAlquileres= vehiculo1.getReservas();
 		      Boolean  siAlquiler= false;
 		      if (estado=="disponible") {
-		    	  if (listaAlquileres==null) {
-		    		  System.out.println(vehiculos);
+		    	  //System.out.println("lista 1"+listaAlquileres);
+		    	  if (listaAlquileres.isEmpty()) {
+		    		  //System.out.println("lista 2"+vehiculos);
 		    	  //vehiculoAReservar= vehiculo1;
 		    	  siAlquiler= true;
 		    	  }
@@ -534,10 +535,10 @@ public class Empresa {
 			              else if (inicialReserva.after(fechaSalida) && finalReserva.after(fechaLlegada)&&inicialReserva.after(fechaLlegada) ) {
 			            	  siAlquiler= true;}
 			    		  	}
-		    		  if(siAlquiler) {
+		    	  	}
+		    	  if(siAlquiler) {
 				      vehiculosdisponibles.add(vehiculo1);
 		    		  }
-		    	  	}
 		    	  
 		      }
 		

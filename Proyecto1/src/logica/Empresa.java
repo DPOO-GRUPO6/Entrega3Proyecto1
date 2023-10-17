@@ -557,7 +557,7 @@ public class Empresa {
 				abono1= (int)abono2;
 			}
 		}
-		System.out.println(abono1);
+		
 		Tarifa tarifa2= new Tarifa(categoria1, tarifaEstimada, abono1, valorExtraSede1,valorExtraConductor, valorExtraSeguro);
 		Reserva reservaARealizar= new Reserva(cliente1, categoria1, sedeSalida, sedeLlegada, fechaSalida, fechaLlegada,tarifa2, abono1);
 			ArrayList<Object> infoReserva= new ArrayList<Object>();
@@ -590,7 +590,7 @@ public class Empresa {
 		int tarifaEstimada= Tarifa.calcularTarifaEstimada(tarifaDia, diasCobrar);
 		int tarifaTotal= Tarifa.calcularTarifaTotal(tarifaEstimada,valorExtraSeguro );
 		ArrayList<Vehiculo> vehiculoscategoria= new ArrayList<Vehiculo>();
-		//System.out.println(vehiculos);
+	
 		for (int s=0;s<vehiculos.size();s++) {
 			Vehiculo vehiculoCat=vehiculos.get(s);
 		      Categoria categoriaVehiculo= vehiculoCat.getCategoria();
@@ -699,7 +699,7 @@ public class Empresa {
 				}
 			}
 		}
-		System.out.println(vehiculo);
+	
 		ArrayList<ConductorAdicional>conductoresAdicionales = new ArrayList<ConductorAdicional>();
 		for (int r=0;r<listaConductores.size();r++) {
 			List conductor= (List) listaConductores.get(r);

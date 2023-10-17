@@ -205,7 +205,7 @@ public class principal {
 							}
 					
 							
-							System.out.println("otro proceso");
+							
 						}
 						else if(op == 3) {
 							cont = false;

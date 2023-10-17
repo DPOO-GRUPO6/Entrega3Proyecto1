@@ -26,6 +26,10 @@ public class Tarifa {
 		return tarifa;
 	}
 
+	public void setTarifa(int tarifa) {
+		this.tarifa = tarifa;
+	}
+
 	public static int establecerTarifaPorDia(Date fecha1, Date fecha2, Date fecha3, Date fecha4, Date fechaSalida, Categoria categoria) {
 		if (fechaSalida.after(fecha1)&& fechaSalida.before(fecha2)) {
 			return (int)categoria.getCostoPorDia();

@@ -25,6 +25,8 @@ public class Empresa {
 	static ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	static ArrayList<Seguro> seguros =  new ArrayList<Seguro>();
 	static HashMap<Integer,Reserva> reservas = new HashMap<Integer,Reserva>();
+	static HashMap<Integer,Alquiler> alquileres = new HashMap<Integer,Alquiler>();
+	
 	
 	public static HashMap getReservas() {
 		
@@ -34,6 +36,11 @@ public class Empresa {
 	public static  List getSeguros() {
 		
 		return seguros;
+		
+	}
+	public static  HashMap getAlquileres() {
+		
+		return alquileres;
 		
 	}
 	
@@ -645,11 +652,11 @@ public class Empresa {
 				tarifaTotal= tarifaTotal + valorExtraSede1;
 			}
 		}
-		System.out.println("ERFG");
-		Tarifa tarifa2= new Tarifa(categoria1, tarifaEstimada, 0, valorExtraSede1,valorExtraConductor, valorExtraSeguro);
+
+		Tarifa tarifa2= new Tarifa(categoria1, tarifaTotal, 0, valorExtraSede1,valorExtraConductor, valorExtraSeguro);
 		ArrayList<ConductorAdicional>conductoresAdicionales = new ArrayList<ConductorAdicional>();
 		for (int r=0;r<listaConductores.size();r++) {
-			System.out.println("ERFG");
+
 			List conductor= (List) listaConductores.get(r);
 			String numLicencia1= (String)conductor.get(0);
 			String paisLicencia= (String)conductor.get(1);
@@ -668,7 +675,7 @@ public class Empresa {
 		return alquilerCliente;
 	
 }
-	public static void realizarAlquilerReserva(int idReservaCliente, List seguroConductores) throws ParseException {
+	public static Object realizarAlquilerReserva(int idReservaCliente, List seguroConductores) throws ParseException {
 		// TODO Auto-generated method stub
 		Seguro seguroAlquiler= (Seguro)seguroConductores.get(0);
 		int valorExtraSeguro= seguroAlquiler.getCosto();
@@ -680,9 +687,21 @@ public class Empresa {
 		Tarifa tarifaReserva= reservaAlquiler.getTarifaEstimada();
 		int tarifaEstimada= tarifaReserva.getTarifa();
 		int tarifaTotal= Tarifa.calcularTarifaTotal(tarifaEstimada,valorExtraSeguro );
+		tarifaReserva.setTarifa(tarifaTotal);
+		Vehiculo vehiculo= null;
+		for (int t=0;t<vehiculos.size();t++) {
+			Vehiculo vehiculo1= vehiculos.get(t);
+			List listaReservas= (List)vehiculo1.getReservas();
+			for (int h=0;h<listaReservas.size();h++) {
+				Reserva reserva= (Reserva)listaReservas.get(h);
+				if (reserva==reservaAlquiler) {
+					vehiculo=vehiculo1;
+				}
+			}
+		}
+		System.out.println(vehiculo);
 		ArrayList<ConductorAdicional>conductoresAdicionales = new ArrayList<ConductorAdicional>();
 		for (int r=0;r<listaConductores.size();r++) {
-			System.out.println("ERFG");
 			List conductor= (List) listaConductores.get(r);
 			String numLicencia1= (String)conductor.get(0);
 			String paisLicencia= (String)conductor.get(1);
@@ -694,11 +713,12 @@ public class Empresa {
 			Licencia licenciaCondAdi= new Licencia(numLicencia, paisLicencia, vencimientoLicencia1);
 			ConductorAdicional condAcional= new ConductorAdicional(licenciaCondAdi);
 			conductoresAdicionales.add(condAcional);
-			
 			}
-		
-		
-		
+		Alquiler alquilerCliente= new Alquiler(reservaAlquiler.getCliente(), reservaAlquiler, vehiculo, reservaAlquiler.getSedeLleagada(), reservaAlquiler.getSedeSalida(), tarifaReserva, seguroAlquiler, conductoresAdicionales);
+		ArrayList<Object> todo =  new ArrayList<Object>();
+		todo.add(alquilerCliente);
+		todo.add(reservaAlquiler);	
+		return todo;
 	}
 }
 	

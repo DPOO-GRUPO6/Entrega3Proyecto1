@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -105,12 +106,58 @@ public class principal {
 								if (opcionElegida2==1) {
 									ArrayList<Object> datos2 = registroDatosAlquiler();
 									Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2,datos2,client);
-									Cliente cliente1= alquiler.getCliente();
+									Cliente cliente1= alquiler.getCliente();		
+									
+									HashMap reservasTotales= Empresa.getReservas();
+									Reserva reservaRealizada= (Reserva)reservasTotales.get(idReservaCliente);
+									int AbonoPagado= reservaRealizada.getAbono();
+									int total= alquiler.getTarifaPagar()-AbonoPagado;
+									System.out.println("Para realizar el alquiler debe realizar el pago total menos el abono ya pagado");
+									System.out.println("En total es "+ total);
+									System.out.println("¿Acepta el pago?");
+									System.out.println("\n1. Si \n2. No");
+									int op1 = Integer.parseInt(input("\nSeleccione su opcion"));
+									if (op1==1){
+										System.out.println("Se realizó el alquiler");
+										String pattern = "dd/MM/yyyy HH:mm";
+										String horaI = (String) datos2.get(2);
+										String horaF = (String) datos2.get(4);
+								        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+								        Date fechaInic = sdf.parse((String)datos2.get(1)+ " "+horaI);
+								        Date fechaFin = sdf.parse((String)datos2.get(3)+ " "+horaF);
+										Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInic, fechaFin);
+										idAlquiler+=1;
+										System.out.println("El id de su alquiler es " + idAlquiler);
+										HashMap alquileres= Empresa.getAlquileres();
+										alquileres.put(idAlquiler,alquiler);
+									}
+									
+									
+									
 									
 								}
 								else {
 									List SeguroConductores= registroSeguroConductorAdicional();
-									Empresa.realizarAlquilerReserva(idReservaCliente, SeguroConductores);
+									List alquilerInfo= (List)Empresa.realizarAlquilerReserva(idReservaCliente, SeguroConductores);
+									Alquiler alquiler= (Alquiler)alquilerInfo.get(0);
+									Reserva reserva= (Reserva)alquilerInfo.get(1);
+									int AbonoPagado= reserva.getAbono();
+									int total= alquiler.getTarifaPagar()-AbonoPagado;
+									System.out.println("Para realizar el alquiler debe realizar el pago total menos el abono ya pagado");
+									System.out.println("En total es "+ total);
+									System.out.println("¿Acepta el pago?");
+									System.out.println("\n1. Si \n2. No");
+									int op1 = Integer.parseInt(input("\nSeleccione su opcion"));
+									if (op1==1){
+										System.out.println("Se realizó el alquiler");
+										Date fechaInicial= reserva.getFechaSalida();
+										Date fechaFinal= reserva.getFechaLlegada();
+										Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInicial, fechaFinal);
+										idAlquiler+=1;
+										System.out.println("El id de su alquiler es " + idAlquiler);
+										HashMap alquileres= Empresa.getAlquileres();
+										alquileres.put(idAlquiler,alquiler);
+									}
 									
 								}
 							}
@@ -133,6 +180,10 @@ public class principal {
 							        Date fechaInic = sdf.parse((String)datos2.get(1)+ " "+horaI);
 							        Date fechaFin = sdf.parse((String)datos2.get(3)+ " "+horaF);
 									Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInic, fechaFin);
+									idAlquiler+=1;
+									System.out.println("El id de su alquiler es " + idAlquiler);
+									HashMap alquileres= Empresa.getAlquileres();
+									alquileres.put(idAlquiler,alquiler);
 								}
 								
 							}

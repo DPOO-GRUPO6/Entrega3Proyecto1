@@ -86,7 +86,7 @@ public class principal {
 										reservasEmpresa.put(idReserva, reserva);
 										List reservasCarro= vehiculoReserva.getReservas();
 										reservasCarro.add(reserva);
-										System.out.println("El id de su  reserva es " + idReserva + "cuando realice alquiler ingreselo");		
+										System.out.println("El id de su  reserva es " + idReserva + " cuando realice alquiler ingreselo");		
 									}
 								}
 								
@@ -107,7 +107,9 @@ public class principal {
 									ArrayList<Object> datos2 = registroDatosAlquiler();
 									Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2,datos2,client);
 									Cliente cliente1= alquiler.getCliente();		
-									
+									TarjetaCredito tarjetaCliente= cliente1.getTarjetaCredito();
+									Boolean tarjetaBloqueada= tarjetaCliente.getBloqueo();
+									if (tarjetaBloqueada==false) {
 									HashMap reservasTotales= Empresa.getReservas();
 									Reserva reservaRealizada= (Reserva)reservasTotales.get(idReservaCliente);
 									int AbonoPagado= reservaRealizada.getAbono();
@@ -130,6 +132,9 @@ public class principal {
 										System.out.println("El id de su alquiler es " + idAlquiler);
 										HashMap alquileres= Empresa.getAlquileres();
 										alquileres.put(idAlquiler,alquiler);
+									}}
+									else {
+										System.out.println("Su tarjeta esta bloqueada no se puede realizar el alquiler");
 									}
 									
 									
@@ -141,6 +146,10 @@ public class principal {
 									List alquilerInfo= (List)Empresa.realizarAlquilerReserva(idReservaCliente, SeguroConductores);
 									Alquiler alquiler= (Alquiler)alquilerInfo.get(0);
 									Reserva reserva= (Reserva)alquilerInfo.get(1);
+									Cliente cliente2=alquiler.getCliente();
+									TarjetaCredito tarjetaCliente= cliente2.getTarjetaCredito();
+									Boolean tarjetaBloqueada= tarjetaCliente.getBloqueo();
+									if (tarjetaBloqueada==false) {
 									int AbonoPagado= reserva.getAbono();
 									int total= alquiler.getTarifaPagar()-AbonoPagado;
 									System.out.println("Para realizar el alquiler debe realizar el pago total menos el abono ya pagado");
@@ -157,7 +166,10 @@ public class principal {
 										System.out.println("El id de su alquiler es " + idAlquiler);
 										HashMap alquileres= Empresa.getAlquileres();
 										alquileres.put(idAlquiler,alquiler);
-									}
+									}}
+									else {
+										System.out.println("Su tarjeta esta bloqueada no se puede realizar el alquiler");
+										}
 									
 								}
 							}
@@ -165,6 +177,9 @@ public class principal {
 								ArrayList<Object> datos2 = registroDatosAlquiler();
 								Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2,datos2,client);
 								Cliente cliente1= alquiler.getCliente();
+								TarjetaCredito tarjetaCliente= cliente1.getTarjetaCredito();
+								Boolean tarjetaBloqueada= tarjetaCliente.getBloqueo();
+								if (tarjetaBloqueada==false) {		
 								int total= alquiler.getTarifaPagar();
 								System.out.println("Para realizar el alquiler debe realizar el pago total");
 								System.out.println("El cual es de "+ total);
@@ -184,6 +199,7 @@ public class principal {
 									System.out.println("El id de su alquiler es " + idAlquiler);
 									HashMap alquileres= Empresa.getAlquileres();
 									alquileres.put(idAlquiler,alquiler);
+								}
 								}
 								
 							}

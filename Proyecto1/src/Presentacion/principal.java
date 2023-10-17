@@ -162,17 +162,22 @@ public class principal {
 				String nombre = input("\nIngrese su nombre completo");
 				String email = input("\nIngrese su correo electronico");
 				String telefono = input("\nIngrese su numero de telefono");
-				String fechaNacimiento = input("\nIngrese su fecha de nacimiento");
+				String fechaNacimiento = input("\nIngrese su fecha de nacimiento (dd/mm/yyyy)");
 				String nacionalidad = input("\nIngrese su nacionalidad");
-				System.out.println("- Datos de licencia de conduccion-");
+				System.out.println("\n- Datos de licencia de conduccion-");
+				String numeroLicencia = input("\nIngrese el numero de su licencia");
 				String paisLicencia = input("\nIngrese el pais de expedicion de su licencia");
-				String fechaExpLicencia = input("\nIngrese la fecha de expedicion de su licencia");
-				System.out.println("- Datos de tarjeta de credito-");
+				String fechaExpLicencia = input("\nIngrese la fecha de expedicion de su licencia (dd/mm/yyyy)");
+				System.out.println("\n- Datos de tarjeta de credito-");
 				String numeroTC = input("\nIngrese el número de su tarjeta de credito");
-				String fechaVen = input("\nIngrese la fecha de vencimiento de su tarjeta de credito");
+				String fechaVen = input("\nIngrese la fecha de vencimiento de su tarjeta de credito (dd/mm/yyyy)");
 				String LogIn = input("\nIngrese el nombre de usuario que le gustaria tener");
-				String contrasenia = input("\nIngrese una contrasena");
+				String contrasenia = input("\nIngrese una contrasenia");
 				
+				Cliente c =ferrari.crearNuevoCliente(nombre, email, telefono, fechaNacimiento, nacionalidad, numeroLicencia, paisLicencia, fechaExpLicencia, numeroTC, fechaVen, LogIn, contrasenia);
+				if(c != null) {
+					System.out.println(c.getLogIn()+" ha sido registrado con exito");
+				}
 			}
 			else if(opcion ==3) {
 				continuar = false;

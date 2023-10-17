@@ -243,6 +243,26 @@ public class Empresa {
 	}
 	
 	/** Metodos 
+	 * acciones crear nuevo cliente 
+	 * @throws ParseException 
+	 * @throws NumberFormatException **/
+	
+	public Cliente crearNuevoCliente(String nombre,String email,String telefono,String fechaNacimiento,
+			String nacionalidad,String numeroLicencia,String paisLicencia,String fechaExpLicencia,String numeroTC,
+			String fechaVen,String LogIn,String contrasenia) throws NumberFormatException, ParseException {
+		String pattern = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern); 
+		TarjetaCredito tc = new TarjetaCredito(Integer.parseInt(numeroTC),sdf.parse(fechaVen),false);
+		Licencia l = new Licencia(Integer.parseInt(numeroLicencia),paisLicencia,sdf.parse(fechaExpLicencia));
+		
+		Cliente newCliente = new Cliente(LogIn, contrasenia, nombre, "cliente", email,Long.parseLong(telefono),
+				sdf.parse(fechaNacimiento),nacionalidad,l,tc);
+		clientes.add(newCliente);
+		usuarios.add(newCliente);	
+		return newCliente;
+	}
+	
+	/** Metodos 
 	 * auxiliares > retorno **/
 	
 	public ArrayList<String> getCategoriasStr() {

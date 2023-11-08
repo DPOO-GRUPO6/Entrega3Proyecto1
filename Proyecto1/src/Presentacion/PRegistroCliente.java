@@ -165,7 +165,7 @@ public class PRegistroCliente extends JPanel{
 	    panelCentro.add(txtPwdUsuario,gbcnt);
 	    
 	    JButton bEnviar = new JButton("Registrarse");
-	    bEnviar.setFont(new Font(null, Font.BOLD,15));
+	    bEnviar.setFont(new Font(null, Font.BOLD,18));
 	    gbcnt.gridx = 1;
 	    gbcnt.gridy = 7;
 	    gbcnt.gridwidth = 3;

@@ -34,21 +34,67 @@ public class PMenuEmpleado extends JPanel{
 		GridBagConstraints gbcnt = new GridBagConstraints();
 		gbcnt.gridx = 0;
 		gbcnt.gridy = 0;
+		gbcnt.gridwidth = 2;
+		gbcnt.fill = GridBagConstraints.HORIZONTAL;
+		gbcnt.insets = new Insets(5,0,30,0);
 		JLabel lblDevuelto = new JLabel("Cambiar el estado de un vehículo devuelto");
 		lblDevuelto.setFont(new Font(null, Font.PLAIN, 20));
 		pDevuelto.add(lblDevuelto, gbcnt);
 		
 		JLabel lblPlaca= new JLabel("Ingrese la placa del vehículo a cambiar de estado");
 		gbcnt.gridy = 1;
+		gbcnt.insets = new Insets(8,5,8,5);
 		lblPlaca.setFont(new Font(null, Font.PLAIN, 15));
 		pDevuelto.add(lblPlaca, gbcnt);
 		
-		JTextField txtPlaca= new JTextField("placa");
+		JTextField txtPlaca= new JTextField("AAA-000");
 		gbcnt.gridy = 2;
 		txtPlaca.setFont(new Font(null, Font.PLAIN, 15));
-		gbcnt.fill = GridBagConstraints.HORIZONTAL;
 		pDevuelto.add(txtPlaca, gbcnt);
 		
+		JButton bMantenimiento = new JButton("Mandar a mantenimiento");
+		bMantenimiento.setFont(new Font(null, Font.PLAIN, 15));
+		gbcnt.gridy = 3;
+		gbcnt.gridwidth = 1;
+		pDevuelto.add(bMantenimiento, gbcnt);
+		
+		JButton bLimpieza = new JButton("Mandar a limpieza");
+		bLimpieza.setFont(new Font(null, Font.PLAIN, 15));
+		gbcnt.gridy = 3;
+		gbcnt.gridx = 1;
+		gbcnt.gridwidth = 1;
+		pDevuelto.add(bLimpieza, gbcnt);
+		
+		JLabel lblFechaInic= new JLabel("Ingrese la fecha de inicio", SwingConstants.RIGHT);
+		gbcnt.gridy = 4;
+		gbcnt.gridx = 0;
+		lblFechaInic.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(lblFechaInic, gbcnt);
+		
+		JTextField txtFechaInic= new JTextField("dd/mm/aaaa");
+		gbcnt.gridx = 1;
+		txtFechaInic.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(txtFechaInic, gbcnt);
+		
+		JLabel lblFechaFin= new JLabel("Ingrese la fecha de salida", SwingConstants.RIGHT);
+		gbcnt.gridy = 5;
+		gbcnt.gridx = 0;
+		lblFechaFin.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(lblFechaFin, gbcnt);
+		
+		JTextField txtFechaFin= new JTextField("dd/mm/aaaa");
+		gbcnt.gridx = 1;
+		txtFechaFin.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(txtFechaFin, gbcnt);
+		
+		JButton bCambiarEstadoDev = new JButton("Cambiar estado");
+		bCambiarEstadoDev.setFont(new Font(null, Font.PLAIN, 18));
+		gbcnt.gridy = 6;
+		gbcnt.gridx = 0;
+		gbcnt.gridwidth = 2;
+		gbcnt.insets = new Insets(20,5,20,5);
+		gbcnt.ipady = 18;
+		pDevuelto.add(bCambiarEstadoDev, gbcnt);
 		
 		//segundo panel (derecha)
 		JPanel pDisponible = new JPanel();
@@ -59,6 +105,29 @@ public class PMenuEmpleado extends JPanel{
 		panelCentro.add(pDisponible);
 		this.add(panelCentro, BorderLayout.CENTER);
 		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(5,0,30,0);
+		JLabel lblDisp = new JLabel("Cambiar el estado de un vehículo disponible");
+		lblDevuelto.setFont(new Font(null, Font.PLAIN, 20));
+		pDevuelto.add(lblDisp, gbc);
+		
+		JLabel lblPlacaDisp= new JLabel("Ingrese la placa del vehículo a cambiar de estado");
+		gbc.gridy = 1;
+		gbc.insets = new Insets(8,5,8,5);
+		lblPlacaDisp.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(lblPlacaDisp, gbc);
+		
+		/*
+		JTextField txtPlaca= new JTextField("AAA-000");
+		gbc.gridy = 2;
+		txtPlaca.setFont(new Font(null, Font.PLAIN, 15));
+		pDevuelto.add(txtPlaca, gbc);
+
+		*/
 		
 	}
 }

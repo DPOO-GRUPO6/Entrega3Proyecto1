@@ -21,7 +21,8 @@ public class MenuPrincipal extends JPanel{
 	private JButton bRegistrarse;
 	private JPanel panelCentro;
 	public PIniciarSesion panelInicioSesion;
-	
+	public PRegistroCliente panelRegClient;
+
 	MenuPrincipal(){
 		this.setLayout(new BorderLayout());
 		this.lblSaludo = new JLabel("Bienvenido", SwingConstants.CENTER);
@@ -57,6 +58,15 @@ public class MenuPrincipal extends JPanel{
 		this.bRegistrarse = new JButton("Registrarse");
 		this.bRegistrarse.setAlignmentX(CENTER_ALIGNMENT);
 		this.bRegistrarse.setFont(new Font(null, Font.PLAIN,35));
+		this.bRegistrarse.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				registrarse();
+			}
+			
+		});
+		
 		this.panelCentro.add(bRegistrarse);
 
 		
@@ -64,6 +74,16 @@ public class MenuPrincipal extends JPanel{
 		
 	}
 	
+	protected void registrarse() {
+		this.removeAll();
+		this.panelRegClient = new PRegistroCliente();
+		this.add(this.panelRegClient);
+		this.revalidate();
+		this.repaint();
+		this.panelRegClient.setVisible(true);
+		
+	}
+
 	public void iniciarSesion() {
 		this.removeAll();
 		this.panelInicioSesion = new PIniciarSesion();

@@ -29,6 +29,7 @@ import logica.Usuario;
 import logica.Vehiculo;
 import logica.Seguro;
 
+
 public class InterfazPrincipal extends JFrame{
 	Empresa ferrari = new Empresa();
 	private MenuPrincipal menuPrincipal;

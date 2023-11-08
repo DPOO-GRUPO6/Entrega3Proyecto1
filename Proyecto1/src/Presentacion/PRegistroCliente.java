@@ -1,18 +1,26 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class PRegistroCliente extends JPanel{
+	private PMenuCliente panelMenuCliente;
+	private PMenuAdminGeneral panelMenuAdmingGen;
+	private PMenuEmpleado panelMenuEmpleado;
 	
 	PRegistroCliente(){
 		this.setLayout(new BorderLayout());
@@ -33,9 +41,9 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridwidth = 5;
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(lblInstruccion,gbcnt);
-	    panelCentro.add(Box.createRigidArea(new Dimension(0, 100)),gbcnt);
+	    panelCentro.add(Box.createRigidArea(new Dimension(0, 55)),gbcnt);
 	    
-	    
+	    gbcnt.insets  = new Insets(10,5,10,2);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    gbcnt.gridwidth = 1;
 	    JLabel lblNombre = new JLabel("Nombre completo", SwingConstants.RIGHT);
@@ -65,7 +73,6 @@ public class PRegistroCliente extends JPanel{
 	    panelCentro.add(lblNacionalidad,gbcnt);
 	    
 	    gbcnt.gridx = 2;
-	    panelCentro.add(Box.createRigidArea(new Dimension(60, 0)),gbcnt);
 	    
 	    JLabel lblNumLicencia = new JLabel("Numero de licencia", SwingConstants.RIGHT);
 	    lblNumLicencia.setFont(defaultFont);
@@ -157,6 +164,37 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 6;
 	    panelCentro.add(txtPwdUsuario,gbcnt);
 	    
+	    JButton bEnviar = new JButton("Registrarse");
+	    bEnviar.setFont(new Font(null, Font.BOLD,15));
+	    gbcnt.gridx = 1;
+	    gbcnt.gridy = 7;
+	    gbcnt.gridwidth = 3;
+	    gbcnt.ipady = 10;
+	    gbcnt.insets  = new Insets(70,10,30,10);
+	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
+	    panelCentro.add(bEnviar,gbcnt);
+	    bEnviar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				iniciarMenuCliente();
+				
+			}
+	    	
+	    });
+	    
+	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    
+	}
+//metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
+	protected void iniciarMenuCliente() {
+		this.removeAll();
+		this.panelMenuEmpleado = new PMenuEmpleado();
+		this.add(this.panelMenuEmpleado);
+		this.revalidate();
+		this.repaint();
+		this.panelMenuEmpleado.setVisible(true);
+		
 	}
 }

@@ -14,7 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import logica.Empresa;
+
 public class PIniciarSesion extends JPanel{
+	
 	
 	PIniciarSesion(){
 		JPanel panelCentro = new JPanel();

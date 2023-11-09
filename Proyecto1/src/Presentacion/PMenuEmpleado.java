@@ -9,6 +9,7 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -58,6 +59,7 @@ public class PMenuEmpleado extends JPanel{
 		gbcnt.gridwidth = 1;
 		pDevuelto.add(bMantenimiento, gbcnt);
 		
+		/*
 		JButton bLimpieza = new JButton("Mandar a limpieza");
 		bLimpieza.setFont(new Font(null, Font.PLAIN, 15));
 		gbcnt.gridy = 3;
@@ -65,6 +67,14 @@ public class PMenuEmpleado extends JPanel{
 		gbcnt.gridwidth = 1;
 		pDevuelto.add(bLimpieza, gbcnt);
 		
+		*/
+		JComboBox JBopciones = new JComboBox();
+		JBopciones.add(new JLabel("limpieza"), 1);
+		JBopciones.add(new JLabel("mantenimiento"), 1);
+		gbcnt.gridy = 3;
+		gbcnt.gridx = 1;
+		gbcnt.gridwidth = 1;
+		pDevuelto.add(JBopciones, gbcnt);
 		
 		JLabel lblFechaInic= new JLabel("Ingrese la fecha de inicio", SwingConstants.RIGHT);
 		gbcnt.gridy = 4;

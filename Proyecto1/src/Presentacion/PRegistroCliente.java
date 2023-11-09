@@ -18,9 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class PRegistroCliente extends JPanel{
-	private PMenuCliente panelMenuCliente;
-	private PMenuAdminGeneral panelMenuAdmingGen;
-	private PMenuEmpleado panelMenuEmpleado;
+	private PMenuCliente panelMenuCliente; // a este es el que finalmente debería de estar conectado
+	private PMenuAdminGeneral panelMenuAdmingGen; //terminado
+	private PMenuEmpleado panelMenuEmpleado; //terminado
+	private PRegistroCarro panelRegistroCarro;
 	
 	PRegistroCliente(){
 		this.setLayout(new BorderLayout());
@@ -190,11 +191,11 @@ public class PRegistroCliente extends JPanel{
 //metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
 	protected void iniciarMenuCliente() {
 		this.removeAll();
-		this.panelMenuEmpleado = new PMenuEmpleado();
-		this.add(this.panelMenuEmpleado);
+		this.panelRegistroCarro = new PRegistroCarro();
+		this.add(this.panelRegistroCarro);
 		this.revalidate();
 		this.repaint();
-		this.panelMenuEmpleado.setVisible(true);
+		this.panelRegistroCarro.setVisible(true);
 		
 	}
 }

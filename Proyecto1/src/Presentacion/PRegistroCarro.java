@@ -1,6 +1,7 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,6 +9,7 @@ import java.awt.Insets;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -59,20 +61,26 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 4;
 	    panelCentro.add(lblNacimiento,gbcnt);
 	    
+	    JLabel lblCategoria = new JLabel("Categoría del vehículo", SwingConstants.RIGHT);
+	    lblCategoria.setFont(defaultFont);
+	    gbcnt.gridx = 2;
+	    gbcnt.gridy = 1;
+	    panelCentro.add(lblCategoria,gbcnt);
+	    
 	    JLabel lblNacionalidad = new JLabel("Tipo de transmisión", SwingConstants.RIGHT);
 	    lblNacionalidad.setFont(defaultFont);
 	    gbcnt.gridx = 2;
-	    gbcnt.gridy = 1;
+	    gbcnt.gridy = 2;
 	    panelCentro.add(lblNacionalidad,gbcnt);
 	    
 	    JLabel lblNumLicencia = new JLabel("Capacidad del vehículo", SwingConstants.RIGHT);
 	    lblNumLicencia.setFont(defaultFont);
-	    gbcnt.gridy = 2;
+	    gbcnt.gridy = 3;
 	    panelCentro.add(lblNumLicencia,gbcnt);
 	    
 	    JLabel lblFechaExpLic = new JLabel("Sede asignada", SwingConstants.RIGHT);
 	    lblFechaExpLic.setFont(defaultFont);
-	    gbcnt.gridy = 3;
+	    gbcnt.gridy = 4;
 	    panelCentro.add(lblFechaExpLic,gbcnt);
 	    
 	    	    
@@ -100,11 +108,12 @@ public class PRegistroCarro extends JPanel{
 	    panelCentro.add(txtNacimiento,gbcnt);
 	    
 	    
-	    JTextField txtNumLicencia  = new JTextField("Licencia#");
-	    txtNumLicencia.setFont(defaultFont);
+	    String categorias[]= {"cat 1", "cat2"};
+	    JComboBox CBcategoria = new JComboBox(categorias);
+	    CBcategoria.setBackground(Color.white);
 	    gbcnt.gridx = 3;
 	    gbcnt.gridy = 1;
-	    panelCentro.add(txtNumLicencia,gbcnt);
+	    panelCentro.add(CBcategoria,gbcnt);
 	    
 	    JTextField txtFechaExpLic  = new JTextField("fecha exp licencia");
 	    txtFechaExpLic.setFont(defaultFont);
@@ -115,9 +124,15 @@ public class PRegistroCarro extends JPanel{
 	    txtNacionalidad.setFont(defaultFont);
 	    gbcnt.gridy = 3;
 	    panelCentro.add(txtNacionalidad,gbcnt);
+	    
+	    String sedes[]= {"sede1", "sede2"};
+	    JComboBox CBsedes = new JComboBox(sedes);
+	    CBsedes.setBackground(Color.white);
+	    gbcnt.gridy = 4;
+	    panelCentro.add(CBsedes,gbcnt);
 	      
 	    
-	    JButton bEnviar = new JButton("Registrarse");
+	    JButton bEnviar = new JButton("Registrar vehiculo");
 	    bEnviar.setFont(new Font(null, Font.BOLD,18));
 	    gbcnt.gridx = 0;
 	    gbcnt.gridy = 7;

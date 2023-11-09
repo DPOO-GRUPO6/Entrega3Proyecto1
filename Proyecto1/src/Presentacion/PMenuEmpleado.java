@@ -53,24 +53,14 @@ public class PMenuEmpleado extends JPanel{
 		txtPlaca.setFont(new Font(null, Font.PLAIN, 15));
 		pDevuelto.add(txtPlaca, gbcnt);
 		
-		JButton bMantenimiento = new JButton("Mandar a mantenimiento");
+		JLabel bMantenimiento = new JLabel("Mandar a ", SwingConstants.RIGHT);
 		bMantenimiento.setFont(new Font(null, Font.PLAIN, 15));
 		gbcnt.gridy = 3;
 		gbcnt.gridwidth = 1;
 		pDevuelto.add(bMantenimiento, gbcnt);
 		
-		/*
-		JButton bLimpieza = new JButton("Mandar a limpieza");
-		bLimpieza.setFont(new Font(null, Font.PLAIN, 15));
-		gbcnt.gridy = 3;
-		gbcnt.gridx = 1;
-		gbcnt.gridwidth = 1;
-		pDevuelto.add(bLimpieza, gbcnt);
-		
-		*/
-		JComboBox JBopciones = new JComboBox();
-		JBopciones.add(new JLabel("limpieza"), 1);
-		JBopciones.add(new JLabel("mantenimiento"), 1);
+		String opciones[] = {"Mantenimiento", "Limpieza"};
+		JComboBox JBopciones = new JComboBox(opciones);
 		gbcnt.gridy = 3;
 		gbcnt.gridx = 1;
 		gbcnt.gridwidth = 1;

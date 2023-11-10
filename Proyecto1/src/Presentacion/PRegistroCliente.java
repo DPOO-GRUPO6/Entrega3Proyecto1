@@ -22,6 +22,7 @@ public class PRegistroCliente extends JPanel{
 	private PMenuAdminGeneral panelMenuAdmingGen; //terminado
 	private PMenuEmpleado panelMenuEmpleado; //terminado
 	private PRegistroCarro panelRegistroCarro;
+	private PMenuAdminLocal panelAdminLocal;
 	
 	PRegistroCliente(){
 		this.setLayout(new BorderLayout());
@@ -191,11 +192,11 @@ public class PRegistroCliente extends JPanel{
 //metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
 	protected void iniciarMenuCliente() {
 		this.removeAll();
-		this.panelMenuEmpleado = new PMenuEmpleado();
-		this.add(this.panelMenuEmpleado);
+		this.panelAdminLocal = new PMenuAdminLocal();
+		this.add(this.panelAdminLocal);
 		this.revalidate();
 		this.repaint();
-		this.panelMenuEmpleado.setVisible(true);
+		this.panelAdminLocal.setVisible(true);
 		
 	}
 }

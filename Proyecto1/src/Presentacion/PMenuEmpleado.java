@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,14 +22,96 @@ public class PMenuEmpleado extends JPanel{
 	PMenuEmpleado(){
 		this.setLayout(new BorderLayout());
 		
+		//panel cero -> menu principal
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font(null, Font.BOLD, 45));
 		this.add(lblBienvenido, BorderLayout.NORTH);
 		
-		JPanel panelCentro = new JPanel();
-		panelCentro.setLayout(new GridLayout(1, 2));
+		JPanel panelCero = new JPanel();
+		panelCero.setLayout(new GridBagLayout());
+		GridBagConstraints gb = new GridBagConstraints();
+		gb.insets = new Insets(5,0,30,0);
+		JLabel lblInstrucc = new JLabel("Que desea hacer?", SwingConstants.CENTER);
+		lblInstrucc.setFont(new Font(null, Font.PLAIN, 15));
+		gb.gridx = 0;
+		gb.gridy = 0;
+		panelCero.add(lblInstrucc, gb);
 		
-		 //primer panel (izquierda)
+		gb.insets = new Insets(20,0,30,0);
+		JButton bCambiarDevuelto = new JButton("Cambiar el estado de un vehículo devuelto");
+		bCambiarDevuelto.setFont(new Font(null, Font.PLAIN, 20));
+		gb.gridy = 1;
+		gb.ipady = 30;
+		panelCero.add(bCambiarDevuelto, gb);
+		bCambiarDevuelto.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goPanelVehiculoDevuelto();
+			}
+			
+		});
+		
+		JButton bCambiarDisp = new JButton("Cambiar el estado de un vehículo a disponible");
+		bCambiarDisp.setFont(new Font(null, Font.PLAIN, 20));
+		gb.ipady = 30;
+		gb.gridy = 3;
+		panelCero.add(bCambiarDisp, gb);
+		bCambiarDisp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doPanelVehiculoDisponible();
+			}
+			
+		});
+		this.add(panelCero, BorderLayout.CENTER);
+		
+		
+	}
+
+	protected void doPanelVehiculoDisponible() {
+		this.removeAll();
+		JPanel pDisponible = new JPanel();
+		pDisponible.setLayout(new GridBagLayout());
+		pDisponible.setBorder(BorderFactory.createTitledBorder("Formulario para vehiculo disponible"));
+		GridBagConstraints gbcnt = new GridBagConstraints();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(5,0,30,0);
+		JLabel lblDisp = new JLabel("Cambiar el estado de un vehículo disponible");
+		lblDisp.setFont(new Font(null, Font.PLAIN, 20));
+		pDisponible.add(lblDisp, gbc);
+		
+		JLabel lblPlacaDisp= new JLabel("Ingrese la placa del vehículo a cambiar de estado", SwingConstants.CENTER);
+		gbc.gridy = 1;
+		gbc.insets = new Insets(8,5,8,5);
+		lblPlacaDisp.setFont(new Font(null, Font.PLAIN, 15));
+		pDisponible.add(lblPlacaDisp, gbc);
+		
+		JTextField txtPlacaDisp= new JTextField("AAA-000");
+		gbc.gridy = 2;
+		txtPlacaDisp.setFont(new Font(null, Font.PLAIN, 15));
+		pDisponible.add(txtPlacaDisp, gbc);
+		
+		JButton bCambiarEstadoDisp = new JButton("Cambiar estado");
+		bCambiarEstadoDisp.setFont(new Font(null, Font.PLAIN, 18));
+		gbcnt.gridy = 6;
+		gbcnt.gridx = 0;
+		gbcnt.gridwidth = 2;
+		gbcnt.insets = new Insets(20,5,147,5);
+		gbcnt.ipady = 18;
+		pDisponible.add(bCambiarEstadoDisp, gbcnt);
+		
+		this.add(pDisponible);
+		this.revalidate();
+		this.repaint();
+	}
+
+	protected void goPanelVehiculoDevuelto() {
+		this.removeAll();
 		JPanel pDevuelto = new JPanel();
 		pDevuelto.setLayout(new GridBagLayout());
 		pDevuelto.setBorder(BorderFactory.createTitledBorder("Formulario para vehiculo devuelto"));
@@ -96,47 +180,11 @@ public class PMenuEmpleado extends JPanel{
 		gbcnt.insets = new Insets(20,5,20,5);
 		gbcnt.ipady = 18;
 		pDevuelto.add(bCambiarEstadoDev, gbcnt);
-		panelCentro.add(pDevuelto);
 		
-		//segundo panel (derecha)
-		JPanel pDisponible = new JPanel();
-		pDisponible.setLayout(new GridBagLayout());
-		pDisponible.setBorder(BorderFactory.createTitledBorder("Formulario para vehiculo disponible"));
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(5,0,30,0);
-		JLabel lblDisp = new JLabel("Cambiar el estado de un vehículo disponible");
-		lblDisp.setFont(new Font(null, Font.PLAIN, 20));
-		pDisponible.add(lblDisp, gbc);
-		
-		JLabel lblPlacaDisp= new JLabel("Ingrese la placa del vehículo a cambiar de estado", SwingConstants.CENTER);
-		gbc.gridy = 1;
-		gbc.insets = new Insets(8,5,8,5);
-		lblPlacaDisp.setFont(new Font(null, Font.PLAIN, 15));
-		pDisponible.add(lblPlacaDisp, gbc);
-		
-		JTextField txtPlacaDisp= new JTextField("AAA-000");
-		gbc.gridy = 2;
-		txtPlacaDisp.setFont(new Font(null, Font.PLAIN, 15));
-		pDisponible.add(txtPlacaDisp, gbc);
-		
-		JButton bCambiarEstadoDisp = new JButton("Cambiar estado");
-		bCambiarEstadoDisp.setFont(new Font(null, Font.PLAIN, 18));
-		gbcnt.gridy = 6;
-		gbcnt.gridx = 0;
-		gbcnt.gridwidth = 2;
-		gbcnt.insets = new Insets(20,5,147,5);
-		gbcnt.ipady = 18;
-		pDisponible.add(bCambiarEstadoDisp, gbcnt);
-		
-		panelCentro.add(pDevuelto);
-		panelCentro.add(pDisponible);
-		this.add(panelCentro, BorderLayout.CENTER);
-
-		
+		this.add(pDevuelto);
+		this.revalidate();
+		this.repaint();
 	}
+	
+	
 }

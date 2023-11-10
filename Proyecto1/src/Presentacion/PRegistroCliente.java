@@ -191,11 +191,11 @@ public class PRegistroCliente extends JPanel{
 //metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
 	protected void iniciarMenuCliente() {
 		this.removeAll();
-		this.panelRegistroCarro = new PRegistroCarro();
-		this.add(this.panelRegistroCarro);
+		this.panelMenuEmpleado = new PMenuEmpleado();
+		this.add(this.panelMenuEmpleado);
 		this.revalidate();
 		this.repaint();
-		this.panelRegistroCarro.setVisible(true);
+		this.panelMenuEmpleado.setVisible(true);
 		
 	}
 }

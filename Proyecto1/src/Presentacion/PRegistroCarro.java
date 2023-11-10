@@ -137,11 +137,14 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridx = 0;
 	    gbcnt.gridy = 7;
 	    gbcnt.gridwidth = 4;
+	    //gbcnt.gridheight = 2;
 	    gbcnt.ipady = 10;
-	    gbcnt.insets  = new Insets(70,10,30,10);
+	    gbcnt.insets  = new Insets(50,10,10,10);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(bEnviar,gbcnt);
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    
+	    
 	}
 }

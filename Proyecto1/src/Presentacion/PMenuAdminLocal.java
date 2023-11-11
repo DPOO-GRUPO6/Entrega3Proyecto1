@@ -1,6 +1,7 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -65,6 +66,35 @@ public class PMenuAdminLocal extends JPanel {
 		});
 
 		this.add(panelCentro, BorderLayout.CENTER);
+		
+		JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Cerrar sesión");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrarSesion();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
+	}
+
+	protected void cerrarSesion() {
+		MenuPrincipal panelAnterior = new MenuPrincipal();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
+		
 	}
 
 	protected void goPanelCambiarInfoEmpleado() {
@@ -133,6 +163,24 @@ public class PMenuAdminLocal extends JPanel {
 	    });
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 		this.revalidate();
 		this.repaint();
 	}
@@ -217,7 +265,35 @@ public class PMenuAdminLocal extends JPanel {
 	    panelCentro.add(bRegistrarEmpleado,gbcnt);
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 		this.revalidate();
 		this.repaint();
+	}
+
+	protected void volverAPanelAnterior() {
+		PMenuAdminLocal panelAnterior = new PMenuAdminLocal();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
 	}
 }

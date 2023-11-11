@@ -31,9 +31,10 @@ import logica.Seguro;
 
 
 public class InterfazPrincipal extends JFrame{
-	
+	 
 	private MenuPrincipal menuPrincipal;
 	public Controlador controller = new Controlador();
+	
 	
 	public void ejecutar() throws ParseException{
 		this.controller.cargarInformacion();

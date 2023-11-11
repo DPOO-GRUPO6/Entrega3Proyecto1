@@ -31,10 +31,11 @@ import logica.Seguro;
 
 
 public class InterfazPrincipal extends JFrame{
-	Empresa ferrari = new Empresa();
 	private MenuPrincipal menuPrincipal;
+	public Controlador controller = new Controlador();
 	
-	public void ejecutar(){
+	public void ejecutar() throws ParseException{
+		this.controller.cargarInformacion();
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int)size.getWidth()-450,(int)size.getHeight()-150);
 		this.setTitle("Consecionario Ferrari");
@@ -42,7 +43,7 @@ public class InterfazPrincipal extends JFrame{
 		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		this.menuPrincipal = new MenuPrincipal();
+		this.menuPrincipal = new MenuPrincipal(controller);
 		this.add(menuPrincipal);
 	}
 

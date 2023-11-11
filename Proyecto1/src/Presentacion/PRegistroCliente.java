@@ -258,12 +258,14 @@ public class PRegistroCliente extends JPanel{
 	}
 	
 	protected void volverAPanelAnterior() {
+		/*
 		this.removeAll();
 		this.panelMenuPrincipal = new MenuPrincipal();
 		this.add(this.panelMenuPrincipal);
 		this.revalidate();
 		this.repaint();
 		this.panelMenuPrincipal.setVisible(true);
+		*/
 
 	}
 }

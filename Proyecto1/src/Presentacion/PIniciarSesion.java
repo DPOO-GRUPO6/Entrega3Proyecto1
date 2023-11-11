@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -22,11 +23,13 @@ import logica.Empresa;
 
 public class PIniciarSesion extends JPanel{
 	private MenuPrincipal panelMenuPrincipal;
+	public Controlador controller;
 	
-	PIniciarSesion(){
+	PIniciarSesion(Controlador controller){
+		this.controller = controller;
 		JPanel panelCentro = new JPanel();
 		this.setLayout(new BorderLayout());
-		JLabel lblIniciarSesion = new JLabel("Iniciar sesión", SwingConstants.CENTER);
+		JLabel lblIniciarSesion = new JLabel("Iniciar sesion", SwingConstants.CENTER);
 		lblIniciarSesion.setFont(new Font(null, Font.BOLD,55));
 		this.add(lblIniciarSesion, BorderLayout.NORTH);
 	
@@ -38,20 +41,25 @@ public class PIniciarSesion extends JPanel{
 		 
 	     JTextField textUsuario = new JTextField("", 15);
 	     textUsuario.setFont(new Font(null, Font.PLAIN,20));
+	    	 
 	     
-	     JLabel lblPwd = new JLabel("Ingrese su contraseña: ");
+	     JLabel lblPwd = new JLabel("Ingrese su contrasenia: ");
 	     lblPwd.setFont(new Font(null, Font.PLAIN,20));
 		 
 	     JTextField textPwd = new JTextField("", 15);
 	     textPwd.setFont(new Font(null, Font.PLAIN,20));
 	     
-	     JButton bIniciar = new JButton("Iniciar Sesión");
+	     JButton bIniciar = new JButton("Iniciar Sesion");
 	     bIniciar.setFont(new Font(null, Font.PLAIN,20));
 	     bIniciar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				goPanelIniciarSesion();
+				String usuario = textUsuario.getText();
+				String pwd = textPwd.getText();
+				iniciarSesion(usuario, pwd);
+				textUsuario.setText("");
+				textPwd.setText("");
 			}
 	    	 
 	     });
@@ -113,18 +121,50 @@ public class PIniciarSesion extends JPanel{
 	     
 	}
 
-	protected void goPanelIniciarSesion() {
-		this.removeAll();
-		PMenuAdminLocal panelPrueba = new PMenuAdminLocal();
-		this.add(panelPrueba);
-		this.revalidate();
-		this.repaint();
-		panelPrueba.setVisible(true);
+	protected void iniciarSesion(String usuario, String pwd) {
+		int tipoUsuario = this.controller.inicarSesion(usuario, pwd);
+		
+		if(tipoUsuario == 0) {
+			this.removeAll();
+			PMenuCliente panelInicioUsuario = new PMenuCliente();
+			this.add(panelInicioUsuario);
+			this.revalidate();
+			this.repaint();
+			panelInicioUsuario.setVisible(true);
+		}
+		else if(tipoUsuario == 1) {
+			this.removeAll();
+			PMenuEmpleado panelInicioUsuario = new PMenuEmpleado();
+			this.add(panelInicioUsuario);
+			this.revalidate();
+			this.repaint();
+			panelInicioUsuario.setVisible(true);
+		}
+		else if(tipoUsuario == 2) {
+			this.removeAll();
+			PMenuAdminLocal panelInicioUsuario = new PMenuAdminLocal();
+			this.add(panelInicioUsuario);
+			this.revalidate();
+			this.repaint();
+			panelInicioUsuario.setVisible(true);
+		}
+		else if(tipoUsuario == 3) {
+			this.removeAll();
+			PMenuAdminGeneral panelInicioUsuario = new PMenuAdminGeneral();
+			this.add(panelInicioUsuario);
+			this.revalidate();
+			this.repaint();
+			panelInicioUsuario.setVisible(true);
+		}
+		else {
+			 JOptionPane.showMessageDialog(this,"No se encontró el usuario o la contraseña es incorrecta","Alert",JOptionPane.WARNING_MESSAGE); 
+		}	
 	}
+
 
 	protected void volverAPanelAnterior() {
 		this.removeAll();
-		this.panelMenuPrincipal = new MenuPrincipal();
+		this.panelMenuPrincipal = new MenuPrincipal(this.controller);
 		this.add(this.panelMenuPrincipal);
 		this.revalidate();
 		this.repaint();

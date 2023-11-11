@@ -88,12 +88,14 @@ public class PMenuAdminLocal extends JPanel {
 	}
 
 	protected void cerrarSesion() {
+		/*
 		MenuPrincipal panelAnterior = new MenuPrincipal();
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
+		*/
 		
 	}
 

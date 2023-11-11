@@ -133,13 +133,14 @@ public class PMenuCliente extends JPanel{
 	}
 
 	protected void cerrarSesion() {
+		/*
 		MenuPrincipal panelAnterior = new MenuPrincipal();
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
-		
+		*/
 	}
 
 	protected void goPanelReservarCarro() {

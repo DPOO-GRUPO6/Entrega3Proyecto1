@@ -34,6 +34,7 @@ public class principal {
 		boolean continuar = true;
 		ferrari.cargarInformacion();
 		
+		
 		while(continuar) {
 			System.out.println("\n--- MENU PRINCIPAL ---");
 			System.out.println("\n1. Iniciar sesión\n2. Registrarse\n3. Salir \n");
@@ -510,29 +511,7 @@ public class principal {
 			}datos1.add(conductores);
 		return datos1;
 	}
-	/*List seguros= Empresa.getSeguros();
-		for (int l=1;l<seguros.size()+1;l++) {
-		      Seguro seguro1= (Seguro) seguros.get(l-1);
-		      String seguroAElegir= seguro1.getNombre();
-		      System.out.println(l+". "+seguroAElegir);
-		    }
-		int seguroElegido = Integer.parseInt(input("\nIngrese el seguro que quiere comprar: "));
-		datos1.add(seguros.get(seguroElegido-1));
-		int conductoresAdicionales = Integer.parseInt(input("\nIngrese cuantos conductores adicionales va a tener el vehiculo :"));
-		ArrayList<ArrayList> conductores = new ArrayList<ArrayList>();
-		if (conductoresAdicionales!=0) {
-			for (int s=1;s<conductoresAdicionales+1;s++) {
-			ArrayList<String> infoConductor = new ArrayList<String>();
-			String numeroLicencia = String.valueOf(input("\nIngrese el numero de la licencia del conductor "));
-			infoConductor.add(numeroLicencia);
-			String paisLicencia = String.valueOf(input("\nIngrese el pais de expedición de la licencia del conductor "));
-			infoConductor.add(paisLicencia);
-			String vencimientoLicencia = String.valueOf(input("\nIngrese la fecha de vencimiento de la licencia del conductor "));
-			infoConductor.add(vencimientoLicencia);
-			conductores.add(infoConductor);
-		}
-			
-			}datos1.add(conductores);*/
+	
 	
 	public ArrayList<Object> registroPrimerosDatos() {
 		ArrayList<Object> datos1 = new ArrayList<Object>();

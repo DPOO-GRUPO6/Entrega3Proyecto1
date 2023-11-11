@@ -22,8 +22,10 @@ public class MenuPrincipal extends JPanel{
 	private JPanel panelCentro;
 	public PIniciarSesion panelInicioSesion;
 	public PRegistroCliente panelRegClient;
+	public Controlador controller;
 
-	MenuPrincipal(){
+	MenuPrincipal(Controlador controller){
+		this.controller = controller;
 		this.setLayout(new BorderLayout());
 		this.lblSaludo = new JLabel("Bienvenido", SwingConstants.CENTER);
 		this.lblSaludo.setFont(new Font(null, Font.BOLD,70));
@@ -86,7 +88,7 @@ public class MenuPrincipal extends JPanel{
 
 	public void iniciarSesion() {
 		this.removeAll();
-		this.panelInicioSesion = new PIniciarSesion();
+		this.panelInicioSesion = new PIniciarSesion(this.controller);
 		this.add(this.panelInicioSesion);
 		this.revalidate();
 		this.repaint();

@@ -2,6 +2,7 @@ package Presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -111,8 +112,37 @@ public class PMenuAdminGeneral extends JPanel{
 
 		
 		this.add(panelCentro, BorderLayout.CENTER);
+		
+		JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Cerrar sesión");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 20));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrarSesion();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 	}
 	
+
+	protected void cerrarSesion() {
+		MenuPrincipal panelAnterior = new MenuPrincipal();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
+	}
+
 
 	protected void darDeBajaVentana() {
 		String placaCarroBaja = JOptionPane.showInputDialog(this, "Ingrese la placa del vehiculo a dar de baja", "");
@@ -193,10 +223,39 @@ public class PMenuAdminGeneral extends JPanel{
 	    panelCentro.add(bRegistrarSeguro,gbcnt);
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 	    this.revalidate();
 		this.repaint();
 	}
 	
+	protected void volverAPanelAnterior() {
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
+	}
+
+
 	protected void goPanelTransladoInterno() {
 		this.removeAll();
 		this.setLayout(new BorderLayout());
@@ -255,6 +314,25 @@ public class PMenuAdminGeneral extends JPanel{
 	    panelCentro.add(bRegistrarTranslado,gbcnt);
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
+	    
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 	    this.revalidate();
 		this.repaint();
 	}

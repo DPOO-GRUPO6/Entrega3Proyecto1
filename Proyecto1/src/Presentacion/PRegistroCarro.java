@@ -2,10 +2,13 @@ package Presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -144,6 +147,33 @@ public class PRegistroCarro extends JPanel{
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
 	    
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 	    
+	}
+
+	protected void volverAPanelAnterior() {
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
 	}
 }

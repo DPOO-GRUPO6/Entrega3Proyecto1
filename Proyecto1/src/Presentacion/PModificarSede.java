@@ -2,6 +2,7 @@ package Presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -121,7 +122,26 @@ public class PModificarSede extends JPanel{
 	 				modificarAdminLocal();
 	 			}
 	 	    });
+	    JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
 	}
+
 
 	protected void modificarAdminLocal() {
 		String nuevoAdminLoc = JOptionPane.showInputDialog(this, "Ingrese el nuevo administrador local de la sede", "");
@@ -141,5 +161,14 @@ public class PModificarSede extends JPanel{
 
 	protected void modificarNombreSede() {
 		String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la sede", "");
+	}
+	
+	protected void volverAPanelAnterior() {
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
 	}
 }

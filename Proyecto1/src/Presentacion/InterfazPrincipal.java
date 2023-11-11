@@ -31,6 +31,7 @@ import logica.Seguro;
 
 
 public class InterfazPrincipal extends JFrame{
+	
 	private MenuPrincipal menuPrincipal;
 	public Controlador controller = new Controlador();
 	

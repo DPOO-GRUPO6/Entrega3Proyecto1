@@ -107,16 +107,11 @@ public class PReservarCarro extends JPanel{
 			e.printStackTrace();
 		}
 	   
-	    
-	    try {
-			MaskFormatter formatFecha = new MaskFormatter("##:##");
-			JFormattedTextField txtHoraInic  = new JFormattedTextField(formatFecha);
-			txtHoraInic.setFont(defaultFont);
-			gbcnt.gridy = 3;
-		    panelCentro.add(txtHoraInic,gbcnt);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	    String horas[]= {"8:00", "9:00","10:00","11:00","12:00","13:00","14:00","15:00"};
+	    JComboBox CBhorasRec = new JComboBox(horas);
+	    CBhorasRec.setBackground(Color.white);
+	    gbcnt.gridy = 3;
+	    panelCentro.add(CBhorasRec,gbcnt);
 	    
 	    JTextField txtSedeInic  = new JTextField("sede red");
 	    txtSedeInic.setFont(defaultFont);
@@ -135,10 +130,10 @@ public class PReservarCarro extends JPanel{
 		}
 	    
 	    
-	    JTextField txtHoraFin  = new JTextField("hora llegada");
-	    txtHoraFin.setFont(defaultFont);
+	    JComboBox CBhorasSal = new JComboBox(horas);
+	    CBhorasSal.setBackground(Color.white);
 	    gbcnt.gridy = 3;
-	    panelCentro.add(txtHoraFin,gbcnt);
+	    panelCentro.add(CBhorasSal,gbcnt);
 	    
 	    String sedes[]= {"sede1", "sede2"};
 	    JComboBox CBsedes = new JComboBox(sedes);

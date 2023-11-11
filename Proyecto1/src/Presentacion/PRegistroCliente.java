@@ -119,10 +119,18 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtCorreo,gbcnt);
 	   
-	    JTextField txtTelefono  = new JTextField("Telefono");
-	    txtTelefono.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(txtTelefono,gbcnt);
+	    //JTextField txtTelefono  = new JTextField("Telefono");
+	    
+	    
+	    try {
+			MaskFormatter formatNumero = new MaskFormatter("##########");
+			 JFormattedTextField txtTelefono  = new JFormattedTextField(formatNumero);
+			 txtTelefono.setFont(defaultFont);
+			    gbcnt.gridy = 3;
+			    panelCentro.add(txtTelefono,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    try {
 			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
@@ -140,10 +148,16 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 5;
 	    panelCentro.add(txtNacionalidad,gbcnt);
 	    
-	    JTextField txtNumLicencia  = new JTextField("Licencia#");
-	    txtNumLicencia.setFont(defaultFont);
-	    gbcnt.gridy = 6;
-	    panelCentro.add(txtNumLicencia,gbcnt);
+	    
+	    try {
+			MaskFormatter formatNumLicencia = new MaskFormatter("############");
+			 JFormattedTextField txtNumLicencia  = new JFormattedTextField(formatNumLicencia);
+			 txtNumLicencia.setFont(defaultFont);
+			    gbcnt.gridy = 6;
+			    panelCentro.add(txtNumLicencia,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    
 	    try {
@@ -157,10 +171,17 @@ public class PRegistroCliente extends JPanel{
 			e.printStackTrace();
 		}
 	    
-	    JTextField txtNumTarjCred  = new JTextField("# tarjeta credito");
-	    txtNumTarjCred.setFont(defaultFont);
-	    gbcnt.gridy = 2;
-	    panelCentro.add(txtNumTarjCred,gbcnt);
+	    
+	    try {
+			MaskFormatter formatNumTarjCred = new MaskFormatter("##############");
+			JFormattedTextField txtNumTarjCred  = new JFormattedTextField(formatNumTarjCred);
+			txtNumTarjCred.setFont(defaultFont);
+			 txtNumTarjCred.setFont(defaultFont);
+			   gbcnt.gridy = 2;
+			   panelCentro.add(txtNumTarjCred,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    
 	    try {

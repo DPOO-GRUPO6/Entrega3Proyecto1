@@ -115,11 +115,11 @@ public class PIniciarSesion extends JPanel{
 
 	protected void goPanelIniciarSesion() {
 		this.removeAll();
-		PMenuAdminGeneral panelAdminGen = new PMenuAdminGeneral();
-		this.add(panelAdminGen);
+		PMenuAdminLocal panelPrueba = new PMenuAdminLocal();
+		this.add(panelPrueba);
 		this.revalidate();
 		this.repaint();
-		panelAdminGen.setVisible(true);
+		panelPrueba.setVisible(true);
 	}
 
 	protected void volverAPanelAnterior() {

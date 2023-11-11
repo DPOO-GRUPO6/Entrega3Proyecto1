@@ -10,13 +10,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
 
 public class PRegistroCliente extends JPanel{
 	private PMenuCliente panelMenuCliente; // a este es el que finalmente debería de estar conectado
@@ -106,8 +109,6 @@ public class PRegistroCliente extends JPanel{
 	    /* text fields para info de registro */
 	    
 	    JTextField txtNombre  = new JTextField("Nombre completo");
-	    //gbcnt.insets = new Insets(0,8,0,20);
-	    //gbcnt.ipady = 10;
 	    txtNombre.setFont(defaultFont);
 		gbcnt.gridx = 1;
 	    gbcnt.gridy = 1;
@@ -123,10 +124,15 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 3;
 	    panelCentro.add(txtTelefono,gbcnt);
 	    
-	    JTextField txtNacimiento  = new JTextField("Bday");
-	    txtNacimiento.setFont(defaultFont);
-	    gbcnt.gridy = 4;
-	    panelCentro.add(txtNacimiento,gbcnt);
+	    try {
+			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+			 JFormattedTextField txtNacimiento  = new JFormattedTextField(formatFecha);
+			    txtNacimiento.setFont(defaultFont);
+			    gbcnt.gridy = 4;
+			    panelCentro.add(txtNacimiento,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    
 	    JTextField txtNacionalidad  = new JTextField("Nation");
@@ -139,21 +145,33 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 6;
 	    panelCentro.add(txtNumLicencia,gbcnt);
 	    
-	    JTextField txtFechaExpLic  = new JTextField("fecha exp licencia");
-	    txtFechaExpLic.setFont(defaultFont);
-	    gbcnt.gridy = 1;
-	    gbcnt.gridx = 3;
-	    panelCentro.add(txtFechaExpLic,gbcnt);
+	    
+	    try {
+			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+			JFormattedTextField txtFechaExpLic  = new JFormattedTextField(formatFecha);
+			 txtFechaExpLic.setFont(defaultFont);
+			    gbcnt.gridy = 1;
+			    gbcnt.gridx = 3;
+			    panelCentro.add(txtFechaExpLic,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    JTextField txtNumTarjCred  = new JTextField("# tarjeta credito");
 	    txtNumTarjCred.setFont(defaultFont);
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtNumTarjCred,gbcnt);
 	    
-	    JTextField txtFechaVenTarj  = new JTextField("fecha ven tarjeta credito");
-	    txtFechaVenTarj.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(txtFechaVenTarj,gbcnt);
+	    
+	    try {
+			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+			JFormattedTextField txtFechaVenTarj  = new JFormattedTextField(formatFecha);
+			txtFechaVenTarj.setFont(defaultFont);
+			gbcnt.gridy = 3;
+		    panelCentro.add(txtFechaVenTarj,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    JTextField txtNameUsuario  = new JTextField("nombre usuario sel");
 	    txtNameUsuario.setFont(defaultFont);

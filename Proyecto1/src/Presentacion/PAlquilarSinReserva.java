@@ -9,15 +9,18 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.text.MaskFormatter;
 
 public class PAlquilarSinReserva extends JPanel{
 	
@@ -98,12 +101,17 @@ public class PAlquilarSinReserva extends JPanel{
 	    gbcnt.gridwidth = 3;
 	    panelCentro.add(txtCategoria,gbcnt);
 	    
-	    JTextField txtFechaInic  = new JTextField("fecha rec");
-	    txtFechaInic.setFont(defaultFont);
-	    gbcnt.gridy = 2;
-	    gbcnt.gridwidth = 1;
-	    gbcnt.ipadx = 45;
-	    panelCentro.add(txtFechaInic,gbcnt);
+	    try {
+			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+			JFormattedTextField txtFechaInic  = new JFormattedTextField(formatFecha);
+			txtFechaInic.setFont(defaultFont);
+			gbcnt.gridy = 2;
+		    gbcnt.gridwidth = 1;
+		    gbcnt.ipadx = 45;
+		    panelCentro.add(txtFechaInic,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	   
 	    JTextField txtHoraInic  = new JTextField("Hora rec");
 	    txtHoraInic.setFont(defaultFont);
@@ -116,12 +124,16 @@ public class PAlquilarSinReserva extends JPanel{
 	    panelCentro.add(txtSedeInic,gbcnt);
 	    
 	    
-	    String categorias[]= {"cat 1", "cat2"};
-	    JComboBox CBcategoria = new JComboBox(categorias);
-	    CBcategoria.setBackground(Color.white);
-	    gbcnt.gridx = 3;
-	    gbcnt.gridy = 2;
-	    panelCentro.add(CBcategoria,gbcnt);
+	    try {
+			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+			JFormattedTextField txtFechaFin  = new JFormattedTextField(formatFecha);
+			txtFechaFin.setFont(defaultFont);
+			gbcnt.gridx = 3;
+		    gbcnt.gridy = 2;
+		    panelCentro.add(txtFechaFin,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    JTextField txtHoraFin  = new JTextField("hora llegada");
 	    txtHoraFin.setFont(defaultFont);

@@ -47,6 +47,14 @@ public class PIniciarSesion extends JPanel{
 	     
 	     JButton bIniciar = new JButton("Iniciar Sesión");
 	     bIniciar.setFont(new Font(null, Font.PLAIN,20));
+	     bIniciar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goPanelIniciarSesion();
+			}
+	    	 
+	     });
 	     
 	     gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	     gbcnt.ipady = 10;
@@ -103,6 +111,15 @@ public class PIniciarSesion extends JPanel{
 	     panelSur.add(bVolver);
 	     this.add(panelSur, BorderLayout.SOUTH);
 	     
+	}
+
+	protected void goPanelIniciarSesion() {
+		this.removeAll();
+		PMenuEmpleado panelEmplado = new PMenuEmpleado();
+		this.add(panelEmplado);
+		this.revalidate();
+		this.repaint();
+		panelEmplado.setVisible(true);
 	}
 
 	protected void volverAPanelAnterior() {

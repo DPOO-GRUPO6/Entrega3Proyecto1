@@ -39,7 +39,7 @@ public class InterfazPrincipal extends JFrame{
 		this.setSize((int)size.getWidth()-450,(int)size.getHeight()-150);
 		this.setTitle("Consecionario Ferrari");
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		this.menuPrincipal = new MenuPrincipal();

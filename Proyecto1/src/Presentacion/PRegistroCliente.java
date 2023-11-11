@@ -38,13 +38,12 @@ public class PRegistroCliente extends JPanel{
 		lblInstruccion.setFont(new Font(null, Font.PLAIN,25));
 		gbcnt.gridx = 0;
 	    gbcnt.gridy = 0;
-	    gbcnt.gridwidth = 5;
+	    gbcnt.gridwidth = 4;
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(lblInstruccion,gbcnt);
 	    panelCentro.add(Box.createRigidArea(new Dimension(0, 55)),gbcnt);
 	    
-	    gbcnt.insets  = new Insets(10,5,10,2);
-	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
+	    gbcnt.insets  = new Insets(5,5,5,2);
 	    gbcnt.gridwidth = 1;
 	    JLabel lblNombre = new JLabel("Nombre completo", SwingConstants.RIGHT);
 		lblInstruccion.setFont(defaultFont);
@@ -80,7 +79,7 @@ public class PRegistroCliente extends JPanel{
 	    
 	    JLabel lblFechaExpLic = new JLabel("Fecha de expedición de su licencia", SwingConstants.RIGHT);
 	    lblFechaExpLic.setFont(defaultFont);
-	    gbcnt.gridx = 3;
+	    gbcnt.gridx = 2;
 	    gbcnt.gridy = 1;
 	    panelCentro.add(lblFechaExpLic,gbcnt);
 	    
@@ -107,7 +106,8 @@ public class PRegistroCliente extends JPanel{
 	    /* text fields para info de registro */
 	    
 	    JTextField txtNombre  = new JTextField("Nombre completo");
-	    gbcnt.insets = new Insets(0,8,0,40);
+	    //gbcnt.insets = new Insets(0,8,0,20);
+	    //gbcnt.ipady = 10;
 	    txtNombre.setFont(defaultFont);
 		gbcnt.gridx = 1;
 	    gbcnt.gridy = 1;
@@ -142,7 +142,7 @@ public class PRegistroCliente extends JPanel{
 	    JTextField txtFechaExpLic  = new JTextField("fecha exp licencia");
 	    txtFechaExpLic.setFont(defaultFont);
 	    gbcnt.gridy = 1;
-	    gbcnt.gridx = 4;
+	    gbcnt.gridx = 3;
 	    panelCentro.add(txtFechaExpLic,gbcnt);
 	    
 	    JTextField txtNumTarjCred  = new JTextField("# tarjeta credito");
@@ -167,11 +167,11 @@ public class PRegistroCliente extends JPanel{
 	    
 	    JButton bEnviar = new JButton("Registrarse");
 	    bEnviar.setFont(new Font(null, Font.BOLD,18));
-	    gbcnt.gridx = 1;
+	    gbcnt.gridx = 0;
 	    gbcnt.gridy = 7;
-	    gbcnt.gridwidth = 3;
+	    gbcnt.gridwidth = 4;
 	    gbcnt.ipady = 10;
-	    gbcnt.insets  = new Insets(70,10,30,10);
+	    gbcnt.insets  = new Insets(30,10,30,10);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(bEnviar,gbcnt);
 	    bEnviar.addActionListener(new ActionListener() {

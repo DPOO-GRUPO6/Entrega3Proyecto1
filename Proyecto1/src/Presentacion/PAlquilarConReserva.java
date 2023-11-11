@@ -17,13 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
-public class PAlquilarSinReserva extends JPanel{
+public class PAlquilarConReserva extends JPanel{
 	
-	PAlquilarSinReserva(){
+	PAlquilarConReserva(){
 		this.setLayout(new BorderLayout());
-		JLabel lblTitulo = new JLabel("Alquilar vehículo", SwingConstants.CENTER);
+		JLabel lblTitulo = new JLabel("Finalizar alquiler", SwingConstants.CENTER);
 		lblTitulo.setFont(new Font(null, Font.BOLD, 45));
 		this.add(lblTitulo, BorderLayout.NORTH);
 		
@@ -37,109 +36,23 @@ public class PAlquilarSinReserva extends JPanel{
 		lblInstruccion.setFont(new Font(null, Font.PLAIN,15));
 		gbcnt.gridx = 0;
 	    gbcnt.gridy = 0;
-	    gbcnt.gridwidth = 5;
+	    gbcnt.gridwidth = 2;
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
-	    gbcnt.insets  = new Insets(0,0,20,0);
+	    gbcnt.insets  = new Insets(0,5,20,5);
 	    panelCentro.add(lblInstruccion,gbcnt);
-	    
-	    JLabel lblCategoria = new JLabel("Seleccione la categoría", SwingConstants.RIGHT);
-	    gbcnt.insets  = new Insets(5,5,10,2);
-	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
-	    gbcnt.gridwidth = 1;
-	    lblCategoria.setFont(defaultFont);
-		gbcnt.gridx = 0;
-	    gbcnt.gridy = 1;
-	    panelCentro.add(lblCategoria,gbcnt);
-	    
-	    JLabel lblFechaInicio = new JLabel("Fecha de recogida", SwingConstants.RIGHT);
-	    lblFechaInicio.setFont(defaultFont);
-	    gbcnt.gridy = 2;
-	    panelCentro.add(lblFechaInicio,gbcnt);
-	    
-	    JLabel lblHoraInicio = new JLabel("Hora de recogida", SwingConstants.RIGHT);
-	    lblHoraInicio.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(lblHoraInicio,gbcnt);
-	    
-	    JLabel lblSedeRecogida = new JLabel("Sede de recogida", SwingConstants.RIGHT);
-	    lblSedeRecogida.setFont(defaultFont);
-	    gbcnt.gridy = 4;
-	    panelCentro.add(lblSedeRecogida,gbcnt);
-	    
-	    JLabel lblFechaFin = new JLabel("Fecha llegada", SwingConstants.RIGHT);
-	    lblFechaFin.setFont(defaultFont);
-	    gbcnt.gridx = 2;
-	    gbcnt.gridy = 2;
-	    panelCentro.add(lblFechaFin,gbcnt);
-	    
-	    JLabel lblHoraFin = new JLabel("Hora de llegada", SwingConstants.RIGHT);
-	    lblHoraFin.setFont(defaultFont);
-	    gbcnt.gridx = 2;
-	    gbcnt.gridy = 3;
-	    panelCentro.add(lblHoraFin,gbcnt);
-	    
-	    JLabel lblSedeLlegada = new JLabel("Sede de llegada", SwingConstants.RIGHT);
-	    lblSedeLlegada.setFont(defaultFont);
-	    gbcnt.gridy = 4;
-	    panelCentro.add(lblSedeLlegada,gbcnt);
 	    
 	    JLabel lblSeguro = new JLabel("Seleccione un seguro (opcional)", SwingConstants.RIGHT);
 	    lblSeguro.setFont(defaultFont);
-	    gbcnt.gridy = 5;
+	    gbcnt.gridy = 1;
 	    gbcnt.gridx = 0;
 	    panelCentro.add(lblSeguro, gbcnt);
-	    	    
-	    /* text fields para info de registro */
-	    gbcnt.insets  = new Insets(0,8,0,35);
-	    JTextField txtCategoria  = new JTextField("categoria");
-	    txtCategoria.setFont(defaultFont);
-		gbcnt.gridx = 1;
-	    gbcnt.gridy = 1;
-	    gbcnt.gridwidth = 3;
-	    panelCentro.add(txtCategoria,gbcnt);
 	    
-	    JTextField txtFechaInic  = new JTextField("fecha rec");
-	    txtFechaInic.setFont(defaultFont);
-	    gbcnt.gridy = 2;
-	    gbcnt.gridwidth = 1;
-	    gbcnt.ipadx = 45;
-	    panelCentro.add(txtFechaInic,gbcnt);
-	   
-	    JTextField txtHoraInic  = new JTextField("Hora rec");
-	    txtHoraInic.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(txtHoraInic,gbcnt);
-	    
-	    JTextField txtSedeInic  = new JTextField("sede red");
-	    txtSedeInic.setFont(defaultFont);
-	    gbcnt.gridy = 4;
-	    panelCentro.add(txtSedeInic,gbcnt);
-	    
-	    
-	    String categorias[]= {"cat 1", "cat2"};
-	    JComboBox CBcategoria = new JComboBox(categorias);
-	    CBcategoria.setBackground(Color.white);
-	    gbcnt.gridx = 3;
-	    gbcnt.gridy = 2;
-	    panelCentro.add(CBcategoria,gbcnt);
-	    
-	    JTextField txtHoraFin  = new JTextField("hora llegada");
-	    txtHoraFin.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(txtHoraFin,gbcnt);
-	    
-	    String sedes[]= {"sede1", "sede2"};
-	    JComboBox CBsedes = new JComboBox(sedes);
-	    CBsedes.setBackground(Color.white);
-	    gbcnt.gridy = 4;
-	    panelCentro.add(CBsedes,gbcnt);
-	      
 	    String seguros[]= {"seg1", "seg2"};
 	    JComboBox CBseguro = new JComboBox(seguros);
 	    CBseguro.setBackground(Color.white);
-	    gbcnt.gridy = 5;
-	    gbcnt.gridx = 1;
-	    gbcnt.gridwidth = 4;
+	    gbcnt.gridy = 1;
+	    gbcnt.gridx = 2;
+	    gbcnt.gridwidth = 2;
 	    panelCentro.add(CBseguro,gbcnt);
 	    gbcnt.insets = new Insets(0,0,10,0);
 	    

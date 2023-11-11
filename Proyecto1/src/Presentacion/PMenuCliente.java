@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -70,6 +71,14 @@ public class PMenuCliente extends JPanel{
 		JButton bAlquilarConReserva = new JButton("Alquilar con reserva");
 		bAlquilarConReserva.setFont(defaultFont);
 		panelCentro.add(bAlquilarConReserva,gbcnt);
+		bAlquilarConReserva.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goOptionPanelModifDatos();
+			}
+			
+		});
 		
 		this.add(panelCentro, BorderLayout.CENTER);
 		
@@ -92,6 +101,27 @@ public class PMenuCliente extends JPanel{
 	     panelSur.add(bVolver);
 	     this.add(panelSur, BorderLayout.SOUTH);
 	}
+
+	protected void goOptionPanelModifDatos() {
+		int sel = JOptionPane.showConfirmDialog(this,"Desea modificar los datos de su reserva?", "Modificar datos reserva", JOptionPane.YES_NO_OPTION);
+		if(sel ==1) {
+			PAlquilarConReserva panelAlquiler = new PAlquilarConReserva();
+			this.removeAll();
+			this.add(panelAlquiler);
+			this.revalidate();
+			this.repaint();
+			panelAlquiler.setVisible(true);
+		}
+		else if(sel==0) {
+			PAlquilarSinReserva panelAlquiler = new PAlquilarSinReserva();
+			this.removeAll();
+			this.add(panelAlquiler);
+			this.revalidate();
+			this.repaint();
+			panelAlquiler.setVisible(true);
+		}
+	}
+	
 
 	protected void goPAlquilarSinReserva() {
 		PAlquilarSinReserva panelAlquilarSinReserva = new PAlquilarSinReserva();

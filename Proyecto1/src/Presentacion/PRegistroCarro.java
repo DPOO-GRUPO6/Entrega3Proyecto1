@@ -37,29 +37,29 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.insets  = new Insets(0,0,50,0);
 	    panelCentro.add(lblInstruccion,gbcnt);
 	    
-	    JLabel lblNombre = new JLabel("Placa del vehículo", SwingConstants.RIGHT);
+	    JLabel lblPlaca = new JLabel("Placa del vehículo", SwingConstants.RIGHT);
 	    gbcnt.insets  = new Insets(10,5,10,2);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    gbcnt.gridwidth = 1;
-	    lblNombre.setFont(defaultFont);
+	    lblPlaca.setFont(defaultFont);
 		gbcnt.gridx = 0;
 	    gbcnt.gridy = 1;
-	    panelCentro.add(lblNombre,gbcnt);
+	    panelCentro.add(lblPlaca,gbcnt);
 	    
-	    JLabel lblCorreo = new JLabel("Marca del vehículo", SwingConstants.RIGHT);
-	    lblCorreo.setFont(defaultFont);
+	    JLabel lblMarca = new JLabel("Marca del vehículo", SwingConstants.RIGHT);
+	    lblMarca.setFont(defaultFont);
 	    gbcnt.gridy = 2;
-	    panelCentro.add(lblCorreo,gbcnt);
+	    panelCentro.add(lblMarca,gbcnt);
 	    
-	    JLabel lblTelefono = new JLabel("Modelo del vehículo", SwingConstants.RIGHT);
-	    lblTelefono.setFont(defaultFont);
+	    JLabel lblModelo = new JLabel("Modelo del vehículo", SwingConstants.RIGHT);
+	    lblModelo.setFont(defaultFont);
 	    gbcnt.gridy = 3;
-	    panelCentro.add(lblTelefono,gbcnt);
+	    panelCentro.add(lblModelo,gbcnt);
 	    
-	    JLabel lblNacimiento = new JLabel("Color del vehículo", SwingConstants.RIGHT);
-	    lblNacimiento.setFont(defaultFont);
+	    JLabel lblColor = new JLabel("Color del vehículo", SwingConstants.RIGHT);
+	    lblColor.setFont(defaultFont);
 	    gbcnt.gridy = 4;
-	    panelCentro.add(lblNacimiento,gbcnt);
+	    panelCentro.add(lblColor,gbcnt);
 	    
 	    JLabel lblCategoria = new JLabel("Categoría del vehículo", SwingConstants.RIGHT);
 	    lblCategoria.setFont(defaultFont);
@@ -67,45 +67,45 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 1;
 	    panelCentro.add(lblCategoria,gbcnt);
 	    
-	    JLabel lblNacionalidad = new JLabel("Tipo de transmisión", SwingConstants.RIGHT);
-	    lblNacionalidad.setFont(defaultFont);
+	    JLabel lblTransmision = new JLabel("Tipo de transmisión", SwingConstants.RIGHT);
+	    lblTransmision.setFont(defaultFont);
 	    gbcnt.gridx = 2;
 	    gbcnt.gridy = 2;
-	    panelCentro.add(lblNacionalidad,gbcnt);
+	    panelCentro.add(lblTransmision,gbcnt);
 	    
-	    JLabel lblNumLicencia = new JLabel("Capacidad del vehículo", SwingConstants.RIGHT);
-	    lblNumLicencia.setFont(defaultFont);
+	    JLabel lblCapacidad = new JLabel("Capacidad del vehículo", SwingConstants.RIGHT);
+	    lblCapacidad.setFont(defaultFont);
 	    gbcnt.gridy = 3;
-	    panelCentro.add(lblNumLicencia,gbcnt);
+	    panelCentro.add(lblCapacidad,gbcnt);
 	    
-	    JLabel lblFechaExpLic = new JLabel("Sede asignada", SwingConstants.RIGHT);
-	    lblFechaExpLic.setFont(defaultFont);
+	    JLabel lblSede = new JLabel("Sede asignada", SwingConstants.RIGHT);
+	    lblSede.setFont(defaultFont);
 	    gbcnt.gridy = 4;
-	    panelCentro.add(lblFechaExpLic,gbcnt);
+	    panelCentro.add(lblSede,gbcnt);
 	    
 	    	    
 	    /* text fields para info de registro */
-	    
-	    JTextField txtNombre  = new JTextField("Nombre completo");
-	    txtNombre.setFont(defaultFont);
+	    gbcnt.ipadx = 45;
+	    JTextField txtPlaca  = new JTextField("AAA-000");
+	    txtPlaca.setFont(defaultFont);
 		gbcnt.gridx = 1;
 	    gbcnt.gridy = 1;
-	    panelCentro.add(txtNombre,gbcnt);
+	    panelCentro.add(txtPlaca,gbcnt);
 	    
-	    JTextField txtCorreo  = new JTextField("Correo");
-	    txtCorreo.setFont(defaultFont);
+	    JTextField txtMarca  = new JTextField("Marca");
+	    txtMarca.setFont(defaultFont);
 	    gbcnt.gridy = 2;
-	    panelCentro.add(txtCorreo,gbcnt);
+	    panelCentro.add(txtMarca,gbcnt);
 	   
-	    JTextField txtTelefono  = new JTextField("Telefono");
-	    txtTelefono.setFont(defaultFont);
+	    JTextField txtModelo  = new JTextField("modelo");
+	    txtModelo.setFont(defaultFont);
 	    gbcnt.gridy = 3;
-	    panelCentro.add(txtTelefono,gbcnt);
+	    panelCentro.add(txtModelo,gbcnt);
 	    
-	    JTextField txtNacimiento  = new JTextField("Bday");
-	    txtNacimiento.setFont(defaultFont);
+	    JTextField txtmodelo  = new JTextField("Color");
+	    txtmodelo.setFont(defaultFont);
 	    gbcnt.gridy = 4;
-	    panelCentro.add(txtNacimiento,gbcnt);
+	    panelCentro.add(txtmodelo,gbcnt);
 	    
 	    
 	    String categorias[]= {"cat 1", "cat2"};
@@ -115,15 +115,15 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 1;
 	    panelCentro.add(CBcategoria,gbcnt);
 	    
-	    JTextField txtFechaExpLic  = new JTextField("fecha exp licencia");
-	    txtFechaExpLic.setFont(defaultFont);
+	    JTextField txtTipoTransmision  = new JTextField("tipo trans");
+	    txtTipoTransmision.setFont(defaultFont);
 	    gbcnt.gridy = 2;
-	    panelCentro.add(txtFechaExpLic,gbcnt);
+	    panelCentro.add(txtTipoTransmision,gbcnt);
 	    
-	    JTextField txtNacionalidad  = new JTextField("Nation");
-	    txtNacionalidad.setFont(defaultFont);
+	    JTextField txtcapacidad  = new JTextField("Capacidad");
+	    txtcapacidad.setFont(defaultFont);
 	    gbcnt.gridy = 3;
-	    panelCentro.add(txtNacionalidad,gbcnt);
+	    panelCentro.add(txtcapacidad,gbcnt);
 	    
 	    String sedes[]= {"sede1", "sede2"};
 	    JComboBox CBsedes = new JComboBox(sedes);

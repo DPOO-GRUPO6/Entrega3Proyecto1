@@ -1,10 +1,13 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class PMenuCliente extends JPanel{
+	private PReservarCarro panelReservas;
 	
 	PMenuCliente(){
 		this.setLayout(new BorderLayout());
@@ -39,11 +43,28 @@ public class PMenuCliente extends JPanel{
 		JButton bReservar = new JButton("Reservar vehiculo");
 		bReservar.setFont(defaultFont);
 		panelCentro.add(bReservar, gbcnt);
+		bReservar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goPanelReservarCarro();
+			}
+			
+		});
 		
 		gbcnt.gridy = 2;
 		JButton bAlquilarNormal = new JButton("Alquilar sin reserva");
 		bAlquilarNormal.setFont(defaultFont);
 		panelCentro.add(bAlquilarNormal,gbcnt);
+		bAlquilarNormal.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goPAlquilarSinReserva();
+			}
+			
+		});
+		
 		
 		gbcnt.gridy = 3;
 		JButton bAlquilarConReserva = new JButton("Alquilar con reserva");
@@ -51,5 +72,52 @@ public class PMenuCliente extends JPanel{
 		panelCentro.add(bAlquilarConReserva,gbcnt);
 		
 		this.add(panelCentro, BorderLayout.CENTER);
+		
+		JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Cerrar sesión");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cerrarSesion();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
+	}
+
+	protected void goPAlquilarSinReserva() {
+		PAlquilarSinReserva panelAlquilarSinReserva = new PAlquilarSinReserva();
+		this.removeAll();
+		this.add(panelAlquilarSinReserva);
+		this.revalidate();
+		this.repaint();
+		panelAlquilarSinReserva.setVisible(true);		
+	}
+
+	protected void cerrarSesion() {
+		MenuPrincipal panelAnterior = new MenuPrincipal();
+		this.removeAll();
+		this.add(panelAnterior);
+		this.revalidate();
+		this.repaint();
+		panelAnterior.setVisible(true);
+		
+	}
+
+	protected void goPanelReservarCarro() {
+		this.removeAll();
+		this.panelReservas = new PReservarCarro();
+		this.add(this.panelReservas);
+		this.revalidate();
+		this.repaint();
+		this.panelReservas.setVisible(true);
 	}
 }

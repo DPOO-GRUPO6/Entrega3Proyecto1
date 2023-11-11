@@ -2,9 +2,13 @@ package Presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -17,7 +21,7 @@ import javax.swing.SwingConstants;
 import logica.Empresa;
 
 public class PIniciarSesion extends JPanel{
-	
+	private MenuPrincipal panelMenuPrincipal;
 	
 	PIniciarSesion(){
 		JPanel panelCentro = new JPanel();
@@ -78,7 +82,35 @@ public class PIniciarSesion extends JPanel{
 	     gbcnt.gridwidth = 2;
 	     panelCentro.add(bIniciar,gbcnt);
 	     
-	     this.add(panelCentro);
+	     this.add(panelCentro, BorderLayout.CENTER);
 	     
+	     JPanel panelSur = new JPanel();
+	     FlowLayout layoutPsur = new FlowLayout();
+	     layoutPsur.setAlignment(FlowLayout.LEFT);
+	     panelSur.setLayout(layoutPsur);
+	     JButton bVolver = new JButton("Volver");
+	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	     
+	     bVolver.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				volverAPanelAnterior();
+			}
+	    	 
+	     });
+	     
+	     panelSur.add(bVolver);
+	     this.add(panelSur, BorderLayout.SOUTH);
+	     
+	}
+
+	protected void volverAPanelAnterior() {
+		this.removeAll();
+		this.panelMenuPrincipal = new MenuPrincipal();
+		this.add(this.panelMenuPrincipal);
+		this.revalidate();
+		this.repaint();
+		this.panelMenuPrincipal.setVisible(true);
 	}
 }

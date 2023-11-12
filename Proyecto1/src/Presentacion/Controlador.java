@@ -2,9 +2,9 @@ package Presentacion;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 import logica.Empresa;
+import logica.Sede;
 import logica.Usuario;
 
 public class Controlador {
@@ -54,6 +54,7 @@ public class Controlador {
 		return Arr;
 	}
 	
+	
 	//métodos adminGeneral
 	
 	public String registrarNuevoCarro(String placa, String marca, String modelo, String color, String tipoTrans, String capacidad, String categoria,String sede) {
@@ -90,5 +91,21 @@ public class Controlador {
 	public boolean hacerTranslado(String placa, String sedeDest) {
 		boolean verificar = this.ferrari.realizarTranslado(this.ferrari.adminGeneral, placa, sedeDest);
 		return verificar;
+	}
+	
+	public String modificarInfoSede(int opcionCambio, String cambio, String sede) {
+		Sede sedeMod = ferrari.modificarSede(this.ferrari.adminGeneral, opcionCambio, cambio, sede);
+		if(sedeMod != null) {
+			return "Se ha modificado exitosamente la sede.\nInformación de la sede:\n"
+					+ "Nombre:"+sedeMod.getNombre()
+					+"\nDireccion: "+sedeMod.getDireccion()
+					+"\nDias de atencion: "+sedeMod.getDiasAtencion()
+					+"\nHoras de atencion: "+sedeMod.getHorasAtencion()
+					+"\nAdministrador local: "+sedeMod.getNombreAdminSede();
+
+		}
+		else {
+			return "Proceso fallido. No se pudo modificar la información de la sede";
+	}
 	}
 }

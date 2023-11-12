@@ -19,9 +19,12 @@ import javax.swing.SwingConstants;
 
 public class PModificarSede extends JPanel{
 	public Controlador controller;
+	private String[] sedes;
+	private JComboBox jcbSedes;
 	
 	PModificarSede(Controlador controller){
 		this.controller = controller;
+		this.sedes = this.controller.getSedes();
 		this.setLayout(new BorderLayout());
 		JLabel lblTitulo = new JLabel("Modificar sede", SwingConstants.CENTER);
 		lblTitulo.setFont(new Font(null, Font.BOLD, 45));
@@ -42,14 +45,15 @@ public class PModificarSede extends JPanel{
 	    gbcnt.insets  = new Insets(0,0,30,0);
 	    panelCentro.add(lblInstruccion,gbcnt);
 	    
-	    String[] sedes = {"sede1", "sede2"};
-	    JComboBox jcbSedes = new JComboBox(sedes);
+	    
+	    JComboBox jcbSedes = new JComboBox(this.sedes);
 	    jcbSedes.setBackground(Color.white);
 	    gbcnt.insets  = new Insets(10,5,10,2);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    jcbSedes.setFont(defaultFont);
 	    gbcnt.gridy = 1;
 	    gbcnt.ipady = 10;
+	    this.jcbSedes = jcbSedes;
 	    panelCentro.add(jcbSedes,gbcnt);
 	    
 	    JButton bModificarNombre = new JButton("Modifcar Nombre");
@@ -90,7 +94,9 @@ public class PModificarSede extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modificarNombreSede();
+				String sedeSelecc = (String) jcbSedes.getSelectedItem();
+				modificarNombreSede(sedeSelecc);
+				
 			}
 	    });
 	    
@@ -98,7 +104,8 @@ public class PModificarSede extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modificarDireccionSede();
+				String sedeSelecc = (String) jcbSedes.getSelectedItem();
+				modificarDireccionSede(sedeSelecc);
 			}
 	    });
 	    
@@ -106,7 +113,8 @@ public class PModificarSede extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modificarDiasAtencion();
+				String sedeSelecc = (String) jcbSedes.getSelectedItem();
+				modificarDiasAtencion(sedeSelecc);
 			}
 	    });
 	    
@@ -114,7 +122,8 @@ public class PModificarSede extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				modificarHorasAtencion();
+				String sedeSelecc = (String) jcbSedes.getSelectedItem();
+				modificarHorasAtencion(sedeSelecc);
 			}
 	    });
 	    
@@ -122,7 +131,8 @@ public class PModificarSede extends JPanel{
 
 	 			@Override
 	 			public void actionPerformed(ActionEvent e) {
-	 				modificarAdminLocal();
+	 				String sedeSelecc = (String) jcbSedes.getSelectedItem();
+	 				modificarAdminLocal(sedeSelecc);
 	 			}
 	 	    });
 	    JPanel panelSur = new JPanel();
@@ -146,24 +156,50 @@ public class PModificarSede extends JPanel{
 	}
 
 
-	protected void modificarAdminLocal() {
+	protected void modificarAdminLocal(String sedeSelecc) {
 		String nuevoAdminLoc = JOptionPane.showInputDialog(this, "Ingrese el nuevo administrador local de la sede", "");
+		if(nuevoAdminLoc != null) {
+			String result = this.controller.modificarInfoSede(5, nuevoAdminLoc, sedeSelecc);
+			JOptionPane.showMessageDialog(null, result);
+		}
 	}
 
-	protected void modificarHorasAtencion() {
+	protected void modificarHorasAtencion(String sedeSelecc) {
 		String nuevasHorasAt = JOptionPane.showInputDialog(this, "Ingrese las nuevas horas de atención de la sede", "");
+		if(nuevasHorasAt != null) {
+			String result = this.controller.modificarInfoSede(4, nuevasHorasAt, sedeSelecc);
+			JOptionPane.showMessageDialog(null, result);
+		}
 	}
 
-	protected void modificarDiasAtencion() {
+	protected void modificarDiasAtencion(String sedeSelecc ) {
 		String nuevosDiasAt = JOptionPane.showInputDialog(this, "Ingrese los nuevos dias de atención de la sede", "");
+		if(nuevosDiasAt != null) {
+			String result = this.controller.modificarInfoSede(3, nuevosDiasAt, sedeSelecc);
+			JOptionPane.showMessageDialog(null, result);
+		}
 	}
 
-	protected void modificarDireccionSede() {
+	protected void modificarDireccionSede(String sedeSelecc) {
 		String nuevaDir = JOptionPane.showInputDialog(this, "Ingrese la nueva dirección de la sede", "");
+		if(nuevaDir != null) {
+			String result = this.controller.modificarInfoSede(2, nuevaDir, sedeSelecc);
+			JOptionPane.showMessageDialog(null, result);
+		}
 	}
 
-	protected void modificarNombreSede() {
+	protected void modificarNombreSede(String sedeSelecc) {
 		String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la sede", "");
+		if(nuevoNombre != null) {
+			String result = this.controller.modificarInfoSede(1, nuevoNombre, sedeSelecc);
+			JOptionPane.showMessageDialog(null, result);
+			this.sedes = this.controller.getSedes();
+			this.jcbSedes.removeAllItems();
+			for(String sede: this.sedes) {
+				this.jcbSedes.addItem(sede);
+			}
+		}
+		
 	}
 	
 	protected void volverAPanelAnterior() {

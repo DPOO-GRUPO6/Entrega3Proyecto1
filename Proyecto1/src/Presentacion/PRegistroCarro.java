@@ -115,17 +115,17 @@ public class PRegistroCarro extends JPanel{
 			e.printStackTrace();
 		}
 	    
-	    JTextField txtMarca  = new JTextField("Marca");
+	    JTextField txtMarca  = new JTextField("");
 	    txtMarca.setFont(defaultFont);
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtMarca,gbcnt);
 	   
-	    JTextField txtModelo  = new JTextField("modelo");
+	    JTextField txtModelo  = new JTextField("");
 	    txtModelo.setFont(defaultFont);
 	    gbcnt.gridy = 3;
 	    panelCentro.add(txtModelo,gbcnt);
 	    
-	    JTextField txtColor  = new JTextField("Color");
+	    JTextField txtColor  = new JTextField("");
 	    txtColor.setFont(defaultFont);
 	    gbcnt.gridy = 4;
 	    panelCentro.add(txtColor,gbcnt);
@@ -137,7 +137,7 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 1;
 	    panelCentro.add(CBcategoria,gbcnt);
 	    
-	    JTextField txtTipoTransmision  = new JTextField("tipo trans");
+	    JTextField txtTipoTransmision  = new JTextField("");
 	    txtTipoTransmision.setFont(defaultFont);
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtTipoTransmision,gbcnt);

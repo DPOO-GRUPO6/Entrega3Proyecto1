@@ -143,14 +143,12 @@ public class PMenuAdminGeneral extends JPanel{
 	
 
 	protected void cerrarSesion() {
-		/*
-		MenuPrincipal panelAnterior = new MenuPrincipal();
+		MenuPrincipal panelAnterior = new MenuPrincipal(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
-		*/
 	}
 
 

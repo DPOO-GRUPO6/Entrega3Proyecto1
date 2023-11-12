@@ -351,6 +351,7 @@ public class Empresa {
 		Sede sedeCamb = sedes.get(sedeCambio);
 		if(posicionCambio != 4) {
 			Sede nuevaSede = adminGen.modificarSede(posicionCambio, cambio, sedeCamb);
+			sedes.remove(sedeCambio);
 			sedes.put(nuevaSede.getNombre(), nuevaSede);
 			sedeMod = nuevaSede;
 		}

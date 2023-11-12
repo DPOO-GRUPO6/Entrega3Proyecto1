@@ -9,17 +9,31 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
 
 public class PRegistroCarro extends JPanel{
-	PRegistroCarro(){
+	private Controlador controller;
+	private JFormattedTextField txtPlaca;
+	private JFormattedTextField txtCapacidad;
+	public String[] categorias;
+	public String[] sedes;
+	
+	
+	PRegistroCarro(Controlador controller){
+		this.controller = controller;
+		this.sedes = this.controller.getSedes();
+		this.categorias = this.controller.getCategorias();
 		this.setLayout(new BorderLayout());
 		JLabel lblRegistrarse = new JLabel("Registrar nuevo vehículo", SwingConstants.CENTER);
 		lblRegistrarse.setFont(new Font(null, Font.BOLD, 45));
@@ -89,11 +103,17 @@ public class PRegistroCarro extends JPanel{
 	    	    
 	    /* text fields para info de registro */
 	    gbcnt.ipadx = 45;
-	    JTextField txtPlaca  = new JTextField("AAA-000");
-	    txtPlaca.setFont(defaultFont);
-		gbcnt.gridx = 1;
-	    gbcnt.gridy = 1;
-	    panelCentro.add(txtPlaca,gbcnt);
+	    
+	    try {
+			MaskFormatter formatPlaca = new MaskFormatter("UUU-###");
+			 this.txtPlaca  = new JFormattedTextField(formatPlaca);
+			 this.txtPlaca.setFont(defaultFont);
+				gbcnt.gridx = 1;
+			    gbcnt.gridy = 1;
+			    panelCentro.add(txtPlaca,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    JTextField txtMarca  = new JTextField("Marca");
 	    txtMarca.setFont(defaultFont);
@@ -105,14 +125,13 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 3;
 	    panelCentro.add(txtModelo,gbcnt);
 	    
-	    JTextField txtmodelo  = new JTextField("Color");
-	    txtmodelo.setFont(defaultFont);
+	    JTextField txtColor  = new JTextField("Color");
+	    txtColor.setFont(defaultFont);
 	    gbcnt.gridy = 4;
-	    panelCentro.add(txtmodelo,gbcnt);
+	    panelCentro.add(txtColor,gbcnt);
 	    
 	    
-	    String categorias[]= {"cat 1", "cat2"};
-	    JComboBox CBcategoria = new JComboBox(categorias);
+	    JComboBox CBcategoria = new JComboBox(this.categorias);
 	    CBcategoria.setBackground(Color.white);
 	    gbcnt.gridx = 3;
 	    gbcnt.gridy = 1;
@@ -123,13 +142,18 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtTipoTransmision,gbcnt);
 	    
-	    JTextField txtcapacidad  = new JTextField("Capacidad");
-	    txtcapacidad.setFont(defaultFont);
-	    gbcnt.gridy = 3;
-	    panelCentro.add(txtcapacidad,gbcnt);
+	    try {
+	    	MaskFormatter formatCapacidad = new MaskFormatter("#");
+	    	this.txtCapacidad  = new JFormattedTextField(formatCapacidad);
+	    	this.txtCapacidad.setFont(defaultFont);
+	    	gbcnt.gridy = 3;
+	    	panelCentro.add(this.txtCapacidad,gbcnt);
+	    } catch (ParseException e) {
+	    	e.printStackTrace();
+		}
 	    
-	    String sedes[]= {"sede1", "sede2"};
-	    JComboBox CBsedes = new JComboBox(sedes);
+	 
+	    JComboBox CBsedes = new JComboBox(this.sedes);
 	    CBsedes.setBackground(Color.white);
 	    gbcnt.gridy = 4;
 	    panelCentro.add(CBsedes,gbcnt);
@@ -144,6 +168,28 @@ public class PRegistroCarro extends JPanel{
 	    gbcnt.insets  = new Insets(50,10,10,10);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(bEnviar,gbcnt);
+	    bEnviar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String placa = txtPlaca.getText();
+				String marca = txtMarca.getText();
+				String modelo = txtModelo.getText();
+				String color = txtColor.getText();
+				String categoria = (String)CBcategoria.getSelectedItem();
+				String transmision = txtTipoTransmision.getText();
+				String capacidad = txtCapacidad.getText();
+				String sede = (String)CBsedes.getSelectedItem();
+				registrarNuevoCarro(placa, marca, modelo, color, categoria, transmision, capacidad, sede);
+				txtPlaca.setText("");
+				txtMarca.setText("");
+				txtModelo.setText("");
+				txtColor.setText("");
+				txtTipoTransmision.setText("");
+				txtCapacidad.setText("");
+			}
+	    	
+	    });
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
 	    
@@ -168,8 +214,14 @@ public class PRegistroCarro extends JPanel{
 	    
 	}
 
+	protected void registrarNuevoCarro(String placa, String marca, String modelo, String color, String categoria,
+			String transmision, String capacidad, String sede) {
+		String placaNewCarro = this.controller.registrarNuevoCarro(placa, marca, modelo, color, transmision, capacidad, categoria, sede);
+		JOptionPane.showMessageDialog(null, "El carro con placa "+placaNewCarro+" ha sido creado con éxito");
+	}
+
 	protected void volverAPanelAnterior() {
-		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();

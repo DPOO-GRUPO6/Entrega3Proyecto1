@@ -9,20 +9,28 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
 
 public class PMenuAdminGeneral extends JPanel{
+	public Controlador controller;
 	private PModificarSede panelModfSede;
 	private PRegistroCarro panelRegistroCarro;
+	private JFormattedTextField txtPlacaCarroTrans;
+	public String sedes[];
 	
-	PMenuAdminGeneral(){
+	PMenuAdminGeneral(Controlador controller){
+		this.controller = controller;
+		this.sedes = this.controller.getSedes();
 		this.setLayout(new BorderLayout());
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font(null, Font.BOLD, 45));
@@ -147,12 +155,22 @@ public class PMenuAdminGeneral extends JPanel{
 
 
 	protected void darDeBajaVentana() {
-		String placaCarroBaja = JOptionPane.showInputDialog(this, "Ingrese la placa del vehiculo a dar de baja", "");
+		String placaCarroBaja = JOptionPane.showInputDialog(this, "Ingrese la placa del vehiculo a dar de baja","AAA-000");
+		if(placaCarroBaja != null) {
+			String nuevoEstado = this.controller.darDeBajaCarro(placaCarroBaja);
+			if(nuevoEstado != "-") {
+				JOptionPane.showMessageDialog(null, "El vehiculo se ha cambiado al estado: "+nuevoEstado);
+			}
+			else if(nuevoEstado == "-") {
+				JOptionPane.showMessageDialog(this,"No se encontró un vehiculo con la placa "+placaCarroBaja,"Alert",JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		
 	}
 
 	protected void goPanelNewCarro() {
 		this.removeAll();
-		this.panelRegistroCarro = new PRegistroCarro();
+		this.panelRegistroCarro = new PRegistroCarro(this.controller);
 		this.add(panelRegistroCarro);
 		this.panelRegistroCarro.setVisible(true);
 		this.revalidate();
@@ -162,7 +180,7 @@ public class PMenuAdminGeneral extends JPanel{
 
 	protected void goPanelModificarSede() {
 		this.removeAll();
-		this.panelModfSede = new PModificarSede();
+		this.panelModfSede = new PModificarSede(this.controller);
 		this.add(panelModfSede);
 		this.panelModfSede.setVisible(true);
 		this.revalidate();
@@ -224,6 +242,23 @@ public class PMenuAdminGeneral extends JPanel{
 	    gbcnt.insets  = new Insets(40,0,5,0);
 	    panelCentro.add(bRegistrarSeguro,gbcnt);
 	    
+	    bRegistrarSeguro.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nombreSeguro = txtNombreSeguro.getText();
+				String precioSeguro = txtPrecioSeguro.getText();
+				try {
+					  Integer.parseInt(precioSeguro);
+					  agregarNuevoSeguro(nombreSeguro, precioSeguro);
+					}
+					catch(Exception ex) {
+						JOptionPane.showMessageDialog(null,"Error. No se pudo registrar el nuevo seguro","Alert",JOptionPane.WARNING_MESSAGE);
+					}
+			}
+	    	
+	    });
+	    
 	    this.add(panelCentro, BorderLayout.CENTER);
 	    
 	    JPanel panelSur = new JPanel();
@@ -248,8 +283,14 @@ public class PMenuAdminGeneral extends JPanel{
 		this.repaint();
 	}
 	
+	protected void agregarNuevoSeguro(String nombreSeguro, String precioSeguro) {
+		String confirma = this.controller.configurarNuevoSeguro(nombreSeguro, precioSeguro);
+		JOptionPane.showMessageDialog(null, "El seguro "+confirma+" ha sido creado con éxito");
+	}
+
+
 	protected void volverAPanelAnterior() {
-		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
@@ -289,10 +330,17 @@ public class PMenuAdminGeneral extends JPanel{
 	    gbcnt.gridy = 1;
 	    panelCentro.add(lblPlacaCarroTrans,gbcnt);
 	    
-	    JTextField txtPlacaCarroTrans = new JTextField("AAA-000", SwingConstants.CENTER);
-	    txtPlacaCarroTrans.setFont(defaultFont);
-	    gbcnt.gridy = 2;
-	    panelCentro.add(txtPlacaCarroTrans,gbcnt);
+	    
+	    try {
+			MaskFormatter formatPlaca = new MaskFormatter("UUU-###");
+			 this.txtPlacaCarroTrans  = new JFormattedTextField(formatPlaca);
+			 this.txtPlacaCarroTrans.setFont(defaultFont);
+			 this.txtPlacaCarroTrans.setHorizontalAlignment(SwingConstants.CENTER);
+			 gbcnt.gridy = 2;
+			 panelCentro.add(this.txtPlacaCarroTrans,gbcnt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	    
 	    JLabel lblSedeDest = new JLabel("Ingrese la sede de destino", SwingConstants.CENTER);
 	    gbcnt.insets  = new Insets(30,0,5,0);
@@ -301,8 +349,7 @@ public class PMenuAdminGeneral extends JPanel{
 	    gbcnt.gridy = 3;
 	    panelCentro.add(lblSedeDest,gbcnt);
 	    
-	    String[] sedes = {"sede1", "sede2"};
-	    JComboBox jcbSedes = new JComboBox(sedes);
+	    JComboBox jcbSedes = new JComboBox(this.sedes);
 	    jcbSedes.setFont(defaultFont);
 	    jcbSedes.setBackground(Color.white);
 	    gbcnt.insets  = new Insets(5,0,5,0);
@@ -314,6 +361,18 @@ public class PMenuAdminGeneral extends JPanel{
 	    gbcnt.gridy = 5;
 	    gbcnt.insets  = new Insets(40,0,5,0);
 	    panelCentro.add(bRegistrarTranslado,gbcnt);
+	    
+	    bRegistrarTranslado.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String placa = txtPlacaCarroTrans.getText();
+				String sede = (String)jcbSedes.getSelectedItem();
+				hacerTranslado(placa, sede);
+				txtPlacaCarroTrans.setText("");
+			}
+	    	
+	    });
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
 	    
@@ -337,5 +396,16 @@ public class PMenuAdminGeneral extends JPanel{
 	     this.add(panelSur, BorderLayout.SOUTH);
 	    this.revalidate();
 		this.repaint();
+	}
+
+
+	protected void hacerTranslado(String placa, String sede) {
+		boolean result = this.controller.hacerTranslado(placa, sede);
+		if(result) {
+			JOptionPane.showMessageDialog(null, "El translado ha sido realizado con éxito");
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"Proceso de translado fallido","Alert",JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

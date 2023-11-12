@@ -1,6 +1,8 @@
 package Presentacion;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import logica.Empresa;
 import logica.Usuario;
@@ -40,4 +42,53 @@ public class Controlador {
 	}
 	
 	
+	public String[] getCategorias() {
+		ArrayList<String> categorias = this.ferrari.getCategoriasStr();
+		String[] Arr = categorias.toArray(new String[categorias.size()]);
+		return Arr;
+	}
+	
+	public String[] getSedes() {
+		ArrayList<String> sedes = this.ferrari.getSedesStr();
+		String[] Arr = sedes.toArray(new String[sedes.size()]);
+		return Arr;
+	}
+	
+	//métodos adminGeneral
+	
+	public String registrarNuevoCarro(String placa, String marca, String modelo, String color, String tipoTrans, String capacidad, String categoria,String sede) {
+		ArrayList<String> data = new ArrayList<String>();
+		data.add(placa);
+		data.add(marca);
+		data.add(modelo);
+		data.add(color);
+		data.add(tipoTrans);
+		data.add(capacidad);
+		data.add(categoria);
+		data.add(sede);
+		String placaNuevoCar = this.ferrari.registrarNuevoVehiculo(this.ferrari.adminGeneral, data);
+		
+		return placaNuevoCar;
+	}
+	
+	public String darDeBajaCarro(String placa) {
+		String estado = this.ferrari.darDeBajaVehiculo(this.ferrari.adminGeneral, placa);
+		if(estado == "") {
+			return "-";
+		}
+		return estado;
+	}
+	
+	public String configurarNuevoSeguro(String nombre, String precio) {
+		ArrayList<String> datosSeguro = new ArrayList<String>();
+		datosSeguro.add(nombre);
+		datosSeguro.add(precio);
+		String nombreNewSeguro = this.ferrari.configurarSeguro(this.ferrari.adminGeneral, datosSeguro);
+		return nombreNewSeguro;
+	}
+	
+	public boolean hacerTranslado(String placa, String sedeDest) {
+		boolean verificar = this.ferrari.realizarTranslado(this.ferrari.adminGeneral, placa, sedeDest);
+		return verificar;
+	}
 }

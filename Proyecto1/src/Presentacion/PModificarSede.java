@@ -18,7 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class PModificarSede extends JPanel{
-	PModificarSede(){
+	public Controlador controller;
+	
+	PModificarSede(Controlador controller){
+		this.controller = controller;
 		this.setLayout(new BorderLayout());
 		JLabel lblTitulo = new JLabel("Modificar sede", SwingConstants.CENTER);
 		lblTitulo.setFont(new Font(null, Font.BOLD, 45));
@@ -164,7 +167,7 @@ public class PModificarSede extends JPanel{
 	}
 	
 	protected void volverAPanelAnterior() {
-		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral();
+		PMenuAdminGeneral panelAnterior = new PMenuAdminGeneral(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();

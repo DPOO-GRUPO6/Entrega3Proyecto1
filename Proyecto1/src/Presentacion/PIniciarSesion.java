@@ -150,7 +150,7 @@ public class PIniciarSesion extends JPanel{
 		}
 		else if(tipoUsuario == 3) {
 			this.removeAll();
-			PMenuAdminGeneral panelInicioUsuario = new PMenuAdminGeneral();
+			PMenuAdminGeneral panelInicioUsuario = new PMenuAdminGeneral(this.controller);
 			this.add(panelInicioUsuario);
 			this.revalidate();
 			this.repaint();

@@ -20,7 +20,7 @@ public class Empresa {
 	ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 	ArrayList<AdministradorLocal> adminsLocales = new ArrayList<AdministradorLocal>();
-	AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
+	public AdministradorGeneral adminGeneral = new AdministradorGeneral("","","","");
 	ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 	static ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	static ArrayList<Seguro> seguros =  new ArrayList<Seguro>();

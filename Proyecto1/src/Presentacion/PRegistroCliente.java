@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -24,8 +25,17 @@ import javax.swing.text.MaskFormatter;
 public class PRegistroCliente extends JPanel{
 	private PMenuCliente panelMenuCliente; // a este es el que finalmente debería de estar conectado
 	private MenuPrincipal panelMenuPrincipal;
+	public Controlador controller;
 	
-	PRegistroCliente(){
+	private JFormattedTextField txtTelefono;
+	private JFormattedTextField txtNacimiento;
+	private JFormattedTextField txtNumLicencia;
+	private JFormattedTextField txtFechaExpLic;
+	private JFormattedTextField txtNumTarjCred;
+	private JFormattedTextField txtFechaVenTarj;
+	
+	PRegistroCliente(Controlador controlador){
+		this.controller = controlador;
 		this.setLayout(new BorderLayout());
 		JLabel lblRegistrarse = new JLabel("Registarse", SwingConstants.CENTER);
 		lblRegistrarse.setFont(new Font(null, Font.BOLD, 55));
@@ -80,128 +90,145 @@ public class PRegistroCliente extends JPanel{
 	    gbcnt.gridy = 6;
 	    panelCentro.add(lblNumLicencia,gbcnt);
 	    
-	    JLabel lblFechaExpLic = new JLabel("Fecha de expedición de su licencia", SwingConstants.RIGHT);
-	    lblFechaExpLic.setFont(defaultFont);
+	    JLabel lblPaisLicencia = new JLabel("Pais de expedicion de su licencia", SwingConstants.RIGHT);
+	    lblPaisLicencia.setFont(defaultFont);
 	    gbcnt.gridx = 2;
 	    gbcnt.gridy = 1;
+	    panelCentro.add(lblPaisLicencia,gbcnt);
+	    
+	    JLabel lblFechaExpLic = new JLabel("Fecha de expedición de su licencia", SwingConstants.RIGHT);
+	    lblFechaExpLic.setFont(defaultFont);
+	    gbcnt.gridy = 2;
 	    panelCentro.add(lblFechaExpLic,gbcnt);
 	    
 	    JLabel lblNumTarj = new JLabel("Número de su tarjeta de crédito", SwingConstants.RIGHT);
 	    lblNumTarj.setFont(defaultFont);
-	    gbcnt.gridy = 2;
+	    gbcnt.gridy = 3;
 	    panelCentro.add(lblNumTarj,gbcnt);
 	    
 	    JLabel lblFechaVenTarj = new JLabel("Fecha de vencimiento de su tarjeta", SwingConstants.RIGHT);
 	    lblFechaVenTarj.setFont(defaultFont);
-	    gbcnt.gridy = 3;
+	    gbcnt.gridy = 4;
 	    panelCentro.add(lblFechaVenTarj,gbcnt);
 	    
 	    JLabel lblNameUsuario = new JLabel("Cree un nombre de usuario", SwingConstants.RIGHT);
 	    lblNameUsuario.setFont(defaultFont);
-	    gbcnt.gridy = 4;
+	    gbcnt.gridy = 5;
 	    panelCentro.add(lblNameUsuario,gbcnt);
 	    
 	    JLabel lblPwdUsuario = new JLabel("Cree una contraseña", SwingConstants.RIGHT);
 	    lblPwdUsuario.setFont(defaultFont);
-	    gbcnt.gridy = 5;
+	    gbcnt.gridy = 6;
 	    panelCentro.add(lblPwdUsuario,gbcnt);
 	    
-	    /* text fields para info de registro */
 	    
-	    JTextField txtNombre  = new JTextField("Nombre completo");
+	    /** 
+	     * text fields para info de registro de un nuevo cliente
+	     * */
+	    
+	    JTextField txtNombre  = new JTextField("");
 	    txtNombre.setFont(defaultFont);
 		gbcnt.gridx = 1;
 	    gbcnt.gridy = 1;
 	    panelCentro.add(txtNombre,gbcnt);
 	    
-	    JTextField txtCorreo  = new JTextField("Correo");
+	    JTextField txtCorreo  = new JTextField("");
 	    txtCorreo.setFont(defaultFont);
 	    gbcnt.gridy = 2;
 	    panelCentro.add(txtCorreo,gbcnt);
 	   
-	    //JTextField txtTelefono  = new JTextField("Telefono");
 	    
 	    
 	    try {
 			MaskFormatter formatNumero = new MaskFormatter("##########");
-			 JFormattedTextField txtTelefono  = new JFormattedTextField(formatNumero);
-			 txtTelefono.setFont(defaultFont);
+			this.txtTelefono  = new JFormattedTextField(formatNumero);
+			this.txtTelefono.setFont(defaultFont);
 			    gbcnt.gridy = 3;
 			    panelCentro.add(txtTelefono,gbcnt);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			mostrarError();
 		}
-	    
+
 	    try {
-			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
-			 JFormattedTextField txtNacimiento  = new JFormattedTextField(formatFecha);
-			    txtNacimiento.setFont(defaultFont);
-			    gbcnt.gridy = 4;
-			    panelCentro.add(txtNacimiento,gbcnt);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	    	MaskFormatter formatFecha = new MaskFormatter("##/##/####");
+	    	this.txtNacimiento  = new JFormattedTextField(formatFecha);
+	    	this.txtNacimiento.setFont(defaultFont);
+	    	gbcnt.gridy = 4;
+	    	panelCentro.add(txtNacimiento,gbcnt);
+	    } catch (ParseException e) {
+	    	//e.printStackTrace();
+	    	mostrarError();
+	    }
 	    
 	    
-	    JTextField txtNacionalidad  = new JTextField("Nation");
+	    JTextField txtNacionalidad  = new JTextField("");
 	    txtNacionalidad.setFont(defaultFont);
 	    gbcnt.gridy = 5;
 	    panelCentro.add(txtNacionalidad,gbcnt);
 	    
 	    
 	    try {
-			MaskFormatter formatNumLicencia = new MaskFormatter("############");
-			 JFormattedTextField txtNumLicencia  = new JFormattedTextField(formatNumLicencia);
-			 txtNumLicencia.setFont(defaultFont);
+			MaskFormatter formatNumLicencia = new MaskFormatter("#########");
+			this.txtNumLicencia  = new JFormattedTextField(formatNumLicencia);
+			this.txtNumLicencia.setFont(defaultFont);
 			    gbcnt.gridy = 6;
 			    panelCentro.add(txtNumLicencia,gbcnt);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			mostrarError();
 		}
 	    
+	    JTextField txtPaisLicencia  = new JTextField("");
+	    txtPaisLicencia.setFont(defaultFont);
+	    gbcnt.gridy = 1;
+	    gbcnt.gridx = 3;
+	    panelCentro.add(txtPaisLicencia,gbcnt);
 	    
 	    try {
 			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
-			JFormattedTextField txtFechaExpLic  = new JFormattedTextField(formatFecha);
-			 txtFechaExpLic.setFont(defaultFont);
-			    gbcnt.gridy = 1;
-			    gbcnt.gridx = 3;
+			this.txtFechaExpLic  = new JFormattedTextField(formatFecha);
+			this.txtFechaExpLic.setFont(defaultFont);
+			 gbcnt.gridy = 2;
 			    panelCentro.add(txtFechaExpLic,gbcnt);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			mostrarError();
 		}
 	    
 	    
 	    try {
-			MaskFormatter formatNumTarjCred = new MaskFormatter("##############");
-			JFormattedTextField txtNumTarjCred  = new JFormattedTextField(formatNumTarjCred);
+			MaskFormatter formatNumTarjCred = new MaskFormatter("#########");
+			this.txtNumTarjCred  = new JFormattedTextField(formatNumTarjCred);
 			txtNumTarjCred.setFont(defaultFont);
 			 txtNumTarjCred.setFont(defaultFont);
-			   gbcnt.gridy = 2;
+			   gbcnt.gridy = 3;
 			   panelCentro.add(txtNumTarjCred,gbcnt);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			mostrarError();
 		}
 	    
 	    
 	    try {
 			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
-			JFormattedTextField txtFechaVenTarj  = new JFormattedTextField(formatFecha);
+			this.txtFechaVenTarj  = new JFormattedTextField(formatFecha);
 			txtFechaVenTarj.setFont(defaultFont);
-			gbcnt.gridy = 3;
+			gbcnt.gridy = 4;
 		    panelCentro.add(txtFechaVenTarj,gbcnt);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			mostrarError();
 		}
 	    
-	    JTextField txtNameUsuario  = new JTextField("nombre usuario sel");
+	    JTextField txtNameUsuario  = new JTextField("");
 	    txtNameUsuario.setFont(defaultFont);
-	    gbcnt.gridy = 4;
+	    gbcnt.gridy = 5;
 	    panelCentro.add(txtNameUsuario,gbcnt);
 	    
-	    JTextField txtPwdUsuario  = new JTextField("contra");
+	    JTextField txtPwdUsuario  = new JTextField("");
 	    txtPwdUsuario.setFont(defaultFont);
-	    gbcnt.gridy = 5;
+	    gbcnt.gridy = 6;
 	    panelCentro.add(txtPwdUsuario,gbcnt);
 	    
 	    JButton bEnviar = new JButton("Registrarse");
@@ -215,12 +242,32 @@ public class PRegistroCliente extends JPanel{
 	    panelCentro.add(bEnviar,gbcnt);
 	    bEnviar.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				iniciarMenuCliente();
-				
-			}
-	    	
+	    	@Override
+	    	public void actionPerformed(ActionEvent e) {
+	    		String nombre = txtNombre.getText();
+	    		String email = txtCorreo.getText();
+	    		String telefono = txtTelefono.getText();
+	    		String fechaNacimiento = txtNacimiento.getText();
+	    		String nacionalidad = txtNacionalidad.getText();
+	    		String numeroLicencia = txtNumLicencia.getText();
+	    		String paisLicencia = txtPaisLicencia.getText();
+	    		String fechaExpLicencia = txtFechaExpLic.getText();
+	    		String numeroTC = txtNumTarjCred.getText();
+	    		String fechaExpTarjCred = txtFechaVenTarj.getText();
+	    		String logIn = txtNameUsuario.getText();
+	    		String contrasenia = txtPwdUsuario.getText();
+	    		if(nombre != null && email!= null && telefono!= null && fechaNacimiento!= null && nacionalidad!= null 
+	    				&& numeroLicencia!= null && paisLicencia!= null && fechaExpLicencia!= null && numeroTC!= null
+	    				&& fechaExpTarjCred!= null && logIn!= null && contrasenia!= null) {
+	    			if(guardarRegistroNewCliente(nombre,email,telefono,fechaNacimiento,nacionalidad,numeroLicencia,paisLicencia,fechaExpLicencia,numeroTC,fechaExpTarjCred,logIn,contrasenia)) {
+	    				iniciarMenuCliente();
+	    			}
+	    		}
+	    		else {
+	    			mostrarError();
+	    		}
+	    	}
+
 	    });
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
@@ -246,10 +293,25 @@ public class PRegistroCliente extends JPanel{
 	    
 	}
 
-//metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
+
+	protected boolean guardarRegistroNewCliente(String nombre, String email, String telefono, String fechaNacimiento,
+			String nacionalidad, String numeroLicencia, String paisLicencia, String fechaExpLicencia, String numeroTC,
+			String fechaExpTarjCred, String logIn, String contrasenia) {
+		String result = this.controller.crearNuevoCliente(nombre, email, telefono, fechaNacimiento, nacionalidad, numeroLicencia, paisLicencia, fechaExpLicencia, numeroTC, fechaExpTarjCred, logIn, contrasenia);
+		if(result == "error") {
+			JOptionPane.showMessageDialog(this,"No se pudo registrar el nuevo usuario","Alert",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"El cliente con el nombre "+result+" ha sido creado con éxito");
+			return true;
+		}
+	
+	}
+
 	protected void iniciarMenuCliente() {
 		this.removeAll();
-		this.panelMenuCliente = new PMenuCliente();
+		this.panelMenuCliente = new PMenuCliente(this.controller);
 		this.add(this.panelMenuCliente);
 		this.revalidate();
 		this.repaint();
@@ -258,14 +320,19 @@ public class PRegistroCliente extends JPanel{
 	}
 	
 	protected void volverAPanelAnterior() {
-		/*
+		
 		this.removeAll();
-		this.panelMenuPrincipal = new MenuPrincipal();
+		this.panelMenuPrincipal = new MenuPrincipal(this.controller);
 		this.add(this.panelMenuPrincipal);
 		this.revalidate();
 		this.repaint();
 		this.panelMenuPrincipal.setVisible(true);
-		*/
+		
 
 	}
+	
+	protected void mostrarError() {
+		JOptionPane.showMessageDialog(this,"Error. Asegúrese de llenar toda la información","Alert",JOptionPane.WARNING_MESSAGE);
+	}
+
 }

@@ -126,7 +126,7 @@ public class PIniciarSesion extends JPanel{
 		
 		if(tipoUsuario == 0) {
 			this.removeAll();
-			PMenuCliente panelInicioUsuario = new PMenuCliente();
+			PMenuCliente panelInicioUsuario = new PMenuCliente(this.controller);
 			this.add(panelInicioUsuario);
 			this.revalidate();
 			this.repaint();
@@ -163,11 +163,13 @@ public class PIniciarSesion extends JPanel{
 
 
 	protected void volverAPanelAnterior() {
+		/*
 		this.removeAll();
 		this.panelMenuPrincipal = new MenuPrincipal(this.controller);
 		this.add(this.panelMenuPrincipal);
 		this.revalidate();
 		this.repaint();
 		this.panelMenuPrincipal.setVisible(true);
+		*/
 	}
 }

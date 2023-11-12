@@ -137,11 +137,13 @@ public class PAlquilarConReserva extends JPanel{
 	}
 
 	protected void volverAPanelAnterior() {
+		/*
 		PMenuCliente panelAnterior = new PMenuCliente();
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
+		*/
 	}
 }

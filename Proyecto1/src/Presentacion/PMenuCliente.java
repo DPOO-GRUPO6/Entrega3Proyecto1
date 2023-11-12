@@ -17,8 +17,10 @@ import javax.swing.SwingConstants;
 
 public class PMenuCliente extends JPanel{
 	private PReservarCarro panelReservas;
+	private Controlador controller;
 	
-	PMenuCliente(){
+	PMenuCliente(Controlador controller){
+		this.controller = controller;
 		this.setLayout(new BorderLayout());
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font(null, Font.BOLD, 45));
@@ -133,14 +135,14 @@ public class PMenuCliente extends JPanel{
 	}
 
 	protected void cerrarSesion() {
-		/*
-		MenuPrincipal panelAnterior = new MenuPrincipal();
+		
+		MenuPrincipal panelAnterior = new MenuPrincipal(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
-		*/
+		
 	}
 
 	protected void goPanelReservarCarro() {

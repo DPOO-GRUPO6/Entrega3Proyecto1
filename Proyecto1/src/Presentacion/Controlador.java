@@ -3,6 +3,7 @@ package Presentacion;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import logica.Cliente;
 import logica.Empresa;
 import logica.Sede;
 import logica.Usuario;
@@ -40,7 +41,25 @@ public class Controlador {
 			return -1;
 		}
 	}
+	//Registrar nuevo usuario - cliente
 	
+	public String crearNuevoCliente(String nombre, String email, String telefono, String fechaNacimiento,
+			String nacionalidad, String numeroLicencia, String paisLicencia, String fechaExpLicencia, String numeroTC,
+			String fechaExpTarjCred, String logIn, String contrasenia) {
+		
+		try {
+			Cliente newCliente = ferrari.crearNuevoCliente(nombre, email, telefono, fechaNacimiento, nacionalidad, numeroLicencia, paisLicencia, fechaExpLicencia, numeroTC, fechaExpTarjCred, logIn, contrasenia);
+			return newCliente.getNombreCompleto();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return "error";
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	//metodos auxiliares
 	
 	public String[] getCategorias() {
 		ArrayList<String> categorias = this.ferrari.getCategoriasStr();

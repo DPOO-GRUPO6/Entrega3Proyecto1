@@ -175,27 +175,33 @@ public class PReservarCarro extends JPanel{
 				String sedeRecogida = (String) CBsedes1.getSelectedItem();
 				String sedeEntrega = (String) CBsedes.getSelectedItem();
 				List datos2 = new ArrayList<>();
-				try {
-					datos2 = (List)controller.infoReserva(categoria,fechaInic,horaInic,fechafin,horaFin,sedeRecogida,sedeEntrega);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				//fechaInic!=null,horaInic!=null,fechafin!=null,horaFin!=null,sedeRecogida!=null,sedeEntrega!=null
+				if (txtFechaInic.getValue()==null || horaInic==null || txtFechaFin.getValue()==null || horaFin==null || sedeRecogida==null || sedeEntrega==null) {
+					JOptionPane.showMessageDialog(bEnviar, "Llene todos los espacios para generar la reserva correctamente", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
-				
-				if ((int)datos2.get(0)==1) {
-					String resp= (String)datos2.get(1);
-					JOptionPane.showMessageDialog(bEnviar, resp, "Alert", JOptionPane.WARNING_MESSAGE);
-				}
-				else if ((int)datos2.get(0)==2) {
-					int abono= (int)datos2.get(1);
-					Reserva reserva= (Reserva)datos2.get(2);
-					Vehiculo vehiculoReserva= (Vehiculo)datos2.get(3);
-					ventanaAbono(abono,reserva,vehiculoReserva);
-	
-					txtFechaInic.setValue(textoOriginal);
-					txtFechaFin.setValue(textoOriginal);
-				}
-				}
+				else {
+					try {
+						datos2 = (List)controller.infoReserva(categoria,fechaInic,horaInic,fechafin,horaFin,sedeRecogida,sedeEntrega);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					if ((int)datos2.get(0)==1) {
+						String resp= (String)datos2.get(1);
+						JOptionPane.showMessageDialog(bEnviar, resp, "Alert", JOptionPane.WARNING_MESSAGE);
+					}
+					else if ((int)datos2.get(0)==2) {
+						int abono= (int)datos2.get(1);
+						Reserva reserva= (Reserva)datos2.get(2);
+						Vehiculo vehiculoReserva= (Vehiculo)datos2.get(3);
+						ventanaAbono(abono,reserva,vehiculoReserva);
+		
+						txtFechaInic.setValue(textoOriginal);
+						txtFechaFin.setValue(textoOriginal);
+					}
+					}
+	    		}
 	    	
 	    });
 	    		

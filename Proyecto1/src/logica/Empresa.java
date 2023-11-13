@@ -153,7 +153,7 @@ public class Empresa {
 			int intCategoria = (int) datos1.get(0);
 			Categoria c = categorias.get(intCategoria);
 			retornar.add(c);
-			System.out.println(datos1);
+			
 			String pattern = "dd/MM/yyyy HH:mm";
 			String horaI = (String) datos1.get(2);
 			String horaF = (String) datos1.get(4);
@@ -171,7 +171,7 @@ public class Empresa {
 		}
 		
 		else {
-			System.out.println("proceso de alquiler");
+			
 			ArrayList<Object> retornar = new ArrayList<Object>();
 			//System.out.println(datos1);
 			Categoria c = categorias.get((int)datos1.get(0));

@@ -49,7 +49,14 @@ public class PAlquilarConReserva extends JPanel{
 			e.printStackTrace();
 		}
 		this.setLayout(new BorderLayout());
-		String idReserva = JOptionPane.showInputDialog(null, "Ingrese el numero de la reserva:");
+		String idReserva;
+		idReserva = JOptionPane.showInputDialog(null, "Ingrese el numero de la reserva:");
+		String cadena2="";
+		if (idReserva.equalsIgnoreCase(cadena2)) {
+			JOptionPane.showMessageDialog(null, "No se puede realizar el alquiler sin el numero de reserva", "Alert", JOptionPane.WARNING_MESSAGE);
+			volverAPanelAnterior();
+		}
+		else {
 		JLabel lblTitulo = new JLabel("Finalizar alquiler", SwingConstants.CENTER);
 		lblTitulo.setFont(new Font(null, Font.BOLD, 45));
 		this.add(lblTitulo, BorderLayout.NORTH);
@@ -192,24 +199,7 @@ public class PAlquilarConReserva extends JPanel{
 					ventanaTotal(total,alquiler,vehiculoAlquiler,fechaInicial,  fechaFinal);
 					
 				}
-				/*System.out.println("Para realizar el alquiler debe realizar el pago total menos el abono ya pagado");
-									System.out.println("En total es "+ total);
-									System.out.println("¿Acepta el pago?");
-									System.out.println("\n1. Si \n2. No");
-									int op1 = Integer.parseInt(input("\nSeleccione su opcion"));
-									if (op1==1){
-										System.out.println("Se realizó el alquiler");
-										Date fechaInicial= reserva.getFechaSalida();
-										Date fechaFinal= reserva.getFechaLlegada();
-										Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInicial, fechaFinal);
-										idAlquiler+=1;
-										System.out.println("El id de su alquiler es " + idAlquiler);
-										HashMap alquileres= Empresa.getAlquileres();
-										alquileres.put(idAlquiler,alquiler);
-									}}
-									else {
-										System.out.println("Su tarjeta esta bloqueada no se puede realizar el alquiler");
-										}*/
+
 			}
 	    	
 	    });
@@ -234,7 +224,7 @@ public class PAlquilarConReserva extends JPanel{
 	     
 	     panelSur.add(bVolver);
 	     this.add(panelSur, BorderLayout.SOUTH);
-	}
+	}}
 
 
 	protected void ventanaTotal(int total, Alquiler alquiler, Vehiculo vehiculoAlquiler, Date fechaInicial,

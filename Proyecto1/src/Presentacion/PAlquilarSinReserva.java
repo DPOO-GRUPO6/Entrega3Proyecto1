@@ -263,9 +263,12 @@ public class PAlquilarSinReserva extends JPanel{
 				String sedeRecogida = (String) CBsedes1.getSelectedItem();
 				String sedeEntrega = (String) CBsedes.getSelectedItem();
 				int seguro= CBseguro.getSelectedIndex()-1;
-				System.out.println(conductores);
 				List listcond= (List)conductores;
 				List datos2 = new ArrayList<>();
+				if (txtFechaInic.getValue()==null || horaInic==null || txtFechaFin.getValue()==null || horaFin==null || sedeRecogida==null || sedeEntrega==null) {
+					JOptionPane.showMessageDialog(bEnviar, "Llene todos los espacios para generar el alquiler correctamente", "Alert", JOptionPane.WARNING_MESSAGE);
+				}
+				else {
 				try {
 					datos2=controller.infoAlquiler(categoria, fechaInic, horaInic, fechafin, horaFin, sedeRecogida, sedeEntrega,seguro,listcond);
 				} catch (ParseException e1) {
@@ -286,6 +289,7 @@ public class PAlquilarSinReserva extends JPanel{
 				txtFechaInic.setValue(textoOriginal);
 				txtFechaFin.setValue(textoOriginal);
 				
+			}
 			}
 	    	
 	    });

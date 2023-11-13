@@ -160,7 +160,6 @@ public class Controlador {
 		datos1.add(listcond);
 		Cliente cliente= (Cliente)this.usuario;
 		Alquiler alquiler= (Alquiler)ferrari.accionesCliente(2, datos1, cliente);
-		System.out.println(alquiler);
 		Cliente cliente1= alquiler.getCliente();
 		TarjetaCredito tarjetaCliente= cliente1.getTarjetaCredito();
 		Boolean tarjetaBloqueada= tarjetaCliente.getBloqueo();

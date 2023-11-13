@@ -32,8 +32,9 @@ public class PMenuEmpleado extends JPanel{
 	private JFormattedTextField txtFechaFin;
 	
 	
-	PMenuEmpleado(){
+	PMenuEmpleado(Controlador controlador){
 		this.setLayout(new BorderLayout());
+		this.controller = controlador;
 		
 		//panel cero -> menu principal
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
@@ -204,7 +205,7 @@ public class PMenuEmpleado extends JPanel{
 	
 	//Accion de devolver
 	protected void volverAPanelAnterior() {
-		PMenuEmpleado panelAnterior = new PMenuEmpleado();
+		PMenuEmpleado panelAnterior = new PMenuEmpleado(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
@@ -304,7 +305,7 @@ public class PMenuEmpleado extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				String placa = txtPlacaDisp.getText();
+				String placa = txtPlacaDevu.getText();
 				Object estado = JBopciones.getSelectedItem();
 				String fechaInicio = txtFechaInic.getText(); 
 				String fechaFinal = txtFechaFin.getText();

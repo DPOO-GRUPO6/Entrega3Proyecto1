@@ -20,8 +20,9 @@ import javax.swing.SwingConstants;
 public class PMenuAdminLocal extends JPanel {
 	public Controlador controller;
 	
-	PMenuAdminLocal() {
+	PMenuAdminLocal(Controlador controlador) {
 		this.setLayout(new BorderLayout());
+		this.controller = controlador;
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font(null, Font.BOLD, 45));
 		this.add(lblBienvenido, BorderLayout.NORTH);
@@ -140,7 +141,7 @@ public class PMenuAdminLocal extends JPanel {
 				String nuevoLogIn = JOptionPane.showInputDialog(panelCentro, "Ingrese el nuevo logIn del empleado", "");
 				String nombreEmpleado = txtNombre.getText();
 				
-				if(modificarEmpleado(nombreEmpleado, nuevoLogIn, null, null, true, false, true))
+				if(modificarEmpleado(nombreEmpleado, nuevoLogIn, null, null, true, false, false))
 				{
 					String mensaje = "El nuevo LogIn del empleado " + nombreEmpleado + " es " + nuevoLogIn;
 					JOptionPane.showMessageDialog(bModificarLogIn, mensaje);
@@ -150,7 +151,7 @@ public class PMenuAdminLocal extends JPanel {
 					String mensaje = "Ha habido algun error ingrese la informacion nuevamente";
 					JOptionPane.showMessageDialog(bModificarLogIn, mensaje);
 				}
-				
+			
 			}
 	    });
 	    
@@ -165,7 +166,7 @@ public class PMenuAdminLocal extends JPanel {
 				String nuevaPwd = JOptionPane.showInputDialog(panelCentro, "Ingrese la nueva contraseña del empleado", "");
 				String nombreEmpleado = txtNombre.getText();
 				
-				if(modificarEmpleado(nombreEmpleado, null, nuevaPwd, null, false, true, true))
+				if(modificarEmpleado(nombreEmpleado, null, nuevaPwd, null, false, true, false))
 				{
 					String mensaje = "La nueva contraseña del empleado " + nombreEmpleado + " es " + nuevaPwd;
 					JOptionPane.showMessageDialog(bModificarPwd, mensaje);
@@ -189,17 +190,16 @@ public class PMenuAdminLocal extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String nuevaSede = JOptionPane.showInputDialog(panelCentro, "Ingrese la nueva sede del empleado", "");
 				String nombreEmpleado = txtNombre.getText();
-				modificarEmpleado(nombreEmpleado, null, null, nuevaSede, false, false, true);
 				
 				if(modificarEmpleado(nombreEmpleado, null, null, nuevaSede, false, false, true))
 				{
 					String mensaje = "La nueva sede del empleado " + nombreEmpleado + " es " + nuevaSede;
-					JOptionPane.showConfirmDialog(bModificarSede, mensaje);
+					JOptionPane.showMessageDialog(bModificarSede, mensaje);
 				}
 				else
 				{
 					String mensaje = "Ha habido algun error ingrese la informacion nuevamente";
-					JOptionPane.showConfirmDialog(bModificarSede, mensaje);
+					JOptionPane.showMessageDialog(bModificarSede, mensaje);
 				}
 			}
 	    });
@@ -356,7 +356,7 @@ public class PMenuAdminLocal extends JPanel {
 	//Logica de boton devolver
 	protected void volverAPanelAnterior() 
 	{
-		PMenuAdminLocal panelAnterior = new PMenuAdminLocal();
+		PMenuAdminLocal panelAnterior = new PMenuAdminLocal(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();

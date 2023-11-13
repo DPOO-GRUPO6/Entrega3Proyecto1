@@ -46,7 +46,6 @@ public class Controlador {
 		}
 	}
 
-	
 //Acciones empleados 
 	
 	public boolean estadoVehiculoDisponible(String placa)
@@ -72,12 +71,12 @@ public class Controlador {
 		}
 		
 		String es = (String)estado;
-		boolean l;
+		boolean l = false;
 		if(es.equals("Mantenimiento"))
 		{
 			l = true;
 		}
-		else
+		if(es.equals("Limpieaza"))
 		{
 			l = false;
 		}

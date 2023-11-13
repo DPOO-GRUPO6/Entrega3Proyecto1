@@ -18,9 +18,9 @@ public class Empleado extends Usuario{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();
 		
-		if (nombre.equals("Disponible"))
+		if (nombre.equals("disponible"))
 		{
-			estado.setNombre("Alquilado");
+			estado.setNombre("alquilado");
 			estado.setFechaInicio(fechaInicio);
 			estado.setFechaFin(fechaFin);
 		}
@@ -31,11 +31,11 @@ public class Empleado extends Usuario{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();
 		
-		if(mantenimiento && nombre.equals("Alquilado")) 
+		if(mantenimiento) 
 		{
 			estado.setNombre("Mantenimiento");
 		}
-		else
+		if(nombre.equals("Alquilado"))
 		{
 			estado.setNombre("Limpieza");
 		}
@@ -47,14 +47,9 @@ public class Empleado extends Usuario{
 	public void cambiarEstadoVehiculoDisponible(Vehiculo vehiculo)
 	{
 		Estado estado = vehiculo.getEstado();
-		String nombre = estado.getNombre();
-
-		if (nombre.equals("Mantenimiento") || nombre.equals("Limpieza"))
-		{
-			estado.setNombre("Dispoible");
-			estado.setFechaInicio(null);
-			estado.setFechaFin(null);
-		}
+		estado.setNombre("Dispoible");
+		estado.setFechaInicio(null);
+		estado.setFechaFin(null);
 	}
 
 	public boolean verificarTarjetaRetenidaCliente(Cliente cliente)

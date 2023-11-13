@@ -124,7 +124,7 @@ public class Empresa {
 				}
 			}
 			Sede sed = sedes.get(datos[7]);
-			Estado estado = new Estado("disponible",0,null,null);
+			Estado estado = new Estado("Disponible",0,null,null);
 			Vehiculo ve = new Vehiculo(datos[0],datos[1],datos[2],datos[3],datos[4],Integer.parseInt(datos[5]),categoria,sed,estado, new ArrayList<Reserva>());
 			vehiculos.add(ve);
 			sed.addVehiculoASede(ve);
@@ -244,8 +244,10 @@ public class Empresa {
 		for (Vehiculo vehiculo: vehiculos) 
 		{
 			String placa = vehiculo.getPlaca();
+			Estado estado = vehiculo.getEstado();
+			String estadoVehiculo = estado.getNombre();
 			
-			if(placaVehiculo.equals(placa))
+			if(placaVehiculo.equals(placa) && estadoVehiculo.equals("Alquilado"))
 			{
 				empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
 				return true;
@@ -259,8 +261,10 @@ public class Empresa {
 		for (Vehiculo vehiculo: vehiculos) 
 		{
 			String placa = vehiculo.getPlaca();
+			Estado estado = vehiculo.getEstado();
+			String nombreEstado = estado.getNombre();
 			
-			if(placaVehiculo.equals(placa))
+			if(placaVehiculo.equals(placa) && (nombreEstado.equals("Mantenimiento") || nombreEstado.equals("Limpieza")))
 			{
 				empleado.cambiarEstadoVehiculoDisponible(vehiculo);
 				return true;
@@ -275,13 +279,23 @@ public class Empresa {
 	
 	public boolean crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
 	{
-		for (String sedeEmpleado: sedes.keySet())
+		for(Empleado empleadoBuscar: empleados)
 		{
-			if(sedeEmpleado.equals(sede))
+			String nombreEmpleado = empleadoBuscar.getNombreCompleto();
+			String logInEmpleado = empleadoBuscar.getLogIn();
+		
+			for (String sedeEmpleado: sedes.keySet())
 			{
-				Sede sedeEp = sedes.get(sedeEmpleado);
-				adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
-				return true;
+				if(sedeEmpleado.equals(sede) && (nombreCompleto.equals(nombreEmpleado) || logInEmpleado.equals(logIg)))
+				{
+					return false;
+				}
+				if(sedeEmpleado.equals(sede))
+				{
+					Sede sedeEp = sedes.get(sedeEmpleado);
+					adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -292,18 +306,42 @@ public class Empresa {
 		for(Empleado empleadoCambio: empleados)
 		{
 			String nombreEmpleadoCambio = empleadoCambio.getNombreCompleto();
-			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
+			String logInEmpleadoCambio = empleadoCambio.getLogIn();
+			String contraseñaEmpleadoCambio = empleadoCambio.getContraseña();
 			
+			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
+			String nombreSedeEmpleadoCambio = sedeEmpleadoCambio.getNombre();
+
 			for (String sedeNueva: sedes.keySet())
 			{
-				if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado))
+				if(cambiarSede)
 				{
-					Sede sedeCambio = sedes.get(sedeNueva);	
-					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
-					return true;
+					if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevaSede.equals(nombreSedeEmpleadoCambio))
+					{
+						Sede sedeCambio = sedes.get(sedeNueva);	
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
+				}
+				if(cambiarLogIn)
+				{
+					if(nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevologIn.equals(logInEmpleadoCambio))
+					{
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, null, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
+				}
+				if(cambiarContraseña)
+				{
+					if(nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevaContraseña.equals(contraseñaEmpleadoCambio))
+					{
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, null, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
 				}
 			}	
 		}
+		
 		return false;
 	}
 	

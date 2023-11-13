@@ -14,12 +14,15 @@ import logica.Seguro;
 import logica.TarjetaCredito;
 import logica.Usuario;
 import logica.Vehiculo;
+import logica.AdministradorLocal;
 import logica.Alquiler;
 import logica.Cliente;
 import logica.Empleado;
 
 public class Controlador {
 	Empresa ferrari = new Empresa();
+	private Empleado usuarioEmpleado;
+	private AdministradorLocal usuarioAdminLocal;
 	Usuario usuario= null;
 	public int idReserva=0;
 	private int idAlquiler=0;
@@ -43,9 +46,11 @@ public class Controlador {
 			return 0;
 		}
 		else if(rta.getTipoUsuario().equals("empleado")) {
+			this.usuarioEmpleado = (Empleado)rta;
 			return 1;
 		}
 		else if(rta.getTipoUsuario().equals("administradorLocal")) {
+			this.usuarioAdminLocal = (AdministradorLocal)rta;
 			return 2;
 		}
 		else if(rta.getTipoUsuario().equals("administradorGeneral")) {
@@ -238,7 +243,55 @@ public class Controlador {
 		return idAlquiler;
 	}
 		
-		
+	//Acciones empleados 
 	
+		public boolean estadoVehiculoDisponible(String placa)
+		{
+			boolean cambioHecho = ferrari.cambiarEstadoVehiculoDisponible(usuarioEmpleado, placa);
+			return cambioHecho;
+		}
+		
+		public boolean estadoVehiculoDevuelto(String placa, String fechaInicio, String fechaFinal, Object estado)
+		{
+			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaI = null;
+			Date fechaF = null;
+			try 
+			{
+				fechaI = formato.parse(fechaInicio);
+				fechaF = formato.parse(fechaFinal);
+			} 
+			catch (ParseException e) 
+			{
+				e.printStackTrace();
+				return false; 
+			}
+			
+			String es = (String)estado;
+			boolean l = false;
+			if(es.equals("Mantenimiento"))
+			{
+				l = true;
+			}
+			
+			boolean cambioHecho = ferrari.cambiarEstadoVehiculoDevolver(usuarioEmpleado, placa, fechaI, fechaF, l);
+			return cambioHecho;
+		}
+		
+	//Acciones admin local
+		
+		public boolean crearEmpleado(String logIn, String nombre, String sede, String contrasena, String tipoUsuario)
+		{
+			boolean empleadoCreado = ferrari.crearEmpleado(usuarioAdminLocal, logIn, contrasena, nombre, tipoUsuario, sede);
+			return empleadoCreado;
+		}
+		
+		public boolean modificarInfoEmpleado(String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+		{
+			boolean infoModificada = ferrari.setInformacionEmpleadoSede(usuarioAdminLocal, nombreEmpleado, nuevologIn, nuevaContraseña, nuevaSede, cambiarLogIn, cambiarContraseña, cambiarSede);
+			return infoModificada;
+		}
 	
 }
+	
+

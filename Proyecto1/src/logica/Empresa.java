@@ -236,70 +236,115 @@ public class Empresa {
 			
 			if(placaVehiculo.equals(placa))
 			{
-				empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
+				Empleado.cambiarEstadoVehiculoAlquilado(vehiculo, fechaInicio, fechaFin);
 			}
 		}
 	}
 	
-	public void cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	public boolean cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
 	{
 		for (Vehiculo vehiculo: vehiculos) 
 		{
 			String placa = vehiculo.getPlaca();
+			Estado estado = vehiculo.getEstado();
+			String estadoVehiculo = estado.getNombre();
 			
-			if(placaVehiculo.equals(placa))
+			if(placaVehiculo.equals(placa) && estadoVehiculo.equals("Alquilado"))
 			{
 				empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+				return true;
 			}
 		}
+		return false;
 	}
 	
-	public void cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
+	public boolean cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
 	{
 		for (Vehiculo vehiculo: vehiculos) 
 		{
 			String placa = vehiculo.getPlaca();
+			Estado estado = vehiculo.getEstado();
+			String nombreEstado = estado.getNombre();
 			
-			if(placaVehiculo.equals(placa))
+			if(placaVehiculo.equals(placa) && (nombreEstado.equals("Mantenimiento") || nombreEstado.equals("Limpieza")))
 			{
 				empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+				return true;
 			}
+			
 		}
-	
-	} 
+		return false;
+	}
 	
 	/** Metodos 
 	 * acciones admin local **/
 	
-	public Empleado crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
+	public boolean crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
 	{
-		for (String sedeEmpleado: sedes.keySet())
+		for(Empleado empleadoBuscar: empleados)
 		{
-			if(sedeEmpleado.equals(sede))
+			String nombreEmpleado = empleadoBuscar.getNombreCompleto();
+			String logInEmpleado = empleadoBuscar.getLogIn();
+		
+			for (String sedeEmpleado: sedes.keySet())
 			{
-				Sede sedeEp = sedes.get(sedeEmpleado);
-				return adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+				if(sedeEmpleado.equals(sede) && (nombreCompleto.equals(nombreEmpleado) || logInEmpleado.equals(logIg)))
+				{
+					return false;
+				}
+				if(sedeEmpleado.equals(sede))
+				{
+					Sede sedeEp = sedes.get(sedeEmpleado);
+					adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+					return true;
+				}
 			}
 		}
-		return null;
+		return false;
 	}
 	
-	public void setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	public boolean setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
 	{		
 		for(Empleado empleadoCambio: empleados)
 		{
 			String nombreEmpleadoCambio = empleadoCambio.getNombreCompleto();
+			String logInEmpleadoCambio = empleadoCambio.getLogIn();
+			String contraseñaEmpleadoCambio = empleadoCambio.getContraseña();
+			
 			Sede sedeEmpleadoCambio = empleadoCambio.getSede();
+			String nombreSedeEmpleadoCambio = sedeEmpleadoCambio.getNombre();
 			
 			for (String sedeNueva: sedes.keySet())
 			{
-				if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado))
+				if(cambiarSede)
 				{
-					Sede sedeCambio = sedes.get(sedeNueva);	
-					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+					if(sedeNueva.equals(nuevaSede) && nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevaSede.equals(nombreSedeEmpleadoCambio))
+					{
+						Sede sedeCambio = sedes.get(sedeNueva);	
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
+				}
+				if(cambiarLogIn)
+				{
+					if(nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevologIn.equals(logInEmpleadoCambio))
+					{
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, null, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
+				}
+				if(cambiarContraseña)
+				{
+					if(nombreEmpleadoCambio.equals(nombreEmpleado) && !nuevaContraseña.equals(contraseñaEmpleadoCambio))
+					{
+						adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, null, cambiarLogIn, cambiarContraseña, cambiarSede);
+						return true;
+					}
 				}
 			}	
 		}
+		
+		return false;
 	}
 	
 	/** Metodos 

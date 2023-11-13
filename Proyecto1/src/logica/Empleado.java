@@ -46,14 +46,15 @@ public class Empleado extends Usuario{
 	public void cambiarEstadoVehiculoDisponible(Vehiculo vehiculo)
 	{
 		Estado estado = vehiculo.getEstado();
-		String nombre = estado.getNombre();
-
-		if (nombre.equals("Mantenimiento") || nombre.equals("Limpieza"))
+		String nombreEstado = estado.getNombre();
+		
+		if(nombreEstado.equals("Mantenimiento") || nombreEstado.equals("Limpieza"))
 		{
 			estado.setNombre("Dispoible");
 			estado.setFechaInicio(null);
 			estado.setFechaFin(null);
 		}
+
 	}
 
 	public boolean verificarTarjetaRetenidaCliente(Cliente cliente)

@@ -239,7 +239,7 @@ public class Empresa {
 		}
 	}
 	
-	public void cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
+	public boolean cambiarEstadoVehiculoDevolver(Empleado empleado, String placaVehiculo, Date fechaInicio, Date fechaFin, boolean mantenimiento)
 	{
 		for (Vehiculo vehiculo: vehiculos) 
 		{
@@ -248,11 +248,13 @@ public class Empresa {
 			if(placaVehiculo.equals(placa))
 			{
 				empleado.cambiarEstadoVehiculoDevolver(vehiculo, fechaInicio, fechaFin, mantenimiento);
+				return true;
 			}
 		}
+		return false;
 	}
 	
-	public void cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
+	public boolean cambiarEstadoVehiculoDisponible(Empleado empleado, String placaVehiculo)
 	{
 		for (Vehiculo vehiculo: vehiculos) 
 		{
@@ -261,28 +263,31 @@ public class Empresa {
 			if(placaVehiculo.equals(placa))
 			{
 				empleado.cambiarEstadoVehiculoDisponible(vehiculo);
+				return true;
 			}
+			
 		}
-	
-	} 
+		return false;
+	}
 	
 	/** Metodos 
 	 * acciones admin local **/
 	
-	public Empleado crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
+	public boolean crearEmpleado(AdministradorLocal adminLocal, String logIg, String contraseña, String nombreCompleto, String tipoUsuario, String sede)
 	{
 		for (String sedeEmpleado: sedes.keySet())
 		{
 			if(sedeEmpleado.equals(sede))
 			{
 				Sede sedeEp = sedes.get(sedeEmpleado);
-				return adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+				adminLocal.crearEmpleado(logIg, contraseña, nombreCompleto, tipoUsuario, sedeEp);
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
-	public void setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
+	public boolean setInformacionEmpleadoSede(AdministradorLocal adminLocal, String nombreEmpleado, String nuevologIn, String nuevaContraseña, String nuevaSede, boolean cambiarLogIn, boolean cambiarContraseña, boolean cambiarSede)
 	{		
 		for(Empleado empleadoCambio: empleados)
 		{
@@ -295,9 +300,11 @@ public class Empresa {
 				{
 					Sede sedeCambio = sedes.get(sedeNueva);	
 					adminLocal.setInformacionEmpleadoSede(sedeEmpleadoCambio, empleadoCambio, nombreEmpleado, nuevologIn, nuevaContraseña, sedeCambio, cambiarLogIn, cambiarContraseña, cambiarSede);
+					return true;
 				}
 			}	
 		}
+		return false;
 	}
 	
 	/** Metodos 

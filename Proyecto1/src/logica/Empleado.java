@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Empleado extends Usuario{
+	
 	Sede sede;
 	
-	public Empleado(String logIn, String contraseña, String nombreCompleto, String tipoUsuario,Sede sede) 
+	public Empleado(String logIn, String contraseña, String nombreCompleto, String tipoUsuario, Sede sede) 
 	{
 		super(logIn, contraseña, nombreCompleto, tipoUsuario);
 		this.sede = sede;
 	}
 	
-	public static void cambiarEstadoVehiculoAlquilado(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
+	public void cambiarEstadoVehiculoAlquilado(Vehiculo vehiculo, Date fechaInicio, Date fechaFin)
 	{
 		Estado estado = vehiculo.getEstado();
 		String nombre = estado.getNombre();

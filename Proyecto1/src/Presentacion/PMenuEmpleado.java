@@ -11,18 +11,26 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.MaskFormatter;
 
+
 public class PMenuEmpleado extends JPanel{
+	public Controlador controller;
+	private JFormattedTextField txtPlacaDisp;
+	private JFormattedTextField txtPlacaDevu;
+	private JFormattedTextField txtFechaInic;
+	private JFormattedTextField txtFechaFin;
+	
 	
 	PMenuEmpleado(){
 		this.setLayout(new BorderLayout());
@@ -56,7 +64,6 @@ public class PMenuEmpleado extends JPanel{
 			}
 			
 		});
-		
 		JButton bCambiarDisp = new JButton("Cambiar el estado de un vehículo a disponible");
 		bCambiarDisp.setFont(new Font(null, Font.PLAIN, 20));
 		gb.ipady = 30;
@@ -70,6 +77,7 @@ public class PMenuEmpleado extends JPanel{
 			}
 			
 		});
+		//Boton Cerrar sesion
 		this.add(panelCero, BorderLayout.CENTER);
 		JPanel panelSur = new JPanel();
 	     FlowLayout layoutPsur = new FlowLayout();
@@ -77,9 +85,7 @@ public class PMenuEmpleado extends JPanel{
 	     panelSur.setLayout(layoutPsur);
 	     JButton bVolver = new JButton("Cerrar sesión");
 	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
-	     
 	     bVolver.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cerrarSesion();
@@ -104,7 +110,9 @@ public class PMenuEmpleado extends JPanel{
 		*/	
 	}
 
-	protected void doPanelVehiculoDisponible() {
+	//Panel Vehiculo Disponible
+	protected void doPanelVehiculoDisponible() 
+	{
 		this.removeAll();
 		JPanel pDisponible = new JPanel();
 		pDisponible.setLayout(new GridBagLayout());
@@ -118,25 +126,29 @@ public class PMenuEmpleado extends JPanel{
 		JLabel lblDisp = new JLabel("Cambiar el estado de un vehículo disponible", SwingConstants.CENTER);
 		lblDisp.setFont(new Font(null, Font.BOLD, 30));
 		this.add(lblDisp, BorderLayout.NORTH);
-		
+
 		JLabel lblPlacaDisp= new JLabel("Ingrese la placa del vehículo a cambiar de estado", SwingConstants.CENTER);
 		gbc.gridy = 1;
 		gbc.insets = new Insets(8,5,8,5);
 		lblPlacaDisp.setFont(new Font(null, Font.PLAIN, 20));
-		pDisponible.add(lblPlacaDisp, gbc);
+		pDisponible.add(lblPlacaDisp, gbc); 
 		
-		
-		try {
+		try 
+		{
 			MaskFormatter formatPlaca = new MaskFormatter("UUU-###");
-			JFormattedTextField txtPlacaDisp  = new JFormattedTextField(formatPlaca);
+			this.txtPlacaDisp = new JFormattedTextField(formatPlaca);
 			txtPlacaDisp.setFont(new Font(null, Font.PLAIN, 20));
 			txtPlacaDisp.setHorizontalAlignment(JTextField.CENTER);
 			gbc.gridy = 2;
 		    pDisponible.add(txtPlacaDisp,gbc);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} 
+		
+		catch (ParseException e) 
+		{
+			e.printStackTrace(); 
 		}
 		
+		//Boton cambiar estado disponible
 		JButton bCambiarEstadoDisp = new JButton("Cambiar estado");
 		bCambiarEstadoDisp.setFont(new Font(null, Font.PLAIN, 20));
 		gbcnt.gridy = 6;
@@ -145,30 +157,52 @@ public class PMenuEmpleado extends JPanel{
 		gbcnt.insets = new Insets(20,5,147,5);
 		gbcnt.ipady = 18;
 		pDisponible.add(bCambiarEstadoDisp, gbcnt);
-		
-		JPanel panelSur = new JPanel();
-	     FlowLayout layoutPsur = new FlowLayout();
-	     layoutPsur.setAlignment(FlowLayout.LEFT);
-	     panelSur.setLayout(layoutPsur);
-	     JButton bVolver = new JButton("Volver");
-	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
-	     
-	     bVolver.addActionListener(new ActionListener() {
-
+		bCambiarEstadoDisp.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
+				String placa = txtPlacaDisp.getText();
+				if(cambiarEstadoDisponible(placa))
+				{
+					String mensaje = "El vehiculo con la placa " + placa + " ha cambiado su estado a Disponible";
+					JOptionPane.showMessageDialog(bCambiarEstadoDisp, mensaje);
+				}
+				else
+				{
+					String mensaje = "Ha habido algun error ingrese la informacion nuevamente";
+					JOptionPane.showMessageDialog(bCambiarEstadoDisp, mensaje);
+				}
+			}
+				
+		});
+		
+		//Boton devolver vehiculo disponible
+		JPanel panelSur = new JPanel();
+	    FlowLayout layoutPsur = new FlowLayout();
+	    layoutPsur.setAlignment(FlowLayout.LEFT);
+	    panelSur.setLayout(layoutPsur);
+	    JButton bVolver = new JButton("Volver");
+	    bVolver.setFont(new Font(null, Font.PLAIN, 25));
+	    bVolver.addActionListener(new ActionListener() 
+	     {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
 				volverAPanelAnterior();
 			}
 	    	 
 	     });
 	     
 	     panelSur.add(bVolver);
-	     this.add(panelSur, BorderLayout.SOUTH);
+	    this.add(panelSur, BorderLayout.SOUTH);
 		this.add(pDisponible);
 		this.revalidate();
 		this.repaint();
 	}
-
+	
+	
+	//Accion de devolver
 	protected void volverAPanelAnterior() {
 		PMenuEmpleado panelAnterior = new PMenuEmpleado();
 		this.removeAll();
@@ -177,7 +211,8 @@ public class PMenuEmpleado extends JPanel{
 		this.repaint();
 		panelAnterior.setVisible(true);
 	}
-
+	
+	//Panel Vehiculo devuelto 
 	protected void goPanelVehiculoDevuelto() {
 		this.removeAll();
 		JPanel pDevuelto = new JPanel();
@@ -199,14 +234,13 @@ public class PMenuEmpleado extends JPanel{
 		lblPlaca.setFont(new Font(null, Font.PLAIN, 15));
 		pDevuelto.add(lblPlaca, gbcnt);
 		
-		
 		try {
 			MaskFormatter formatPlaca = new MaskFormatter("UUU-###");
-			JFormattedTextField txtPlaca  = new JFormattedTextField(formatPlaca);
+			this.txtPlacaDevu = new JFormattedTextField(formatPlaca);
 			gbcnt.gridy = 2;
-			txtPlaca.setFont(new Font(null, Font.PLAIN, 15));
-			txtPlaca.setHorizontalAlignment(JTextField.CENTER);
-			pDevuelto.add(txtPlaca, gbcnt);
+			txtPlacaDevu.setFont(new Font(null, Font.PLAIN, 15));
+			txtPlacaDevu.setHorizontalAlignment(JTextField.CENTER);
+			pDevuelto.add(txtPlacaDevu, gbcnt);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -233,7 +267,7 @@ public class PMenuEmpleado extends JPanel{
 		
 		try {
 			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
-			JFormattedTextField txtFechaInic  = new JFormattedTextField(formatFecha);
+			this.txtFechaInic = new JFormattedTextField(formatFecha);
 			gbcnt.gridx = 1;
 			txtFechaInic.setFont(new Font(null, Font.PLAIN, 15));
 			pDevuelto.add(txtFechaInic, gbcnt);
@@ -249,7 +283,7 @@ public class PMenuEmpleado extends JPanel{
 		
 		try {
 			MaskFormatter formatFecha = new MaskFormatter("##/##/####");
-			JFormattedTextField txtFechaFin  = new JFormattedTextField(formatFecha);
+			this.txtFechaFin = new JFormattedTextField(formatFecha);
 			gbcnt.gridx = 1;
 			txtFechaFin.setFont(new Font(null, Font.PLAIN, 15));
 			pDevuelto.add(txtFechaFin, gbcnt);
@@ -265,16 +299,37 @@ public class PMenuEmpleado extends JPanel{
 		gbcnt.insets = new Insets(20,5,20,5);
 		gbcnt.ipady = 18;
 		pDevuelto.add(bCambiarEstadoDev, gbcnt);
+		bCambiarEstadoDev.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String placa = txtPlacaDisp.getText();
+				Object estado = JBopciones.getSelectedItem();
+				String fechaInicio = txtFechaInic.getText(); 
+				String fechaFinal = txtFechaFin.getText();
+				if(cambiarEstadoDevuelto(placa, fechaInicio, fechaFinal, estado))
+				{
+					String mensaje = "El vehiculo con la placa " + placa + " ha cambiado su estado a " + estado;
+					JOptionPane.showMessageDialog(bCambiarEstadoDev, mensaje);
+				}
+				else
+				{
+					String mensaje = "Ha habido algun error ingrese la informacion nuevamente";
+					JOptionPane.showMessageDialog(bCambiarEstadoDev, mensaje);
+				}
+			}
+		});
+
 		
+		//Logica de boton devolver
 		JPanel panelSur = new JPanel();
 	     FlowLayout layoutPsur = new FlowLayout();
 	     layoutPsur.setAlignment(FlowLayout.LEFT);
 	     panelSur.setLayout(layoutPsur);
 	     JButton bVolver = new JButton("Volver");
 	     bVolver.setFont(new Font(null, Font.PLAIN, 25));
-	     
 	     bVolver.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				volverAPanelAnterior();
@@ -290,5 +345,18 @@ public class PMenuEmpleado extends JPanel{
 		this.repaint();
 	}
 	
+	//Mandar la info al controlador para cambiar el estado a disponible
+	protected boolean cambiarEstadoDisponible(String placa)
+	{
+		boolean cambioHecho = this.controller.estadoVehiculoDisponible(placa);
+		return cambioHecho; 
+	}
+	
+	//Mandar la info al controlador para cambiar el estado a devuelto
+	protected boolean cambiarEstadoDevuelto(String placa, String fechaInicio, String fechaFinal, Object estado)
+	{
+		boolean cambioHecho = this.controller.estadoVehiculoDevuelto(placa, fechaInicio, fechaFinal, estado);
+		return cambioHecho; 
+	}
 	
 }

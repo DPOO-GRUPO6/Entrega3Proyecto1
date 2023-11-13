@@ -76,10 +76,6 @@ public class Controlador {
 		{
 			l = true;
 		}
-		if(es.equals("Limpieaza"))
-		{
-			l = false;
-		}
 		
 		boolean cambioHecho = ferrari.cambiarEstadoVehiculoDevolver(usuarioEmpleado, placa, fechaI, fechaF, l);
 		return cambioHecho;

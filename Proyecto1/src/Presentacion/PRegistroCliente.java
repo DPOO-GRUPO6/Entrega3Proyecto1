@@ -24,8 +24,10 @@ import javax.swing.text.MaskFormatter;
 public class PRegistroCliente extends JPanel{
 	private PMenuCliente panelMenuCliente; // a este es el que finalmente debería de estar conectado
 	private MenuPrincipal panelMenuPrincipal;
+	public Controlador controller;
 	
-	PRegistroCliente(){
+	PRegistroCliente(Controlador controller){
+		this.controller=controller;
 		this.setLayout(new BorderLayout());
 		JLabel lblRegistrarse = new JLabel("Registarse", SwingConstants.CENTER);
 		lblRegistrarse.setFont(new Font(null, Font.BOLD, 55));
@@ -249,7 +251,7 @@ public class PRegistroCliente extends JPanel{
 //metodo para verificar la vista de las interfaces gráficas mientras tanto, porque falta la conexion con el controlador
 	protected void iniciarMenuCliente() {
 		this.removeAll();
-		this.panelMenuCliente = new PMenuCliente();
+		this.panelMenuCliente= new PMenuCliente(this.controller);
 		this.add(this.panelMenuCliente);
 		this.revalidate();
 		this.repaint();

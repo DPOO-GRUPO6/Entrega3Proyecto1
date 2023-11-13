@@ -578,7 +578,7 @@ public class principal {
 		datos1.add(seds.get(sedeR-1));
 		int sedeE = Integer.parseInt(input("\nIngrese la sede de entrega"));
 		datos1.add(seds.get(sedeE-1));
-		List seguros= Empresa.getSeguros();
+		ArrayList seguros= Empresa.getSeguros();
 		for (int l=1;l<seguros.size()+1;l++) {
 		      Seguro seguro1= (Seguro) seguros.get(l-1);
 		      String seguroAElegir= seguro1.getNombre();

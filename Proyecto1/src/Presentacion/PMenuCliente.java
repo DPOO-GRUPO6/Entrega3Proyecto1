@@ -17,8 +17,10 @@ import javax.swing.SwingConstants;
 
 public class PMenuCliente extends JPanel{
 	private PReservarCarro panelReservas;
+	public Controlador controller;
 	
-	PMenuCliente(){
+	public PMenuCliente(Controlador controller){
+		this.controller= controller;
 		this.setLayout(new BorderLayout());
 		JLabel lblBienvenido = new JLabel("Bienvenido", SwingConstants.CENTER);
 		lblBienvenido.setFont(new Font(null, Font.BOLD, 45));
@@ -105,7 +107,7 @@ public class PMenuCliente extends JPanel{
 	protected void goOptionPanelModifDatos() {
 		int sel = JOptionPane.showConfirmDialog(this,"Desea modificar los datos de su reserva?", "Modificar datos reserva", JOptionPane.YES_NO_OPTION);
 		if(sel ==1) {
-			PAlquilarConReserva panelAlquiler = new PAlquilarConReserva();
+			PAlquilarConReserva panelAlquiler = new PAlquilarConReserva(this.controller);
 			this.removeAll();
 			this.add(panelAlquiler);
 			this.revalidate();
@@ -113,7 +115,7 @@ public class PMenuCliente extends JPanel{
 			panelAlquiler.setVisible(true);
 		}
 		else if(sel==0) {
-			PAlquilarSinReserva panelAlquiler = new PAlquilarSinReserva();
+			PAlquilarSinReserva panelAlquiler = new PAlquilarSinReserva(this.controller);
 			this.removeAll();
 			this.add(panelAlquiler);
 			this.revalidate();
@@ -124,7 +126,7 @@ public class PMenuCliente extends JPanel{
 	
 
 	protected void goPAlquilarSinReserva() {
-		PAlquilarSinReserva panelAlquilarSinReserva = new PAlquilarSinReserva();
+		PAlquilarSinReserva panelAlquilarSinReserva = new PAlquilarSinReserva(this.controller);
 		this.removeAll();
 		this.add(panelAlquilarSinReserva);
 		this.revalidate();
@@ -133,19 +135,19 @@ public class PMenuCliente extends JPanel{
 	}
 
 	protected void cerrarSesion() {
-		/*
-		MenuPrincipal panelAnterior = new MenuPrincipal();
+		
+		MenuPrincipal panelAnterior = new MenuPrincipal(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();
 		this.repaint();
 		panelAnterior.setVisible(true);
-		*/
+		
 	}
 
 	protected void goPanelReservarCarro() {
 		this.removeAll();
-		this.panelReservas = new PReservarCarro();
+		this.panelReservas = new PReservarCarro(this.controller);
 		this.add(this.panelReservas);
 		this.revalidate();
 		this.repaint();

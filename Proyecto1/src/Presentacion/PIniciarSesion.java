@@ -126,7 +126,7 @@ public class PIniciarSesion extends JPanel{
 		
 		if(tipoUsuario == 0) {
 			this.removeAll();
-			PMenuCliente panelInicioUsuario = new PMenuCliente();
+			PMenuCliente panelInicioUsuario = new PMenuCliente(this.controller);
 			this.add(panelInicioUsuario);
 			this.revalidate();
 			this.repaint();

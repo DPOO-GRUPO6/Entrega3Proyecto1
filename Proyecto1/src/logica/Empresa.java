@@ -33,7 +33,7 @@ public class Empresa {
 		return reservas;
 		
 	}
-	public static  List getSeguros() {
+	public  ArrayList<Seguro> getSeguros() {
 		
 		return seguros;
 		
@@ -53,7 +53,6 @@ public class Empresa {
 			String []datos = linea.split(";");
 			Sede s = new Sede(datos[0],datos[1],datos[2],datos[3],datos[4]);
 			sedes.put(datos[0], s);
-		
 		}
 
 		ArrayList<String> lineasC;
@@ -147,11 +146,14 @@ public class Empresa {
 	public Object accionesCliente(int op, ArrayList<Object> datos1,Cliente cliente) throws ParseException{
 		//acciones cliente
 		if(op == 1) {
-			System.out.println("proceso de reserva");
-			//les estoy haciendo el cast para que al cliente ya le legue la inf que necesita en el formato que es
+			//System.out.println("proceso de reserva");
+			//les estoy haciendo el cast para que al cliente ya le llegue la inf que necesita en el formato que es
+			
 			ArrayList<Object> retornar = new ArrayList<Object>();
-			Categoria c = categorias.get((int)datos1.get(0)-1);
+			int intCategoria = (int) datos1.get(0);
+			Categoria c = categorias.get(intCategoria);
 			retornar.add(c);
+			System.out.println(datos1);
 			String pattern = "dd/MM/yyyy HH:mm";
 			String horaI = (String) datos1.get(2);
 			String horaF = (String) datos1.get(4);
@@ -172,7 +174,7 @@ public class Empresa {
 			System.out.println("proceso de alquiler");
 			ArrayList<Object> retornar = new ArrayList<Object>();
 			//System.out.println(datos1);
-			Categoria c = categorias.get((int)datos1.get(0)-1);
+			Categoria c = categorias.get((int)datos1.get(0));
 			retornar.add(c);
 			String pattern = "dd/MM/yyyy HH:mm";
 			String horaI = (String) datos1.get(2);
@@ -412,8 +414,8 @@ public class Empresa {
 		for(Sede s: sedes.values()) {
 			seds.add(s.nombre);
 		}
-		return seds;
 		
+		return seds;		
 		
 	}
 	
@@ -567,7 +569,11 @@ public class Empresa {
 	}
 	public static Object realizarAlquiler(Cliente cliente1, Categoria categoria1, Sede sedeLlegada, Sede sedeSalida,
 			Date fechaSalida, Date fechaLlegada, Object object, int i, Seguro seguroAlquiler, List listaConductores) throws ParseException {
-		int valorExtraSeguro= seguroAlquiler.getCosto();
+		int valorExtraSeguro=0;
+		if (seguroAlquiler!=null) {
+			valorExtraSeguro= seguroAlquiler.getCosto();
+		}
+		//int valorExtraSeguro= seguroAlquiler.getCosto();
 		int valorExtraSede1= 0;
 		double valorExtraConductor1= listaConductores.size()*0.05;
 		int valorExtraConductor= (int)valorExtraConductor1;
@@ -675,10 +681,13 @@ public class Empresa {
 		return alquilerCliente;
 	
 }
-	public static Object realizarAlquilerReserva(int idReservaCliente, List seguroConductores) throws ParseException {
+	public Object realizarAlquilerReserva(int idReservaCliente, List seguroConductores) throws ParseException {
 		// TODO Auto-generated method stub
 		Seguro seguroAlquiler= (Seguro)seguroConductores.get(0);
-		int valorExtraSeguro= seguroAlquiler.getCosto();
+		int valorExtraSeguro=0;
+		if (seguroAlquiler!=null) {
+			valorExtraSeguro= seguroAlquiler.getCosto();
+		}
 		int valorExtraSede1= 0;
 		List listaConductores= (List)seguroConductores.get(1);
 		double valorExtraConductor1= listaConductores.size()*0.05;

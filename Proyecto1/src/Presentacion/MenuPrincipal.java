@@ -78,7 +78,7 @@ public class MenuPrincipal extends JPanel{
 	
 	protected void registrarse() {
 		this.removeAll();
-		this.panelRegClient = new PRegistroCliente();
+		this.panelRegClient = new PRegistroCliente(this.controller);
 		this.add(this.panelRegClient);
 		this.revalidate();
 		this.repaint();

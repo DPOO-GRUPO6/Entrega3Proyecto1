@@ -2,26 +2,54 @@ package Presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
+
+import logica.Alquiler;
+import logica.Empleado;
+import logica.Empresa;
+import logica.Reserva;
+import logica.Vehiculo;
 
 public class PAlquilarConReserva extends JPanel{
 	
-	PAlquilarConReserva(){
+	public Controlador controller;
+
+	PAlquilarConReserva(Controlador controller){
+		this.controller= controller;
+		MaskFormatter formatFecha = null;
+	    try {
+			formatFecha = new MaskFormatter("##/##/####");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		this.setLayout(new BorderLayout());
+		String idReserva = JOptionPane.showInputDialog(null, "Ingrese el numero de la reserva:");
 		JLabel lblTitulo = new JLabel("Finalizar alquiler", SwingConstants.CENTER);
 		lblTitulo.setFont(new Font(null, Font.BOLD, 45));
 		this.add(lblTitulo, BorderLayout.NORTH);
@@ -87,7 +115,8 @@ public class PAlquilarConReserva extends JPanel{
 	    gbc.gridy= 2;
 	    PregistroConductorExtra.add(txtPaisExpExtra, gbc);
 	    
-	    JTextField txtFechaExpExtra = new JTextField("Fecha de expedición de la licencia");
+	    JFormattedTextField txtFechaExpExtra = new JFormattedTextField(formatFecha);
+	    Object textoOriginal = txtFechaExpExtra.getValue();
 	    gbc.gridy= 3;
 	    PregistroConductorExtra.add(txtFechaExpExtra, gbc);
 	    
@@ -97,6 +126,28 @@ public class PAlquilarConReserva extends JPanel{
 	    gbc.gridheight = 4;
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    PregistroConductorExtra.add(bAgregarCondExtra, gbc);
+	    ArrayList<ArrayList> conductores = new ArrayList<ArrayList>();
+	    bAgregarCondExtra .addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ArrayList<String> infoConductor = new ArrayList<String>();
+				String numLicencia= txtNumeroLicenciaExtra.getText();
+				String paisLicencia=txtPaisExpExtra.getText();
+				String fechaLicencia=txtFechaExpExtra.getText();
+				infoConductor.add(numLicencia);
+				infoConductor.add(paisLicencia);
+				infoConductor.add(fechaLicencia);
+				conductores.add(infoConductor);
+				txtNumeroLicenciaExtra.setText("           ");
+				txtPaisExpExtra.setText("          ");
+				txtFechaExpExtra.setValue(textoOriginal);
+				JOptionPane.showMessageDialog(null, "Se añadio el conductor", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+	    	
+	    });
 	    
 	    gbcnt.gridy = 6;
 	    gbcnt.gridx = 0;
@@ -113,6 +164,55 @@ public class PAlquilarConReserva extends JPanel{
 	    gbcnt.insets  = new Insets(20,10,10,10);
 	    gbcnt.fill = GridBagConstraints.HORIZONTAL;
 	    panelCentro.add(bEnviar,gbcnt);
+	    
+	    bEnviar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int seguro= CBseguro.getSelectedIndex()-1;
+				List conductoresadi= conductores ;
+				List alquilerReserva= null;
+				try {
+					alquilerReserva= (List)controller.infoAlquilerReserva(idReserva,seguro,conductoresadi);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if ((int)alquilerReserva.get(0)==0) {
+					JOptionPane.showMessageDialog(bEnviar, "No se puede realizar el alquiler con esas especificaciones", "Alert", JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					int total= (int)alquilerReserva.get(0);
+					Reserva reserva= (Reserva)alquilerReserva.get(1);
+					Alquiler alquiler= (Alquiler)alquilerReserva.get(2);
+					Vehiculo vehiculoAlquiler=(Vehiculo)alquilerReserva.get(3);
+					Date fechaInicial= reserva.getFechaSalida();
+					Date fechaFinal= reserva.getFechaLlegada();
+					ventanaTotal(total,alquiler,vehiculoAlquiler,fechaInicial,  fechaFinal);
+					
+				}
+				/*System.out.println("Para realizar el alquiler debe realizar el pago total menos el abono ya pagado");
+									System.out.println("En total es "+ total);
+									System.out.println("¿Acepta el pago?");
+									System.out.println("\n1. Si \n2. No");
+									int op1 = Integer.parseInt(input("\nSeleccione su opcion"));
+									if (op1==1){
+										System.out.println("Se realizó el alquiler");
+										Date fechaInicial= reserva.getFechaSalida();
+										Date fechaFinal= reserva.getFechaLlegada();
+										Empleado.cambiarEstadoVehiculoAlquilado(alquiler.getVehiculo(), fechaInicial, fechaFinal);
+										idAlquiler+=1;
+										System.out.println("El id de su alquiler es " + idAlquiler);
+										HashMap alquileres= Empresa.getAlquileres();
+										alquileres.put(idAlquiler,alquiler);
+									}}
+									else {
+										System.out.println("Su tarjeta esta bloqueada no se puede realizar el alquiler");
+										}*/
+			}
+	    	
+	    });
 	    
 	    this.add(panelCentro, BorderLayout.CENTER);
 	    
@@ -136,8 +236,56 @@ public class PAlquilarConReserva extends JPanel{
 	     this.add(panelSur, BorderLayout.SOUTH);
 	}
 
+
+	protected void ventanaTotal(int total, Alquiler alquiler, Vehiculo vehiculoAlquiler, Date fechaInicial,
+			Date fechaFinal) {
+		// TODO Auto-generated method stub
+		JFrame ventana1 = new JFrame("Realizar reserva");
+		String resp= "Para realizar el alquiler debe realizar el pago total.\n"+ " El cual es de "+ String.valueOf(total) + " ¿Acepta el pago? ";
+		ventana1.setSize(700, 200);
+        ventana1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel pElementonVS = new JPanel();
+        JButton botonAceptar = new JButton("Acepto");
+        botonAceptar.setPreferredSize(new Dimension(150, 50));
+        JButton botonNoAceptar = new JButton("No acepto");
+        botonNoAceptar.setPreferredSize(new Dimension(150, 50));
+        JPanel pElementonVS2 = new JPanel();
+        pElementonVS2.setLayout(new GridLayout(2,1,20,20));
+        pElementonVS2.add(botonAceptar);
+        pElementonVS2.add(botonNoAceptar);
+        pElementonVS.setLayout(new GridLayout(2,1,20,20));
+        JLabel etiqueta = new JLabel(resp);
+        pElementonVS.add(etiqueta);
+		pElementonVS.add(pElementonVS2);
+		ventana1.add(pElementonVS);
+        ventana1.setVisible(true);
+        botonAceptar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int idAlquiler=0;
+				idAlquiler = controller.realizarAlquilerReserva(alquiler,vehiculoAlquiler,fechaInicial,  fechaFinal);
+				String idalq= String.valueOf( idAlquiler);
+				JOptionPane.showMessageDialog(null, "El id de su  alquiler es " + idalq , "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				ventana1.dispose();
+				volverAPanelAnterior();
+			}
+        	
+        });
+        botonNoAceptar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ventana1.dispose();
+			}
+        	
+        });
+	}
+
+
 	protected void volverAPanelAnterior() {
-		PMenuCliente panelAnterior = new PMenuCliente();
+		PMenuCliente panelAnterior = new PMenuCliente(this.controller);
 		this.removeAll();
 		this.add(panelAnterior);
 		this.revalidate();

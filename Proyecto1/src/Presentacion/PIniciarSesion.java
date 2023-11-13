@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -134,7 +133,7 @@ public class PIniciarSesion extends JPanel{
 		}
 		else if(tipoUsuario == 1) {
 			this.removeAll();
-			PMenuEmpleado panelInicioUsuario = new PMenuEmpleado();
+			PMenuEmpleado panelInicioUsuario = new PMenuEmpleado(this.controller);
 			this.add(panelInicioUsuario);
 			this.revalidate();
 			this.repaint();
@@ -142,7 +141,7 @@ public class PIniciarSesion extends JPanel{
 		}
 		else if(tipoUsuario == 2) {
 			this.removeAll();
-			PMenuAdminLocal panelInicioUsuario = new PMenuAdminLocal();
+			PMenuAdminLocal panelInicioUsuario = new PMenuAdminLocal(this.controller);
 			this.add(panelInicioUsuario);
 			this.revalidate();
 			this.repaint();
